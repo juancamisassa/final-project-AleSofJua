@@ -1,37 +1,34 @@
-# Fire Perimeter Analysis
+# Colombia: Conflict & Mines
 
-This project processes and visualizes historical fire perimeter data and Canadian CPI data.
+Dashboard de conflicto armado y minas antipersonal en Colombia (1994–2024).
 
-## Setup
+## Setup local (desarrollo)
 
 ```bash
 conda env create -f environment.yml
 conda activate fire_analysis
+pip install -r requirements.txt
 ```
 
-## Project Structure
+## Preprocesar datos (requerido antes de desplegar)
 
-```
-data/
-  raw-data/           # Raw data files
-    fire.csv          # Historical fire perimeter data
-    canadian_cpi.csv  # Canadian Consumer Price Index data
-  derived-data/       # Filtered data and output plots
-    fire_filtered.gpkg  # Fire data filtered to post-2015
-    cpi_filtered.csv    # CPI data filtered to 2020 onwards
-code/
-  preprocessing.py    # Filters fire and CPI data
-  plot_fires.py       # Plots fire perimeters
+El dashboard en Streamlit Cloud usa datos preprocesados para evitar geopandas en runtime:
+
+```bash
+python code/preprocess_for_streamlit.py
 ```
 
-## Usage
+Esto genera `data/derived-data/` con geojson.json, country_outline.json y app_data.json. **Commitear estos archivos** antes de desplegar.
 
-1. Run preprocessing to filter data:
-   ```bash
-   python code/preprocessing.py
-   ```
+## Ejecutar localmente
 
-2. Generate the fire perimeter plot:
-   ```bash
-   python code/plot_fires.py
-   ```
+```bash
+streamlit run code/app.py
+```
+
+## Desplegar en Streamlit Community Cloud
+
+1. Ejecutar `python code/preprocess_for_streamlit.py`
+2. Hacer commit de `data/derived-data/*.json`
+3. Conectar el repo a [share.streamlit.io](https://share.streamlit.io)
+4. App path: `code/app.py`
