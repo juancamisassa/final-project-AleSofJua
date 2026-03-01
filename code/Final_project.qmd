@@ -1,0 +1,1000 @@
+---
+title: "Armed Conflict and Antipersonnel Mines in Colombia (1994–2024)"
+format:
+  html:
+    code-fold: true
+    code-tools: true
+    toc: true
+    toc-depth: 3
+    theme: cosmo
+    fig-width: 12
+    fig-height: 16
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+## Setup
+
+```{python}
+#| label: setup
+
+import os
+os.environ["MPLCONFIGDIR"] = "/tmp/mpl_config"
+os.makedirs("/tmp/mpl_config", exist_ok=True)
+
+import matplotlib
+matplotlib.use("Agg")
+
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
+import numpy as np
+import unicodedata
+import re
+```
+
+## 1. Loading and Filtering the GED Event Database
+
+The UCDP Georeferenced Event Dataset (GED) records individual events of organized violence worldwide. We filter it to Colombia for the period 1994–2024.
+
+```{python}
+#| label: load-ged
+
+OUTPUT_PATH = "colombia_crimenes_por_ciudad_año.csv"
+
+df_col = pd.read_csv("data/GEDEvent_Colombia.csv")
+print(f"Events in Colombia (1994-2024): {len(df_col):,}")
+```
+
+### Extracting Municipality Names
+
+We extract the municipality (city) name from the `adm_2` field, falling back to `where_coordinates` and `adm_1` when unavailable.
+
+```{python}
+#| label: extract-cities
+
+def clean_city_name(name):
+    """Remove suffixes like 'municipality', 'town', 'district', etc."""
+    if pd.isna(name):
+        return None
+    name = re.sub(r"\s+(municipality|district|town|city)$", "", name, flags=re.IGNORECASE)
+    return name.strip()
+
+df_col["ciudad"] = df_col["adm_2"].apply(clean_city_name)
+
+mask_no_city = df_col["ciudad"].isna()
+df_col.loc[mask_no_city, "ciudad"] = df_col.loc[mask_no_city, "where_coordinates"].apply(clean_city_name)
+
+mask_still_na = df_col["ciudad"].isna()
+df_col.loc[mask_still_na, "ciudad"] = df_col.loc[mask_still_na, "adm_1"].apply(clean_city_name)
+
+df_col["departamento"] = df_col["adm_1"].apply(
+    lambda x: re.sub(r"\s+(department|district)$", "", x, flags=re.IGNORECASE).strip() if pd.notna(x) else None
+)
+
+print(f"Unique cities/municipalities: {df_col['ciudad'].nunique()}")
+print(f"Events without city: {df_col['ciudad'].isna().sum()}")
+```
+
+### Conflict Count Table by City and Year
+
+```{python}
+#| label: pivot-table
+
+pivot = df_col.pivot_table(
+    index=["departamento", "ciudad"],
+    columns="year",
+    values="id",
+    aggfunc="count",
+    fill_value=0
+)
+
+pivot.columns = [str(int(y)) for y in pivot.columns]
+pivot["Total"] = pivot.sum(axis=1)
+pivot = pivot.sort_values("Total", ascending=False)
+
+pivot.to_csv(OUTPUT_PATH, encoding="utf-8-sig")
+
+print(f"Table dimensions: {pivot.shape[0]} cities x {pivot.shape[1]} columns (years + total)")
+print(f"\nTop 20 cities by conflict events:")
+print(pivot.head(20)[["Total"]].to_string())
+print(f"\nPeriod: 1994-2024")
+print(f"Total events: {len(df_col):,}")
+print(f"Departments: {df_col['departamento'].nunique()}")
+print(f"Cities/Municipalities: {df_col['ciudad'].nunique()}")
+```
+
+## 2. Conflict Density Map by Municipality
+
+We match the GED event data to GADM municipality geometries using a fuzzy name-matching approach with manual corrections for known discrepancies.
+
+```{python}
+#| label: geo-matching
+
+def normalize(name):
+    """Lowercase, strip accents, remove spaces/punctuation for fuzzy matching."""
+    if pd.isna(name):
+        return ""
+    s = str(name).lower().strip()
+    s = unicodedata.normalize("NFD", s)
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    s = re.sub(r"[^a-z0-9]", "", s)
+    return s
+
+gdf = gpd.read_file("data/gadm41_COL_2.json")
+
+crimes = pivot.reset_index()
+
+gdf["key"] = gdf["NAME_2"].apply(normalize)
+gdf["key_dept"] = gdf["NAME_1"].apply(normalize)
+
+crimes["key"] = crimes["ciudad"].apply(normalize)
+crimes["key_dept"] = crimes["departamento"].apply(normalize)
+
+MANUAL_MAP = {
+    ("bogota", "bogota"): "bogotadc",
+    ("bogotadc", "bogota"): "bogotadc",
+    ("bolivar", "cartagena"): "cartagenadeindias",
+    ("nortedesantander", "cucuta"): "sanjosedecucuta",
+    ("valledelcauca", "cali"): "santiagodecali",
+    ("antioquia", "elsantuario"): "santuario",
+    ("antioquia", "carmendeviboral"): "elcarmendeviboral",
+    ("caqueta", "cartagenadelchaira"): "cartagenadelchaira",
+    ("bolivar", "elcarmendebolivar"): "elcarmendebolivar",
+    ("magdalena", "santamarta"): "santamarta",
+    ("meta", "uribe"): "lauribe",
+    ("nortedesantander", "zulia"): "elzulia",
+    ("choco", "carmendeldarien"): "elcarmendeldarien",
+    ("caqueta", "montanita"): "lamontanita",
+    ("narino", "sanandrésdetumaco"): "tumaco",
+    ("narino", "sandresdetumaco"): "tumaco",
+    ("narino", "sanandresdetumaco"): "tumaco",
+    ("atlantico", "sabanalargamunicipalityatlantico"): "sabanalarga",
+    ("cauca", "lopezdemicay"): "lopezdemicay",
+    ("caqueta", "sanjosedefragua"): "sanjosedelfragua",
+    ("sucre", "sanluisdesince"): "since",
+    ("antioquia", "sabanalargamunicipalityantioquia"): "sabanalarga",
+}
+
+SKIP_KEYS = set()
+for _, row in crimes.iterrows():
+    k = normalize(row["ciudad"])
+    if "department" in str(row["ciudad"]).lower() or k == "colombia":
+        SKIP_KEYS.add((normalize(row["departamento"]), k))
+
+geo_lookup = {}
+for idx, row in gdf.iterrows():
+    geo_lookup[(row["key_dept"], row["key"])] = idx
+    geo_lookup[("", row["key"])] = idx
+    if pd.notna(row.get("VARNAME_2")):
+        for v in str(row["VARNAME_2"]).split("|"):
+            vk = normalize(v)
+            if vk:
+                geo_lookup[(row["key_dept"], vk)] = idx
+                geo_lookup[("", vk)] = idx
+
+match_count = 0
+no_match = []
+crime_totals = {}
+
+for _, crow in crimes.iterrows():
+    ck = crow["key"]
+    dk = crow["key_dept"]
+    total = crow["Total"]
+
+    if (dk, ck) in SKIP_KEYS:
+        continue
+
+    manual_key = (dk, ck)
+    if manual_key in MANUAL_MAP:
+        ck = MANUAL_MAP[manual_key]
+
+    geo_idx = geo_lookup.get((dk, ck)) or geo_lookup.get(("", ck))
+
+    if geo_idx is not None:
+        crime_totals[geo_idx] = crime_totals.get(geo_idx, 0) + total
+        match_count += 1
+    else:
+        no_match.append((crow["departamento"], crow["ciudad"], total))
+
+gdf["crime_count"] = 0
+for idx, total in crime_totals.items():
+    gdf.at[idx, "crime_count"] = total
+
+total_events_mapped = gdf["crime_count"].sum()
+total_events = crimes["Total"].sum()
+
+print(f"Municipalities matched: {match_count} of {len(crimes)}")
+print(f"Events mapped: {total_events_mapped:,.0f} of {total_events:,}")
+print(f"Unmatched: {len(no_match)}")
+
+if no_match:
+    no_match_sorted = sorted(no_match, key=lambda x: -x[2])[:10]
+    print("Top 10 unmatched:")
+    for dept, city, t in no_match_sorted:
+        print(f"  {dept} / {city}: {t}")
+```
+
+### Map: Armed Conflict Density
+
+Color intensity (white to red) represents the number of conflict events per municipality on a log scale.
+
+```{python}
+#| label: fig-conflict-density
+#| fig-cap: "Armed Conflict Density by Municipality — Colombia 1994–2024 (UCDP GED)"
+#| fig-width: 12
+#| fig-height: 16
+
+fig, ax = plt.subplots(1, 1, figsize=(12, 16), facecolor="white")
+ax.set_facecolor("white")
+
+gdf_plot = gdf.copy()
+gdf_plot["crime_log"] = np.where(
+    gdf_plot["crime_count"] > 0,
+    np.log1p(gdf_plot["crime_count"]),
+    0
+)
+
+cmap = mcolors.LinearSegmentedColormap.from_list(
+    "white_to_red",
+    ["#ffffff", "#fff0f0", "#ffcccc", "#ff8888", "#ee4444", "#cc0000", "#8b0000"],
+    N=256
+)
+
+gdf_plot[gdf_plot["crime_count"] == 0].plot(
+    ax=ax, color="#f5f5f5", edgecolor="#cccccc", linewidth=0.2
+)
+
+gdf_with_crimes = gdf_plot[gdf_plot["crime_count"] > 0]
+if len(gdf_with_crimes) > 0:
+    vmax = gdf_with_crimes["crime_log"].quantile(0.98)
+    gdf_with_crimes.plot(
+        ax=ax, column="crime_log", cmap=cmap,
+        edgecolor="#cccccc", linewidth=0.2,
+        vmin=0, vmax=vmax, legend=False
+    )
+
+sm = plt.cm.ScalarMappable(
+    cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=vmax)
+)
+sm._A = []
+cbar = fig.colorbar(sm, ax=ax, fraction=0.025, pad=0.02, aspect=30)
+
+tick_values = np.linspace(0, vmax, 6)
+tick_labels = [f"{int(np.expm1(v))}" for v in tick_values]
+cbar.set_ticks(tick_values)
+cbar.set_ticklabels(tick_labels)
+cbar.set_label("Number of conflict events", fontsize=12, color="#333333", labelpad=10)
+cbar.ax.tick_params(colors="#333333", labelsize=10)
+
+ax.set_title(
+    "Armed Conflict Density by Municipality\nColombia 1994–2024 (UCDP GED)",
+    fontsize=18, fontweight="bold", color="#222222", pad=20
+)
+ax.set_axis_off()
+
+top_cities = gdf[gdf["crime_count"] >= 100].copy()
+top_cities["centroid"] = top_cities.geometry.centroid
+for _, row in top_cities.iterrows():
+    ax.annotate(
+        row["NAME_2"],
+        xy=(row["centroid"].x, row["centroid"].y),
+        fontsize=6, color="#222222", ha="center", va="center",
+        alpha=0.9, fontweight="bold",
+        bbox=dict(boxstyle="round,pad=0.15", facecolor="white", alpha=0.7, edgecolor="#cccccc")
+    )
+
+fig.text(
+    0.5, 0.02,
+    f"Total events: {total_events:,} | Municipalities with events: "
+    f"{(gdf['crime_count']>0).sum()} of {len(gdf)} | Source: UCDP GED v25.1",
+    ha="center", fontsize=9, color="#666666"
+)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+fig.savefig("mapa_conflicto_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+## 3. Loading and Filtering the CasosMI Database
+
+The CasosMI database from Descontamina Colombia records antipersonnel mine incidents. We filter by year (1994–2024) and weapon type (mines only).
+
+```{python}
+#| label: load-casosmi
+
+df_mi = pd.read_excel("data/CasosMI_202509.xlsx", sheet_name=0)
+print(f"Total records: {len(df_mi):,}")
+
+df_mi = df_mi[(df_mi["Año"] >= 1994) & (df_mi["Año"] <= 2024)]
+print(f"Records 1994-2024: {len(df_mi):,}")
+
+mask_arma = df_mi["Tipo de Armas"].str.contains(
+    r"MINAS",
+    case=False, na=False, regex=True
+)
+df_mi = df_mi[mask_arma].copy()
+print(f"Records with mines: {len(df_mi):,}")
+
+print("\nBreakdown by weapon type:")
+for arma, cnt in df_mi["Tipo de Armas"].value_counts().items():
+    print(f"  {arma}: {cnt}")
+
+df_mi["es_desminado"] = df_mi["Tipo de Evento"].str.contains(
+    "DESMINADO MILITAR", case=False, na=False
+)
+
+n_desminado = df_mi["es_desminado"].sum()
+n_otros = len(df_mi) - n_desminado
+print(f"\nEvent classification:")
+print(f"  Military demining: {n_desminado}")
+print(f"  Other events:     {n_otros}")
+```
+
+### Map: Antipersonnel Mine Events
+
+Each point represents a mine event. Green points indicate military demining operations; red points indicate all other mine-related events.
+
+```{python}
+#| label: fig-mines-map
+#| fig-cap: "Antipersonnel Mines by Municipality — Colombia 1994–2024 (CasosMI)"
+#| fig-width: 12
+#| fig-height: 16
+
+fig2, ax2 = plt.subplots(1, 1, figsize=(12, 16), facecolor="white")
+ax2.set_facecolor("white")
+
+gdf.plot(ax=ax2, color="#f0f0f0", edgecolor="#cccccc", linewidth=0.2)
+
+df_otros = df_mi[~df_mi["es_desminado"]]
+df_desmin = df_mi[df_mi["es_desminado"]]
+
+ax2.scatter(
+    df_otros["Longitud"], df_otros["Latitud"],
+    s=5, color="#cc0000", alpha=0.4, zorder=2, label=f"Mines / Explosive devices ({n_otros:,})"
+)
+
+ax2.scatter(
+    df_desmin["Longitud"], df_desmin["Latitud"],
+    s=12, color="#22aa22", alpha=0.7, zorder=3,
+    edgecolors="#115511", linewidths=0.3,
+    label=f"Military demining ({n_desminado:,})"
+)
+
+ax2.set_title(
+    "Antipersonnel Mines by Municipality\n"
+    "Colombia 1994–2024 (CasosMI)",
+    fontsize=18, fontweight="bold", color="#222222", pad=20
+)
+ax2.set_axis_off()
+
+ax2.legend(
+    loc="lower left", fontsize=11, frameon=True,
+    facecolor="white", edgecolor="#cccccc",
+    markerscale=2.5, framealpha=0.9
+)
+
+fig2.text(
+    0.5, 0.02,
+    f"Total events: {len(df_mi):,} | Source: Descontamina Colombia – CasosMI",
+    ha="center", fontsize=9, color="#666666"
+)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+fig2.savefig("mapa_minas_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+### Map: Mine Events with Victim Intensity
+
+Point size and color intensity represent the number of victims per event. Larger, darker circles indicate more victims.
+
+```{python}
+#| label: fig-mines-victims
+#| fig-cap: "Antipersonnel Mines: Location and Victim Intensity — Colombia 1994–2024 (CasosMI)"
+#| fig-width: 12
+#| fig-height: 16
+
+fig_v, ax_v = plt.subplots(1, 1, figsize=(12, 16), facecolor="white")
+ax_v.set_facecolor("white")
+
+gdf.plot(ax=ax_v, color="#f0f0f0", edgecolor="#cccccc", linewidth=0.2)
+
+victimas_col = "Total de Víctimas del Caso"
+df_mi_plot = df_mi.copy()
+df_mi_plot["victimas"] = df_mi_plot[victimas_col].fillna(0).astype(int)
+
+max_vic = df_mi_plot["victimas"].quantile(0.98)
+df_mi_plot["radius"] = 3 + (df_mi_plot["victimas"].clip(upper=max_vic) / max(max_vic, 1)) * 80
+
+df_sin_vic = df_mi_plot[df_mi_plot["victimas"] == 0]
+df_con_vic = df_mi_plot[df_mi_plot["victimas"] > 0].sort_values("victimas")
+
+ax_v.scatter(
+    df_sin_vic["Longitud"], df_sin_vic["Latitud"],
+    s=3, color="#888888", alpha=0.25, zorder=2, label=f"No victims ({len(df_sin_vic):,})"
+)
+
+sc = ax_v.scatter(
+    df_con_vic["Longitud"], df_con_vic["Latitud"],
+    s=df_con_vic["radius"],
+    c=df_con_vic["victimas"],
+    cmap=mcolors.LinearSegmentedColormap.from_list(
+        "victimas", ["#ffcccc", "#ff4444", "#cc0000", "#660000"], N=256
+    ),
+    alpha=0.5, zorder=3,
+    edgecolors="#880000", linewidths=0.3,
+    vmin=1, vmax=max_vic,
+    label=f"With victims ({len(df_con_vic):,})"
+)
+
+cbar_v = fig_v.colorbar(sc, ax=ax_v, fraction=0.025, pad=0.02, aspect=30)
+cbar_v.set_label("Victims per event", fontsize=12, color="#333333", labelpad=10)
+cbar_v.ax.tick_params(colors="#333333", labelsize=10)
+
+for size, label in [(3 + 1/max_vic*80, "1"), (3 + 5/max_vic*80, "5"), (3 + max_vic/max_vic*80, f"{int(max_vic)}")]:
+    ax_v.scatter([], [], s=size, c="#cc0000", alpha=0.5, edgecolors="#880000",
+                 linewidths=0.3, label=f"  {label} victims")
+
+ax_v.set_title(
+    "Antipersonnel Mines: Location and Victim Intensity\n"
+    "Colombia 1994–2024 (CasosMI)",
+    fontsize=18, fontweight="bold", color="#222222", pad=20
+)
+ax_v.set_axis_off()
+
+ax_v.legend(
+    loc="lower left", fontsize=10, frameon=True,
+    facecolor="white", edgecolor="#cccccc", framealpha=0.95,
+    title="Size = victims", title_fontsize=10
+)
+
+fig_v.text(
+    0.5, 0.02,
+    f"Total events: {len(df_mi):,} | "
+    f"Total victims: {df_mi_plot['victimas'].sum():,} | "
+    f"Source: Descontamina Colombia – CasosMI",
+    ha="center", fontsize=9, color="#666666"
+)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+fig_v.savefig("mapa_minas_victimas_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+## 4. Bivariate Analysis: Conflict vs Mines by Municipality
+
+We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events.
+
+```{python}
+#| label: bivariate-data
+
+mi_por_muni = (
+    df_mi.groupby("Código DANE de Municipio")
+    .agg(
+        minas=("ID Caso", "count"),
+        municipio_mi=("Municipio", "first"),
+        depto_mi=("Departamento", "first"),
+        lat_mi=("Latitud", "mean"),
+        lon_mi=("Longitud", "mean"),
+    )
+    .reset_index()
+)
+
+conflict_por_muni = (
+    df_col.groupby(["departamento", "ciudad"])
+    .agg(conflicto=("id", "count"))
+    .reset_index()
+)
+
+gdf_analysis = gdf[["NAME_1", "NAME_2", "CC_2", "geometry", "crime_count"]].copy()
+gdf_analysis = gdf_analysis.rename(columns={"crime_count": "conflicto"})
+
+dane_lookup = {}
+for _, row in mi_por_muni.iterrows():
+    dane_lookup[(normalize(row["depto_mi"]), normalize(row["municipio_mi"]))] = row["minas"]
+
+gdf_analysis["key"] = gdf_analysis["NAME_2"].apply(normalize)
+gdf_analysis["key_dept"] = gdf_analysis["NAME_1"].apply(normalize)
+
+gdf_analysis["minas"] = 0
+for idx, row in gdf_analysis.iterrows():
+    k = (row["key_dept"], row["key"])
+    if k in dane_lookup:
+        gdf_analysis.at[idx, "minas"] = dane_lookup[k]
+        continue
+    for (dk, mk), count in dane_lookup.items():
+        if mk == row["key"] or (dk in row["key_dept"] and mk in row["key"]):
+            gdf_analysis.at[idx, "minas"] = count
+            break
+
+varname_lookup = {}
+for idx_g, row_g in gdf.iterrows():
+    if pd.notna(row_g.get("VARNAME_2")):
+        for v in str(row_g["VARNAME_2"]).split("|"):
+            varname_lookup[normalize(v)] = idx_g
+
+for _, row_mi in mi_por_muni.iterrows():
+    mk = normalize(row_mi["municipio_mi"])
+    if mk in varname_lookup:
+        g_idx = varname_lookup[mk]
+        if gdf_analysis.at[g_idx, "minas"] == 0:
+            gdf_analysis.at[g_idx, "minas"] = row_mi["minas"]
+
+total_minas_mapped = gdf_analysis["minas"].sum()
+print(f"Mines mapped to municipalities: {total_minas_mapped:,} of {len(df_mi):,}")
+print(f"Municipalities with conflict > 0: {(gdf_analysis['conflicto'] > 0).sum()}")
+print(f"Municipalities with mines > 0: {(gdf_analysis['minas'] > 0).sum()}")
+```
+
+### Quadrant Classification
+
+Municipalities are classified based on whether they fall above or below the median values for both conflict and mine events.
+
+```{python}
+#| label: quadrant-classification
+
+has_any = gdf_analysis[(gdf_analysis["conflicto"] > 0) | (gdf_analysis["minas"] > 0)].copy()
+
+conflict_median = has_any["conflicto"].median()
+minas_median = has_any["minas"].median()
+
+conflict_cut = max(conflict_median, has_any["conflicto"].quantile(0.5))
+minas_cut = max(minas_median, has_any["minas"].quantile(0.5))
+
+print(f"Conflict cutoff (median): {conflict_cut}")
+print(f"Mines cutoff (median): {minas_cut}")
+
+QUADRANT_COLORS = {
+    "High conflict + Many mines": "#cc0000",
+    "High conflict + Few mines":  "#ff8c00",
+    "Low conflict + Few mines":   "#4a90d9",
+    "Low conflict + Many mines":  "#7b2d8e",
+}
+
+def classify(row):
+    c = row["conflicto"]
+    m = row["minas"]
+    high_c = c > conflict_cut
+    high_m = m > minas_cut
+    if high_c and high_m:
+        return "High conflict + Many mines"
+    elif high_c and not high_m:
+        return "High conflict + Few mines"
+    elif not high_c and high_m:
+        return "Low conflict + Many mines"
+    else:
+        return "Low conflict + Few mines"
+
+gdf_analysis["cuadrante"] = gdf_analysis.apply(classify, axis=1)
+
+for q in QUADRANT_COLORS:
+    n = (gdf_analysis["cuadrante"] == q).sum()
+    print(f"  {q}: {n} municipalities")
+```
+
+### Scatter Plot: Conflict vs Mines
+
+Each point is a municipality, plotted on log-symmetric axes. Urban and rural areas are distinguished by color and shape. Dashed lines mark the median cutoffs for each dimension.
+
+```{python}
+#| label: fig-scatter
+#| fig-cap: "Armed Conflict vs Antipersonnel Mines by Municipality — Colombia 1994–2024"
+#| fig-width: 13
+#| fig-height: 10
+
+CAPITALES_NORM = {
+    normalize(c) for c in [
+        "Leticia", "Medellín", "Arauca", "Barranquilla", "Bogotá D.C.",
+        "Cartagena de Indias", "Tunja", "Manizales", "Florencia", "Yopal",
+        "Popayán", "Valledupar", "Quibdó", "Montería",
+        "Puerto Inírida", "San José del Guaviare", "Neiva", "Riohacha",
+        "Santa Marta", "Villavicencio", "Pasto", "San José de Cúcuta",
+        "Mocoa", "Armenia", "Pereira", "San Andrés", "Bucaramanga",
+        "Sincelejo", "Ibagué", "Santiago de Cali", "Mitú", "Puerto Carreño",
+        "Buenaventura", "Barrancabermeja", "Soacha", "Bello", "Soledad",
+        "Itagüí", "Envigado", "Apartadó", "Turbo", "Palmira",
+        "Floridablanca", "Girón", "Piedecuesta", "Dosquebradas", "Maicao",
+        "Tumaco", "Sogamoso", "Duitama", "Girardot", "Ciénaga",
+    ]
+}
+
+gdf_analysis["es_urbano"] = gdf_analysis["key"].isin(CAPITALES_NORM)
+
+scatter_data = gdf_analysis[
+    (gdf_analysis["conflicto"] > 0) | (gdf_analysis["minas"] > 0)
+].copy()
+
+scatter_data["conflicto_j"] = scatter_data["conflicto"] + np.random.uniform(0.05, 0.3, len(scatter_data))
+scatter_data["minas_j"] = scatter_data["minas"] + np.random.uniform(0.05, 0.3, len(scatter_data))
+
+fig3, ax3 = plt.subplots(figsize=(13, 10), facecolor="white")
+
+AREA_STYLES = {
+    "Urban area": {"color": "#1a73e8", "marker": "o", "s": 50, "alpha": 0.75, "edgecolors": "#0d47a1"},
+    "Rural area": {"color": "#e8833a", "marker": "s", "s": 25, "alpha": 0.45, "edgecolors": "white"},
+}
+
+for label, style in AREA_STYLES.items():
+    is_urban = label == "Urban area"
+    subset = scatter_data[scatter_data["es_urbano"] == is_urban]
+    ax3.scatter(
+        subset["conflicto_j"], subset["minas_j"],
+        c=style["color"], s=style["s"], alpha=style["alpha"],
+        edgecolors=style["edgecolors"], linewidths=0.4,
+        marker=style["marker"],
+        label=f"{label} ({len(subset)})", zorder=3 if is_urban else 2
+    )
+
+ax3.set_xscale("symlog", linthresh=1)
+ax3.set_yscale("symlog", linthresh=1)
+
+ax3.axvline(conflict_cut, color="#555555", linestyle="--", linewidth=1.2, alpha=0.8, zorder=1)
+ax3.axhline(minas_cut, color="#555555", linestyle="--", linewidth=1.2, alpha=0.8, zorder=1)
+
+notable = scatter_data.nlargest(10, "conflicto").index.tolist()
+notable += scatter_data.nlargest(8, "minas").index.tolist()
+notable += scatter_data[
+    (scatter_data["conflicto"] > conflict_cut) & (scatter_data["minas"] <= minas_cut)
+].nlargest(5, "conflicto").index.tolist()
+notable += scatter_data[
+    (scatter_data["conflicto"] <= conflict_cut) & (scatter_data["minas"] > minas_cut)
+].nlargest(5, "minas").index.tolist()
+notable = list(set(notable))
+
+for idx in notable:
+    row = scatter_data.loc[idx]
+    ax3.annotate(
+        row["NAME_2"],
+        xy=(row["conflicto_j"], row["minas_j"]),
+        fontsize=7, color="#222222",
+        xytext=(6, 6), textcoords="offset points",
+        bbox=dict(boxstyle="round,pad=0.2", facecolor="white", alpha=0.85, edgecolor="#aaaaaa"),
+    )
+
+ax3.set_xlabel("← Low conflict          Armed conflict events (GED)          High conflict →",
+               fontsize=12, labelpad=10, color="#333333")
+ax3.set_ylabel("← Few mines          Mine events (CasosMI)          Many mines →",
+               fontsize=12, labelpad=10, color="#333333")
+ax3.set_title(
+    "Armed Conflict vs Antipersonnel Mines by Municipality\n"
+    "Colombia 1994–2024",
+    fontsize=16, fontweight="bold", color="#222222", pad=15
+)
+ax3.legend(
+    loc="upper left", fontsize=11, frameon=True,
+    facecolor="white", edgecolor="#cccccc", framealpha=0.95, markerscale=1.3
+)
+ax3.grid(True, alpha=0.15, which="both")
+
+plt.tight_layout()
+fig3.savefig("scatter_conflicto_vs_minas.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+### Map: Municipality Quadrant Classification
+
+Municipalities are colored by their quadrant classification: red for high conflict + many mines, orange for high conflict + few mines, blue for low conflict + few mines, and purple for low conflict + many mines.
+
+```{python}
+#| label: fig-quadrant-map
+#| fig-cap: "Municipality Classification: Conflict vs Mines — Colombia 1994–2024"
+#| fig-width: 12
+#| fig-height: 16
+
+fig4, ax4 = plt.subplots(1, 1, figsize=(12, 16), facecolor="white")
+ax4.set_facecolor("white")
+
+no_data = gdf_analysis[
+    (gdf_analysis["conflicto"] == 0) & (gdf_analysis["minas"] == 0)
+]
+no_data.plot(ax=ax4, color="#f0f0f0", edgecolor="#cccccc", linewidth=0.2)
+
+for quad, color in QUADRANT_COLORS.items():
+    subset = gdf_analysis[gdf_analysis["cuadrante"] == quad]
+    if len(subset) > 0:
+        subset.plot(ax=ax4, color=color, edgecolor="#cccccc", linewidth=0.2)
+
+legend_elements = [
+    Patch(facecolor=c, edgecolor="#cccccc", label=f"{q} ({(gdf_analysis['cuadrante']==q).sum()})")
+    for q, c in QUADRANT_COLORS.items()
+]
+legend_elements.append(
+    Patch(facecolor="#f0f0f0", edgecolor="#cccccc", label=f"No data ({len(no_data)})")
+)
+
+ax4.legend(
+    handles=legend_elements, loc="lower left", fontsize=10,
+    frameon=True, facecolor="white", edgecolor="#cccccc", framealpha=0.95
+)
+
+ax4.set_title(
+    "Municipality Classification: Conflict vs Mines\n"
+    "Colombia 1994–2024",
+    fontsize=18, fontweight="bold", color="#222222", pad=20
+)
+ax4.set_axis_off()
+
+fig4.text(
+    0.5, 0.02,
+    "Sources: UCDP GED v25.1 + Descontamina Colombia (CasosMI) | "
+    f"Cutoff: conflict > {conflict_cut:.0f}, mines > {minas_cut:.0f}",
+    ha="center", fontsize=9, color="#666666"
+)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+fig4.savefig("mapa_cuadrantes_conflicto_minas.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+### Map: Quadrant Classification with Mine Locations
+
+The same quadrant classification as above, now overlaid with the actual locations of mine events. This reveals how mine incidents cluster within each quadrant category.
+
+```{python}
+#| label: fig-quadrant-mines-overlay
+#| fig-cap: "Municipality Classification with Mine Locations — Colombia 1994–2024"
+#| fig-width: 12
+#| fig-height: 16
+
+fig5q, ax5q = plt.subplots(1, 1, figsize=(12, 16), facecolor="white")
+ax5q.set_facecolor("white")
+
+no_data_q = gdf_analysis[
+    (gdf_analysis["conflicto"] == 0) & (gdf_analysis["minas"] == 0)
+]
+no_data_q.plot(ax=ax5q, color="#f0f0f0", edgecolor="#cccccc", linewidth=0.2)
+
+for quad, color in QUADRANT_COLORS.items():
+    subset = gdf_analysis[gdf_analysis["cuadrante"] == quad]
+    if len(subset) > 0:
+        subset.plot(ax=ax5q, color=color, edgecolor="#cccccc", linewidth=0.2, alpha=0.6)
+
+df_otros_q = df_mi[~df_mi["es_desminado"]]
+df_desmin_q = df_mi[df_mi["es_desminado"]]
+
+ax5q.scatter(
+    df_otros_q["Longitud"], df_otros_q["Latitud"],
+    s=4, color="black", alpha=0.35, zorder=2,
+    label=f"Mine events ({len(df_otros_q):,})"
+)
+
+ax5q.scatter(
+    df_desmin_q["Longitud"], df_desmin_q["Latitud"],
+    s=10, color="#22dd22", alpha=0.8, zorder=3,
+    edgecolors="#115511", linewidths=0.3,
+    label=f"Military demining ({len(df_desmin_q):,})"
+)
+
+legend_elements_q = [
+    Patch(facecolor=c, edgecolor="#cccccc", alpha=0.6,
+          label=f"{q} ({(gdf_analysis['cuadrante']==q).sum()})")
+    for q, c in QUADRANT_COLORS.items()
+]
+legend_elements_q.append(
+    Patch(facecolor="#f0f0f0", edgecolor="#cccccc", label=f"No data ({len(no_data_q)})")
+)
+
+from matplotlib.lines import Line2D
+legend_elements_q.append(
+    Line2D([0], [0], marker="o", color="w", markerfacecolor="black",
+           markersize=5, alpha=0.6, label=f"Mine events ({len(df_otros_q):,})")
+)
+legend_elements_q.append(
+    Line2D([0], [0], marker="o", color="w", markerfacecolor="#22dd22",
+           markeredgecolor="#115511", markersize=7,
+           label=f"Military demining ({len(df_desmin_q):,})")
+)
+
+ax5q.legend(
+    handles=legend_elements_q, loc="lower left", fontsize=9,
+    frameon=True, facecolor="white", edgecolor="#cccccc", framealpha=0.95
+)
+
+ax5q.set_title(
+    "Municipality Classification with Mine Locations\n"
+    "Colombia 1994–2024",
+    fontsize=18, fontweight="bold", color="#222222", pad=20
+)
+ax5q.set_axis_off()
+
+fig5q.text(
+    0.5, 0.02,
+    "Sources: UCDP GED v25.1 + Descontamina Colombia (CasosMI) | "
+    f"Cutoff: conflict > {conflict_cut:.0f}, mines > {minas_cut:.0f}",
+    ha="center", fontsize=9, color="#666666"
+)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+fig5q.savefig("mapa_cuadrantes_con_minas.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+## 5. Temporal Evolution: Conflict vs Mines
+
+A dual-axis chart showing the annual trends of armed conflict events (red area) and antipersonnel mine events (blue line) from 1994 to 2024. Key historical milestones in the Colombian peace process are marked with vertical lines.
+
+```{python}
+#| label: fig-temporal
+#| fig-cap: "Temporal Evolution: Armed Conflict vs Antipersonnel Mines — Colombia 1994–2024"
+#| fig-width: 16
+#| fig-height: 7
+
+years = list(range(1994, 2025))
+
+conflicto_anual = df_col.groupby("year")["id"].count().reindex(years, fill_value=0)
+minas_anual = df_mi.groupby("Año")["ID Caso"].count().reindex(years, fill_value=0)
+
+fig5, ax_c = plt.subplots(figsize=(16, 7), facecolor="white")
+
+ax_c.fill_between(
+    years, conflicto_anual.values, alpha=0.3, color="#cc0000", zorder=2
+)
+ax_c.plot(
+    years, conflicto_anual.values,
+    color="#cc0000", linewidth=2, zorder=3, label="Armed conflict events (GED)"
+)
+ax_c.set_ylabel("Armed conflict events", fontsize=13, color="#cc0000", labelpad=10)
+ax_c.tick_params(axis="y", colors="#cc0000", labelsize=11)
+
+ax_m = ax_c.twinx()
+ax_m.plot(
+    years, minas_anual.values,
+    color="#1a73e8", linewidth=2.5, marker="o", markersize=4,
+    zorder=4, label="Antipersonnel mine events (CasosMI)"
+)
+ax_m.set_ylabel("Antipersonnel mine events", fontsize=13, color="#1a73e8", labelpad=10)
+ax_m.tick_params(axis="y", colors="#1a73e8", labelsize=11)
+
+HITOS = {
+    1998: "Demilitarized\nZone",
+    2002: "Plan Colombia /\nUribe Gov.",
+    2006: "AUC\nDemobilization",
+    2012: "Start of\nPeace\nNegotiations",
+    2016: "Peace\nAgreement",
+}
+
+for yr, txt in HITOS.items():
+    ax_c.axvline(yr, color="#555555", linestyle=":", linewidth=1, alpha=0.7, zorder=1)
+    ax_c.annotate(
+        txt, xy=(yr, ax_c.get_ylim()[1] * 0.97),
+        fontsize=8, color="#444444", ha="center", va="top",
+        fontweight="bold",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.85, edgecolor="#bbbbbb"),
+    )
+
+ax_c.set_xlabel("Year", fontsize=13, labelpad=10)
+ax_c.set_xlim(1994, 2024)
+ax_c.set_xticks(range(1994, 2025, 2))
+ax_c.tick_params(axis="x", labelsize=10, rotation=45)
+ax_c.grid(axis="x", alpha=0.15)
+
+lines_c, labels_c = ax_c.get_legend_handles_labels()
+lines_m, labels_m = ax_m.get_legend_handles_labels()
+ax_c.legend(
+    lines_c + lines_m, labels_c + labels_m,
+    loc="upper left", fontsize=11, frameon=True,
+    facecolor="white", edgecolor="#cccccc", framealpha=0.95
+)
+
+ax_c.set_title(
+    "Temporal Evolution: Armed Conflict vs Antipersonnel Mines\n"
+    "Colombia 1994–2024",
+    fontsize=16, fontweight="bold", color="#222222", pad=15
+)
+
+plt.tight_layout()
+fig5.savefig("grafica_temporal_conflicto_minas.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+## 6. Mine Incidents vs Demining Operations Over Time
+
+While mine incidents peaked during the early 2000s, systematic demining efforts only gained momentum after the 2016 Peace Agreement. The top panel shows the two trends on independent Y-axes (given the large scale difference), while the bottom panel shows demining as a percentage of total mine events each year.
+
+```{python}
+#| label: fig-demining-temporal
+#| fig-cap: "Mine Incidents vs Demining Operations — Colombia 1994–2024"
+#| fig-width: 16
+#| fig-height: 10
+
+df_mi["es_desminado_all"] = df_mi["Tipo de Evento"].str.contains(
+    "DESMINADO", case=False, na=False
+)
+
+desminado_anual = df_mi[df_mi["es_desminado_all"]].groupby("Año")["ID Caso"].count().reindex(years, fill_value=0)
+incidentes_anual = df_mi[~df_mi["es_desminado_all"]].groupby("Año")["ID Caso"].count().reindex(years, fill_value=0)
+
+total_mi_anual = desminado_anual + incidentes_anual
+pct_desminado = (desminado_anual / total_mi_anual.replace(0, np.nan) * 100).fillna(0)
+
+fig6, (ax_top, ax_bot) = plt.subplots(
+    2, 1, figsize=(16, 10), facecolor="white",
+    gridspec_kw={"height_ratios": [3, 1], "hspace": 0.12},
+    sharex=True
+)
+
+ax_inc = ax_top
+ax_inc.fill_between(years, incidentes_anual.values, alpha=0.25, color="#cc5500", zorder=2)
+ax_inc.plot(
+    years, incidentes_anual.values,
+    color="#cc5500", linewidth=2, zorder=3,
+    label=f"Mine incidents ({incidentes_anual.sum():,})"
+)
+ax_inc.set_ylabel("Mine incidents", fontsize=13, color="#cc5500", labelpad=10)
+ax_inc.tick_params(axis="y", colors="#cc5500", labelsize=11)
+
+ax_dem = ax_inc.twinx()
+ax_dem.plot(
+    years, desminado_anual.values,
+    color="#22aa22", linewidth=2.5, marker="o", markersize=5,
+    zorder=4, label=f"Demining operations ({desminado_anual.sum():,})"
+)
+ax_dem.set_ylabel("Demining operations", fontsize=13, color="#22aa22", labelpad=10)
+ax_dem.tick_params(axis="y", colors="#22aa22", labelsize=11)
+
+HITOS_2 = {
+    1998: "Demilitarized\nZone",
+    2002: "Plan Colombia /\nUribe Gov.",
+    2006: "AUC\nDemobilization",
+    2012: "Start of\nPeace\nNegotiations",
+    2016: "Peace\nAgreement",
+}
+
+for yr, txt in HITOS_2.items():
+    ax_inc.axvline(yr, color="#555555", linestyle=":", linewidth=1, alpha=0.7, zorder=1)
+    ax_inc.annotate(
+        txt, xy=(yr, ax_inc.get_ylim()[1] * 0.97),
+        fontsize=8, color="#444444", ha="center", va="top",
+        fontweight="bold",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.85, edgecolor="#bbbbbb"),
+    )
+
+lines_inc, labels_inc = ax_inc.get_legend_handles_labels()
+lines_dem, labels_dem = ax_dem.get_legend_handles_labels()
+ax_inc.legend(
+    lines_inc + lines_dem, labels_inc + labels_dem,
+    loc="upper left", fontsize=11, frameon=True,
+    facecolor="white", edgecolor="#cccccc", framealpha=0.95
+)
+
+ax_inc.set_title(
+    "Mine Incidents vs Demining Operations Over Time\n"
+    "Colombia 1994–2024",
+    fontsize=16, fontweight="bold", color="#222222", pad=15
+)
+ax_inc.grid(axis="x", alpha=0.15)
+
+ax_bot.bar(years, pct_desminado.values, color="#22aa22", alpha=0.6, edgecolor="#118811", linewidth=0.5)
+ax_bot.set_ylabel("Demining %", fontsize=12, color="#22aa22", labelpad=10)
+ax_bot.set_xlabel("Year", fontsize=13, labelpad=10)
+ax_bot.set_xlim(1994, 2024)
+ax_bot.set_xticks(range(1994, 2025, 2))
+ax_bot.tick_params(axis="x", labelsize=10, rotation=45)
+ax_bot.tick_params(axis="y", colors="#22aa22", labelsize=10)
+ax_bot.set_ylim(0, max(pct_desminado.max() * 1.3, 5))
+ax_bot.grid(axis="x", alpha=0.15)
+
+for yr in HITOS_2:
+    ax_bot.axvline(yr, color="#555555", linestyle=":", linewidth=1, alpha=0.4)
+
+ax_bot.set_title(
+    "Demining as % of total mine events",
+    fontsize=12, fontweight="bold", color="#333333", pad=8
+)
+
+plt.tight_layout()
+fig6.savefig("grafica_temporal_desminado.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+## Data Sources
+
+- **Armed Conflict Events**: Uppsala Conflict Data Program (UCDP) Georeferenced Event Dataset (GED) v25.1
+- **Mine Events**: Descontamina Colombia — CasosMI Database
+- **Administrative Boundaries**: GADM v4.1 — Colombia Level 2 (Municipalities)
