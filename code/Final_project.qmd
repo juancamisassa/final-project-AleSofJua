@@ -47,7 +47,7 @@ The UCDP Georeferenced Event Dataset (GED) records individual events of organize
 
 OUTPUT_PATH = "colombia_crimenes_por_ciudad_año.csv"
 
-df_col = pd.read_csv("data/GEDEvent_Colombia.csv")
+df_col = pd.read_csv("../data/GEDEvent_Colombia.csv")
 print(f"Events in Colombia (1994-2024): {len(df_col):,}")
 ```
 
@@ -126,7 +126,7 @@ def normalize(name):
     s = re.sub(r"[^a-z0-9]", "", s)
     return s
 
-gdf = gpd.read_file("data/gadm41_COL_2.json")
+gdf = gpd.read_file("../data/gadm41_COL_2.json")
 
 crimes = pivot.reset_index()
 
@@ -308,7 +308,7 @@ The CasosMI database from Descontamina Colombia records antipersonnel mine incid
 ```{python}
 #| label: load-casosmi
 
-df_mi = pd.read_excel("data/CasosMI_202509.xlsx", sheet_name=0)
+df_mi = pd.read_excel("../data/CasosMI_202509.xlsx", sheet_name=0)
 print(f"Total records: {len(df_mi):,}")
 
 df_mi = df_mi[(df_mi["Año"] >= 1994) & (df_mi["Año"] <= 2024)]
