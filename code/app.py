@@ -237,7 +237,7 @@ def page_maps(data):
     col_left, col_right = st.columns(2)
 
     with col_left:
-        st.markdown("**Armed Conflict Density**")
+        st.markdown("**Cumulative Armed Conflict Events by Municipality (1994–2024)**")
         m_conflict = _build_choropleth(
             data["geojson"],
             value_col="crime_count",
@@ -250,7 +250,7 @@ def page_maps(data):
 
     with col_right:
         if map_choice.startswith("Mine density"):
-            st.markdown("**Antipersonnel Mine Density**")
+            st.markdown("**Cumulative Antipersonnel Mine Incidents by Municipality (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
                 value_col="mine_count",
@@ -263,7 +263,7 @@ def page_maps(data):
                 **MAP_OPTS,
             )
         else:
-            st.markdown("**Total Mines Victims per Municipality**")
+            st.markdown("**Cumulative Mine Victims by Municipality (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
                 value_col="total_victims",
@@ -420,7 +420,7 @@ def page_priority(data):
         st.plotly_chart(fig_bar, use_container_width=True)
 
     with col_right:
-        st.markdown("**Gap map with demining operations overlay**")
+        st.markdown("**Demining Gap Index: Mine Incidents minus Demining Operations**")
 
         m_gap = _build_choropleth(
             data["geojson"],
