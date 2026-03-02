@@ -225,7 +225,7 @@ def page_maps(data):
 
     map_choice = st.selectbox(
         "Right-side map",
-        ["Mine incidents (by municipality)", "Total victims (by municipality)"],
+        ["Mine incidents (by municipality)", "Mine victims (by municipality)"],
         label_visibility="collapsed",
     )
 
@@ -267,12 +267,12 @@ def page_maps(data):
             m_right = _build_choropleth(
                 data["geojson"],
                 value_col="total_victims",
-                caption="Total victims",
+                caption="Mine victims",
                 colors=[
                     "#ffffff", "#f2e6ff", "#d9b3ff",
                     "#b366ff", "#8c1aff", "#6600cc", "#330066",
                 ],
-                tooltip_alias="Total victims",
+                tooltip_alias="Mine victims",
                 **MAP_OPTS,
             )
         st_folium(m_right, height=620, use_container_width=True)
