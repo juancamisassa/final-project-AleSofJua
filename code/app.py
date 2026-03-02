@@ -230,7 +230,7 @@ def page_maps(data):
     )
 
     MAP_OPTS = dict(
-        show_value_in_tooltip=False,
+        show_value_in_tooltip=True,
         show_legend=False,
     )
 
@@ -259,7 +259,7 @@ def page_maps(data):
                     "#ffffff", "#f0f4ff", "#ccdcff",
                     "#88aaee", "#4477cc", "#1a4e99", "#0a2d6b",
                 ],
-                tooltip_alias="Mine events",
+                tooltip_alias="Mine incidents",
                 **MAP_OPTS,
             )
         else:
@@ -432,6 +432,7 @@ def page_priority(data):
             ],
             tooltip_alias="Gap (incidents − demining)",
             show_legend=False,
+            show_value_in_tooltip=False,
         )
 
         dem_group = folium.FeatureGroup(name="Demining operations")
