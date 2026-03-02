@@ -13,7 +13,7 @@ import re
 import json
 
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
+DATA_DIR = BASE_DIR.parent / "data"
 st.set_page_config(
     page_title="Colombia: Conflict & Mines",
     page_icon=":colombia:",
