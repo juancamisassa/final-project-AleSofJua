@@ -220,12 +220,12 @@ def _build_choropleth(
 
 def page_maps(data):
     st.markdown(
-        "### Armed Conflict & Mine Density — Colombia 1994–2024"
+        "### Armed Conflict & Mine Events — Colombia 1994–2024"
     )
 
     map_choice = st.selectbox(
         "Right-side map",
-        ["Mine density (by municipality)", "Total victims (by municipality)"],
+        ["Mine incidents (by municipality)", "Total victims (by municipality)"],
         label_visibility="collapsed",
     )
 
@@ -249,7 +249,7 @@ def page_maps(data):
         st_folium(m_conflict, height=620, use_container_width=True)
 
     with col_right:
-        if map_choice.startswith("Mine density"):
+        if map_choice.startswith("Mine incidents"):
             st.markdown("**Cumulative Antipersonnel Mine Incidents by Municipality (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
