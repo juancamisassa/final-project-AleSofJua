@@ -1,0 +1,419 @@
+﻿dane_muni,departamento,municipio,mine_count,total_victims,mine_incidents,demining_count,matched,match_method,matched_NAME_1,matched_NAME_2
+,EXTERIOR,FRONTERA VENEZUELA,1,13,1,0,False,unmatched,,
+05000,ANTIOQUIA,SIN INFORMACION,4,3,4,0,False,unmatched,,
+05001,ANTIOQUIA,MEDELLIN,5,4,5,0,True,dept+muni,Antioquia,Medellín
+05002,ANTIOQUIA,ABEJORRAL,3,3,3,0,True,dept+muni,Antioquia,Abejorral
+05004,ANTIOQUIA,ABRIAQUI,1,1,1,0,True,dept+muni,Antioquia,Abriaquí
+05021,ANTIOQUIA,ALEJANDRIA,5,5,5,0,True,dept+muni,Antioquia,Alejandría
+05031,ANTIOQUIA,AMALFI,16,16,16,0,True,dept+muni,Antioquia,Amalfi
+05038,ANTIOQUIA,ANGOSTURA,8,8,8,0,True,dept+muni,Antioquia,Angostura
+05040,ANTIOQUIA,ANORI,85,95,83,2,True,dept+muni,Antioquia,Anorí
+05042,ANTIOQUIA,SANTA FE DE ANTIOQUIA,3,3,3,0,True,dept+muni,Antioquia,SantafédeAntioquia
+05045,ANTIOQUIA,APARTADO,30,30,29,1,True,dept+muni,Antioquia,Apartadó
+05055,ANTIOQUIA,ARGELIA,38,37,37,1,True,dept+muni,Antioquia,Argelia
+05107,ANTIOQUIA,BRICEÑO,33,37,31,2,True,dept+muni,Antioquia,Briceño
+05120,ANTIOQUIA,CACERES,24,23,23,1,True,dept+muni,Antioquia,Cáceres
+05125,ANTIOQUIA,CAICEDO,4,4,4,0,True,dept+muni,Antioquia,Caicedo
+05134,ANTIOQUIA,CAMPAMENTO,19,19,19,0,True,dept+muni,Antioquia,Campamento
+05138,ANTIOQUIA,CAÑASGORDAS,2,5,2,0,True,dept+muni,Antioquia,Cañasgordas
+05142,ANTIOQUIA,CARACOLI,1,1,1,0,True,dept+muni,Antioquia,Caracolí
+05147,ANTIOQUIA,CAREPA,3,2,2,1,True,dept+muni,Antioquia,Carepa
+05148,ANTIOQUIA,EL CARMEN DE VIBORAL,12,12,12,0,True,dept+muni,Antioquia,ElCarmendeViboral
+05154,ANTIOQUIA,CAUCASIA,2,2,2,0,True,dept+muni,Antioquia,Caucasia
+05172,ANTIOQUIA,CHIGORODO,3,3,3,0,True,dept+muni,Antioquia,Chigorodó
+05197,ANTIOQUIA,COCORNA,25,27,25,0,True,dept+muni,Antioquia,Cocorná
+05234,ANTIOQUIA,DABEIBA,64,74,63,1,True,dept+muni,Antioquia,Dabeiba
+05250,ANTIOQUIA,EL BAGRE,12,12,12,0,True,dept+muni,Antioquia,ElBagre
+05284,ANTIOQUIA,FRONTINO,9,16,9,0,True,dept+muni,Antioquia,Frontino
+05313,ANTIOQUIA,GRANADA,44,46,44,0,True,dept+muni,Antioquia,Granada
+05315,ANTIOQUIA,GUADALUPE,12,15,12,0,True,dept+muni,Antioquia,Guadalupe
+05318,ANTIOQUIA,GUARNE,1,1,1,0,True,dept+muni,Antioquia,Guarné
+05321,ANTIOQUIA,GUATAPE,1,1,1,0,True,dept+muni,Antioquia,Guatapé
+05360,ANTIOQUIA,ITAGÜI,1,1,1,0,True,dept+muni,Antioquia,Itagüí
+05361,ANTIOQUIA,ITUANGO,149,165,147,2,True,dept+muni,Antioquia,Ituango
+05364,ANTIOQUIA,JARDIN,1,1,1,0,True,dept+muni,Antioquia,Jardín
+05400,ANTIOQUIA,LA UNION,6,5,5,1,True,dept+muni,Antioquia,LaUnión
+05411,ANTIOQUIA,LIBORINA,1,1,1,0,True,dept+muni,Antioquia,Liborina
+05425,ANTIOQUIA,MACEO,1,7,1,0,True,dept+muni,Antioquia,Maceo
+05467,ANTIOQUIA,MONTEBELLO,3,3,3,0,True,dept+muni,Antioquia,Montebello
+05475,ANTIOQUIA,MURINDO,14,13,13,1,True,dept+muni,Antioquia,Murindó
+05480,ANTIOQUIA,MUTATA,15,15,15,0,True,dept+muni,Antioquia,Mutatá
+05483,ANTIOQUIA,NARIÑO,17,18,17,0,True,dept+muni,Antioquia,Nariño
+05490,ANTIOQUIA,NECOCLI,1,2,1,0,True,dept+muni,Antioquia,Necoclí
+05495,ANTIOQUIA,NECHI,1,1,1,0,True,dept+muni,Antioquia,Nechí
+05541,ANTIOQUIA,PEÑOL,2,3,2,0,True,dept+muni,Antioquia,Peñol
+05543,ANTIOQUIA,PEQUE,5,5,5,0,True,dept+muni,Antioquia,Pequé
+05579,ANTIOQUIA,PUERTO BERRIO,4,4,4,0,True,dept+muni,Antioquia,PuertoBerrío
+05591,ANTIOQUIA,PUERTO TRIUNFO,1,1,1,0,True,dept+muni,Antioquia,PuertoTriunfo
+05604,ANTIOQUIA,REMEDIOS,23,19,17,6,True,dept+muni,Antioquia,Remedios
+05615,ANTIOQUIA,RIONEGRO,3,3,3,0,True,dept+muni,Antioquia,Rionegro
+05628,ANTIOQUIA,SABANALARGA,4,4,4,0,True,dept+muni,Antioquia,Sabanalarga
+05647,ANTIOQUIA,SAN ANDRES DE CUERQUIA,13,12,13,0,True,dept+muni,Antioquia,SanAndrésdeCuerquia
+05649,ANTIOQUIA,SAN CARLOS,81,81,80,1,True,dept+muni,Antioquia,SanCarlos
+05652,ANTIOQUIA,SAN FRANCISCO,48,49,48,0,True,dept+muni,Antioquia,SanFrancisco
+05658,ANTIOQUIA,SAN JOSE DE LA MONTAÑA,2,2,2,0,True,dept+muni,Antioquia,SanJosédelaMontaña
+05660,ANTIOQUIA,SAN LUIS,36,36,36,0,True,dept+muni,Antioquia,SanLuís
+05665,ANTIOQUIA,SAN PEDRO DE URABA,1,2,1,0,True,dept+muni,Antioquia,SanPedrodeUrabá
+05667,ANTIOQUIA,SAN RAFAEL,19,19,19,0,True,dept+muni,Antioquia,SanRafael
+05670,ANTIOQUIA,SAN ROQUE,5,5,5,0,True,dept+muni,Antioquia,SanRoque
+05674,ANTIOQUIA,SAN VICENTE FERRER,1,1,1,0,False,unmatched,,
+05686,ANTIOQUIA,SANTA ROSA DE OSOS,2,3,2,0,True,dept+muni,Antioquia,SantaRosadeOsos
+05690,ANTIOQUIA,SANTO DOMINGO,3,3,3,0,True,dept+muni,Antioquia,SantoDomingo
+05697,ANTIOQUIA,EL SANTUARIO,2,2,2,0,True,dept+muni,Antioquia,Santuario
+05736,ANTIOQUIA,SEGOVIA,31,26,23,8,True,dept+muni,Antioquia,Segovia
+05756,ANTIOQUIA,SONSON,42,42,42,0,True,dept+muni,Antioquia,Sonsón
+05790,ANTIOQUIA,TARAZA,151,180,151,0,True,dept+muni,Antioquia,Tarazá
+05819,ANTIOQUIA,TOLEDO,2,4,1,1,True,dept+muni,Antioquia,Toledo
+05837,ANTIOQUIA,TURBO,12,12,12,0,True,dept+muni,Antioquia,Turbo
+05847,ANTIOQUIA,URRAO,11,18,11,0,True,dept+muni,Antioquia,Urrao
+05854,ANTIOQUIA,VALDIVIA,68,80,68,0,True,dept+muni,Antioquia,Valdivia
+05858,ANTIOQUIA,VEGACHI,6,6,6,0,True,dept+muni,Antioquia,Vegachí
+05873,ANTIOQUIA,VIGIA DEL FUERTE,1,1,1,0,True,dept+muni,Antioquia,VigíadelFuerte
+05885,ANTIOQUIA,YALI,1,1,1,0,True,dept+muni,Antioquia,Yalí
+05887,ANTIOQUIA,YARUMAL,32,36,32,0,True,dept+muni,Antioquia,Yarumal
+05890,ANTIOQUIA,YOLOMBO,7,6,7,0,True,dept+muni,Antioquia,Yolombó
+05893,ANTIOQUIA,YONDO,3,4,3,0,True,dept+muni,Antioquia,Yondó
+05895,ANTIOQUIA,ZARAGOZA,10,10,10,0,True,dept+muni,Antioquia,Zaragoza
+11001,"BOGOTA, D. C.","BOGOTA, D.C.",14,9,9,5,True,dept+muni,BogotáD.C.,BogotáD.C.
+13001,BOLIVAR,CARTAGENA DE INDIAS,3,4,3,0,True,dept+muni,Bolívar,CartagenadeIndias
+13042,BOLIVAR,ARENAL,14,16,14,0,True,dept+muni,Bolívar,Arenal
+13074,BOLIVAR,BARRANCO DE LOBA,3,3,3,0,True,dept+muni,Bolívar,BarrancodeLoba
+13160,BOLIVAR,CANTAGALLO,14,14,14,0,True,dept+muni,Bolívar,Cantagallo
+13212,BOLIVAR,CORDOBA,2,3,2,0,True,dept+muni,Bolívar,Córdoba
+13244,BOLIVAR,EL CARMEN DE BOLIVAR,36,39,35,1,True,dept+muni,Bolívar,ElCarmendeBolívar
+13458,BOLIVAR,MONTECRISTO,10,16,9,1,True,dept+muni,Bolívar,Montecristo
+13473,BOLIVAR,MORALES,13,9,10,3,True,dept+muni,Bolívar,Morales
+13490,BOLIVAR,NOROSI,3,7,3,0,False,unmatched,,
+13549,BOLIVAR,PINILLOS,1,1,1,0,True,dept+muni,Bolívar,Pinillos
+13600,BOLIVAR,RIO VIEJO,3,3,3,0,True,dept+muni,Bolívar,RíoViejo
+13654,BOLIVAR,SAN JACINTO,10,9,10,0,True,dept+muni,Bolívar,SanJacinto
+13655,BOLIVAR,SAN JACINTO DEL CAUCA,1,1,1,0,True,dept+muni,Bolívar,SanJacintodelCauca
+13657,BOLIVAR,SAN JUAN NEPOMUCENO,3,3,3,0,True,dept+muni,Bolívar,SanJuanNepomuceno
+13670,BOLIVAR,SAN PABLO,32,32,32,0,True,dept+muni,Bolívar,SanPablo
+13683,BOLIVAR,SANTA ROSA,9,20,8,1,True,dept+muni,Bolívar,SantaRosa
+13688,BOLIVAR,SANTA ROSA DEL SUR,29,31,29,0,True,dept+muni,Bolívar,SantaRosadelSur
+13744,BOLIVAR,SIMITI,22,22,22,0,True,dept+muni,Bolívar,Simití
+13810,BOLIVAR,TIQUISIO,4,5,4,0,True,dept+muni,Bolívar,Tiquisio
+13873,BOLIVAR,VILLANUEVA,1,1,1,0,True,dept+muni,Bolívar,Villanueva
+13894,BOLIVAR,ZAMBRANO,11,14,10,1,True,dept+muni,Bolívar,Zambrano
+15377,BOYACA,LABRANZAGRANDE,8,8,8,0,True,dept+muni,Boyacá,Labranzagrande
+15518,BOYACA,PAJARITO,11,11,11,0,True,dept+muni,Boyacá,Pajarito
+15533,BOYACA,PAYA,3,3,3,0,True,dept+muni,Boyacá,Paya
+15550,BOYACA,PISBA,3,3,3,0,True,dept+muni,Boyacá,Pisba
+15632,BOYACA,SABOYA,1,1,1,0,True,dept+muni,Boyacá,Saboyá
+15790,BOYACA,TASCO,1,1,1,0,True,dept+muni,Boyacá,Tasco
+17001,CALDAS,MANIZALES,3,3,3,0,True,dept+muni,Caldas,Manizales
+17013,CALDAS,AGUADAS,7,7,7,0,True,dept+muni,Caldas,Aguadas
+17433,CALDAS,MANZANARES,1,1,1,0,True,dept+muni,Caldas,Manzanares
+17446,CALDAS,MARULANDA,4,4,4,0,True,dept+muni,Caldas,Marulanda
+17495,CALDAS,NORCASIA,4,4,4,0,True,dept+muni,Caldas,Norcasia
+17513,CALDAS,PACORA,2,2,2,0,True,dept+muni,Caldas,Pácora
+17541,CALDAS,PENSILVANIA,7,7,7,0,True,dept+muni,Caldas,Pensilvania
+17614,CALDAS,RIOSUCIO,2,2,2,0,True,dept+muni,Caldas,Riosucio
+17662,CALDAS,SAMANA,59,54,51,8,True,dept+muni,Caldas,Samaná
+18001,CAQUETA,FLORENCIA,35,32,32,3,True,dept+muni,Caquetá,Florencia
+18094,CAQUETA,BELEN DE LOS ANDAQUIES,2,2,2,0,True,dept+muni,Caquetá,BeléndelosAndaquies
+18150,CAQUETA,CARTAGENA DEL CHAIRA,32,39,32,0,True,dept+muni,Caquetá,CartagenadelChairá
+18205,CAQUETA,CURILLO,3,3,3,0,True,dept+muni,Caquetá,Curillo
+18247,CAQUETA,EL DONCELLO,5,6,5,0,True,dept+muni,Caquetá,ElDoncello
+18256,CAQUETA,EL PAUJIL,15,15,15,0,True,dept+muni,Caquetá,ElPaujíl
+18410,CAQUETA,LA MONTAÑITA,127,129,127,0,True,dept+muni,Caquetá,LaMontañita
+18460,CAQUETA,MILAN,18,22,18,0,True,dept+muni,Caquetá,Milán
+18479,CAQUETA,MORELIA,2,4,2,0,True,dept+muni,Caquetá,Morelia
+18592,CAQUETA,PUERTO RICO,58,62,58,0,True,dept+muni,Caquetá,PuertoRico
+18610,CAQUETA,SAN JOSE DEL FRAGUA,13,14,13,0,True,dept+muni,Caquetá,SanJosédelFragua
+18753,CAQUETA,SAN VICENTE DEL CAGUAN,114,129,112,2,True,dept+muni,Caquetá,SanVicentedelCaguán
+18756,CAQUETA,SOLANO,14,14,14,0,True,dept+muni,Caquetá,Solano
+18785,CAQUETA,SOLITA,2,2,2,0,True,dept+muni,Caquetá,Solita
+18860,CAQUETA,VALPARAISO,2,2,2,0,True,dept+muni,Caquetá,Valparaíso
+19001,CAUCA,POPAYAN,5,5,5,0,True,dept+muni,Cauca,Popayán
+19022,CAUCA,ALMAGUER,1,1,1,0,True,dept+muni,Cauca,Almaguer
+19050,CAUCA,ARGELIA,55,54,46,9,True,dept+muni,Cauca,Argelia
+19075,CAUCA,BALBOA,17,13,15,2,True,dept+muni,Cauca,Balboa
+19100,CAUCA,BOLIVAR,5,5,5,0,True,dept+muni,Cauca,Bolívar
+19110,CAUCA,BUENOS AIRES,6,10,6,0,True,dept+muni,Cauca,BuenosAires
+19130,CAUCA,CAJIBIO,9,9,9,0,True,dept+muni,Cauca,Cajibío
+19137,CAUCA,CALDONO,7,7,7,0,True,dept+muni,Cauca,Caldonó
+19142,CAUCA,CALOTO,20,17,18,2,True,dept+muni,Cauca,Caloto
+19212,CAUCA,CORINTO,21,22,21,0,True,dept+muni,Cauca,Corinto
+19256,CAUCA,EL TAMBO,53,49,50,3,True,dept+muni,Cauca,ElTambo
+19364,CAUCA,JAMBALO,6,6,5,1,True,dept+muni,Cauca,Jambaló
+19392,CAUCA,LA SIERRA,1,1,1,0,True,dept+muni,Cauca,LaSierra
+19397,CAUCA,LA VEGA,4,4,4,0,True,dept+muni,Cauca,LaVega
+19418,CAUCA,LOPEZ DE MICAY,3,8,3,0,True,dept+muni,Cauca,LópezdeMicay
+19450,CAUCA,MERCADERES,1,1,1,0,True,dept+muni,Cauca,Mercaderes
+19455,CAUCA,MIRANDA,10,10,10,0,True,dept+muni,Cauca,Miranda
+19473,CAUCA,MORALES,11,11,11,0,True,dept+muni,Cauca,Morales
+19517,CAUCA,PAEZ,13,13,12,1,True,dept+muni,Cauca,Páez
+19532,CAUCA,PATIA,9,9,9,0,True,dept+muni,Cauca,Patía
+19548,CAUCA,PIENDAMO  TUNIA,1,1,1,0,False,unmatched,,
+19585,CAUCA,PURACE,2,2,2,0,True,dept+muni,Cauca,Puracé
+19693,CAUCA,SAN SEBASTIAN,4,4,4,0,True,dept+muni,Cauca,SanSebastián
+19698,CAUCA,SANTANDER DE QUILICHAO,2,2,2,0,True,dept+muni,Cauca,SantanderdeQuilichao
+19701,CAUCA,SANTA ROSA,21,22,21,0,True,dept+muni,Cauca,SantaRosa
+19760,CAUCA,SOTARA PAISPAMBA,1,1,1,0,False,unmatched,,
+19780,CAUCA,SUAREZ,15,17,14,1,True,dept+muni,Cauca,Suárez
+19807,CAUCA,TIMBIO,1,0,0,1,True,dept+muni,Cauca,Timbío
+19821,CAUCA,TORIBIO,17,27,17,0,True,dept+muni,Cauca,Toribío
+20001,CESAR,VALLEDUPAR,6,6,6,0,True,dept+muni,Cesar,Valledupar
+20011,CESAR,AGUACHICA,4,4,4,0,True,dept+muni,Cesar,Aguachica
+20175,CESAR,CHIMICHAGUA,1,1,1,0,True,dept+muni,Cesar,Chimichagua
+20178,CESAR,CHIRIGUANA,1,1,1,0,True,dept+muni,Cesar,Chiriguaná
+20228,CESAR,CURUMANI,6,6,6,0,True,dept+muni,Cesar,Curumaní
+20400,CESAR,LA JAGUA DE IBIRICO,11,11,9,2,True,dept+muni,Cesar,LaJaguadeIbirico
+20517,CESAR,PAILITAS,3,4,3,0,True,dept+muni,Cesar,Pailitas
+20550,CESAR,PELAYA,2,3,2,0,True,dept+muni,Cesar,Pelaya
+20621,CESAR,LA PAZ,1,1,1,0,True,dept+muni,Cesar,LaPaz
+20770,CESAR,SAN MARTIN,1,1,1,0,True,dept+muni,Cesar,SanMartín
+23000,CORDOBA,SIN INFORMACION,1,0,1,0,False,unmatched,,
+23001,CORDOBA,MONTERIA,1,1,1,0,True,dept+muni,Córdoba,Montería
+23189,CORDOBA,CIENAGA DE ORO,2,2,2,0,True,dept+muni,Córdoba,CiénagadeOro
+23350,CORDOBA,LA APARTADA,1,1,1,0,True,dept+muni,Córdoba,LaApartada
+23466,CORDOBA,MONTELIBANO,9,13,9,0,True,dept+muni,Córdoba,Montelíbano
+23580,CORDOBA,PUERTO LIBERTADOR,91,92,91,0,True,dept+muni,Córdoba,PuertoLibertador
+23807,CORDOBA,TIERRALTA,55,56,51,4,True,dept+muni,Córdoba,Tierralta
+25019,CUNDINAMARCA,ALBAN,3,3,3,0,True,dept+muni,Cundinamarca,Albán
+25120,CUNDINAMARCA,CABRERA,8,8,8,0,True,dept+muni,Cundinamarca,Cabrera
+25148,CUNDINAMARCA,CAPARRAPI,3,3,3,0,True,dept+muni,Cundinamarca,Caparrapí
+25178,CUNDINAMARCA,CHIPAQUE,1,1,1,0,True,dept+muni,Cundinamarca,Chipaque
+25258,CUNDINAMARCA,EL PEÑON,4,4,4,0,True,dept+muni,Cundinamarca,ElPeñon
+25297,CUNDINAMARCA,GACHETA,1,1,1,0,True,dept+muni,Cundinamarca,Gachetá
+25320,CUNDINAMARCA,GUADUAS,5,5,5,0,True,dept+muni,Cundinamarca,Guaduas
+25335,CUNDINAMARCA,GUAYABETAL,2,2,2,0,True,dept+muni,Cundinamarca,Guayabetal
+25339,CUNDINAMARCA,GUTIERREZ,1,1,1,0,True,dept+muni,Cundinamarca,Gutiérrez
+25394,CUNDINAMARCA,LA PALMA,4,4,4,0,True,dept+muni,Cundinamarca,LaPalma
+25398,CUNDINAMARCA,LA PEÑA,1,1,1,0,True,dept+muni,Cundinamarca,LaPeña
+25438,CUNDINAMARCA,MEDINA,1,2,1,0,True,dept+muni,Cundinamarca,Medina
+25488,CUNDINAMARCA,NILO,1,1,1,0,True,dept+muni,Cundinamarca,Nilo
+25535,CUNDINAMARCA,PASCA,2,2,2,0,True,dept+muni,Cundinamarca,Pasca
+25572,CUNDINAMARCA,PUERTO SALGAR,1,0,1,0,True,dept+muni,Cundinamarca,PuertoSalgar
+25580,CUNDINAMARCA,PULI,1,1,1,0,True,dept+muni,Cundinamarca,Pulí
+25649,CUNDINAMARCA,SAN BERNARDO,1,1,1,0,True,dept+muni,Cundinamarca,SanBernardo
+25823,CUNDINAMARCA,TOPAIPI,2,2,2,0,True,dept+muni,Cundinamarca,Topaipí
+25851,CUNDINAMARCA,UTICA,2,2,2,0,True,dept+muni,Cundinamarca,Útica
+25862,CUNDINAMARCA,VERGARA,1,1,1,0,True,dept+muni,Cundinamarca,Vergara
+25873,CUNDINAMARCA,VILLAPINZON,2,2,2,0,True,dept+muni,Cundinamarca,Villapinzón
+25885,CUNDINAMARCA,YACOPI,1,1,1,0,True,dept+muni,Cundinamarca,Yacopí
+27000,CHOCO,SIN INFORMACION,9,9,9,0,False,unmatched,,
+27001,CHOCO,QUIBDO,7,6,7,0,True,dept+muni,Chocó,Quibdó
+27006,CHOCO,ACANDI,2,2,2,0,True,dept+muni,Chocó,Acandí
+27025,CHOCO,ALTO BAUDO,7,6,7,0,True,dept+muni,Chocó,AltoBaudó
+27050,CHOCO,ATRATO,2,2,2,0,True,dept+muni,Chocó,Atrato
+27073,CHOCO,BAGADO,1,1,1,0,True,dept+muni,Chocó,Bagadó
+27075,CHOCO,BAHIA SOLANO,1,1,1,0,True,dept+muni,Chocó,BahíaSolano
+27077,CHOCO,BAJO BAUDO,3,2,3,0,True,dept+muni,Chocó,BajoBaudó
+27099,CHOCO,BOJAYA,5,6,5,0,True,dept+muni,Chocó,Bojayá
+27135,CHOCO,EL CANTON DEL SAN PABLO,1,1,1,0,True,dept+muni,Chocó,ElCantóndelSanPablo
+27150,CHOCO,CARMEN DEL DARIEN,5,6,5,0,True,dept+muni,Chocó,ElCarmendelDarién
+27245,CHOCO,EL CARMEN DE ATRATO,6,5,5,1,True,dept+muni,Chocó,ElCarmendeAtrato
+27250,CHOCO,EL LITORAL DEL SAN JUAN,5,4,4,1,True,dept+muni,Chocó,ElLitoraldelSanJuan
+27361,CHOCO,ISTMINA,5,9,5,0,True,dept+muni,Chocó,Istmina
+27372,CHOCO,JURADO,1,1,1,0,True,dept+muni,Chocó,Juradó
+27425,CHOCO,MEDIO ATRATO,1,4,1,0,True,dept+muni,Chocó,MedioAtrato
+27450,CHOCO,MEDIO SAN JUAN,2,1,1,1,True,dept+muni,Chocó,MedioSanJuan
+27491,CHOCO,NOVITA,9,14,9,0,True,dept+muni,Chocó,Nóvita
+27580,CHOCO,RIO IRO,2,2,2,0,True,dept+muni,Chocó,RíoIro
+27615,CHOCO,RIOSUCIO,14,12,14,0,True,dept+muni,Chocó,Riosucio
+27660,CHOCO,SAN JOSE DEL PALMAR,2,3,2,0,True,dept+muni,Chocó,SanJosédelPalmar
+27745,CHOCO,SIPI,6,17,6,0,True,dept+muni,Chocó,Sipí
+27787,CHOCO,TADO,5,5,5,0,True,dept+muni,Chocó,Tadó
+27800,CHOCO,UNGUIA,6,4,6,0,True,dept+muni,Chocó,Unguía
+41000,HUILA,SIN INFORMACION,1,0,1,0,False,unmatched,,
+41001,HUILA,NEIVA,17,17,17,0,True,dept+muni,Huila,Neiva
+41006,HUILA,ACEVEDO,3,3,3,0,True,dept+muni,Huila,Acevedo
+41020,HUILA,ALGECIRAS,38,37,34,4,True,dept+muni,Huila,Algeciras
+41078,HUILA,BARAYA,21,16,17,4,True,dept+muni,Huila,Baraya
+41206,HUILA,COLOMBIA,15,19,15,0,True,dept+muni,Huila,Colombia
+41298,HUILA,GARZON,3,1,3,0,True,dept+muni,Huila,Garzón
+41306,HUILA,GIGANTE,4,4,4,0,True,dept+muni,Huila,Gigante
+41359,HUILA,ISNOS,9,9,8,1,True,dept+muni,Huila,Isnos
+41378,HUILA,LA ARGENTINA,1,1,1,0,True,dept+muni,Huila,LaArgentina
+41396,HUILA,LA PLATA,2,0,1,1,True,dept+muni,Huila,LaPlata
+41524,HUILA,PALERMO,3,3,3,0,True,dept+muni,Huila,Palermo
+41551,HUILA,PITALITO,2,4,2,0,True,dept+muni,Huila,Pitalito
+41668,HUILA,SAN AGUSTIN,4,4,4,0,True,dept+muni,Huila,SanAgustín
+41676,HUILA,SANTA MARIA,2,2,2,0,True,dept+muni,Huila,SantaMaría
+41799,HUILA,TELLO,5,4,4,1,True,dept+muni,Huila,Tello
+44001,LA GUAJIRA,RIOHACHA,3,3,3,0,True,dept+muni,LaGuajira,Riohacha
+44090,LA GUAJIRA,DIBULLA,1,1,1,0,True,dept+muni,LaGuajira,Dibulla
+44110,LA GUAJIRA,EL MOLINO,1,1,1,0,True,dept+muni,LaGuajira,ElMolino
+44279,LA GUAJIRA,FONSECA,1,1,1,0,True,dept+muni,LaGuajira,Fonseca
+44430,LA GUAJIRA,MAICAO,1,2,1,0,True,dept+muni,LaGuajira,Maicao
+44650,LA GUAJIRA,SAN JUAN DEL CESAR,3,4,3,0,True,dept+muni,LaGuajira,SanJuandelCesar
+44855,LA GUAJIRA,URUMITA,4,4,4,0,True,dept+muni,LaGuajira,Urumita
+44874,LA GUAJIRA,VILLANUEVA,2,2,2,0,True,dept+muni,LaGuajira,Villanueva
+47001,MAGDALENA,SANTA MARTA,4,4,4,0,True,dept+muni,Magdalena,SantaMarta
+47053,MAGDALENA,ARACATACA,2,3,2,0,True,dept+muni,Magdalena,Aracataca
+47189,MAGDALENA,CIENAGA,2,2,2,0,True,dept+muni,Magdalena,Ciénaga
+47288,MAGDALENA,FUNDACION,2,3,2,0,True,dept+muni,Magdalena,Fundación
+50001,META,VILLAVICENCIO,11,9,10,1,True,dept+muni,Meta,Villavicencio
+50006,META,ACACIAS,2,2,2,0,True,dept+muni,Meta,Acacías
+50110,META,BARRANCA DE UPIA,1,1,1,0,True,dept+muni,Meta,BarrancadeUpía
+50223,META,CUBARRAL,7,7,7,0,True,dept+muni,Meta,SanLuisdeCubarral
+50251,META,EL CASTILLO,12,12,12,0,True,dept+muni,Meta,ElCastillo
+50270,META,EL DORADO,11,11,11,0,True,dept+muni,Meta,ElDorado
+50287,META,FUENTE DE ORO,1,1,1,0,True,dept+muni,Meta,FuentedeOro
+50313,META,GRANADA,13,40,12,1,True,dept+muni,Meta,Granada
+50318,META,GUAMAL,4,3,4,0,True,dept+muni,Meta,Guamal
+50325,META,MAPIRIPAN,14,15,13,1,True,dept+muni,Meta,Mapiripán
+50330,META,MESETAS,51,53,51,0,True,dept+muni,Meta,Mesetas
+50350,META,LA MACARENA,65,79,64,1,True,dept+muni,Meta,LaMacarena
+50370,META,URIBE,76,75,76,0,True,dept+muni,Meta,LaUribe
+50400,META,LEJANIAS,11,11,11,0,True,dept+muni,Meta,Lejanías
+50450,META,PUERTO CONCORDIA,8,9,7,1,True,dept+muni,Meta,PuertoConcordia
+50568,META,PUERTO GAITAN,15,15,15,0,True,dept+muni,Meta,PuertoGaitán
+50577,META,PUERTO LLERAS,7,7,7,0,True,dept+muni,Meta,PuertoLleras
+50590,META,PUERTO RICO,64,66,62,2,True,dept+muni,Meta,PuertoRico
+50683,META,SAN JUAN DE ARAMA,30,31,30,0,True,dept+muni,Meta,SanJuandeArama
+50686,META,SAN JUANITO,12,12,12,0,True,dept+muni,Meta,SanJuanito
+50711,META,VISTAHERMOSA,196,200,195,1,True,dept+muni,Meta,VistaHermosa
+52000,NARIÑO,SIN INFORMACION,2,9,2,0,False,unmatched,,
+52001,NARIÑO,PASTO,4,4,4,0,True,dept+muni,Nariño,SanJuandePasto
+52079,NARIÑO,BARBACOAS,43,46,42,1,True,dept+muni,Nariño,Barbacoas
+52227,NARIÑO,CUMBAL,7,6,6,1,True,dept+muni,Nariño,Cumbal
+52233,NARIÑO,CUMBITARA,30,28,27,3,True,dept+muni,Nariño,Cumbitara
+52250,NARIÑO,EL CHARCO,5,5,5,0,True,dept+muni,Nariño,ElCharco
+52256,NARIÑO,EL ROSARIO,2,2,2,0,True,dept+muni,Nariño,ElRosario
+52258,NARIÑO,EL TABLON DE GOMEZ,1,1,1,0,True,dept+muni,Nariño,ElTablóndeGomez
+52356,NARIÑO,IPIALES,17,15,15,2,True,dept+muni,Nariño,Ipiales
+52378,NARIÑO,LA CRUZ,1,1,1,0,True,dept+muni,Nariño,LaCruz
+52385,NARIÑO,LA LLANADA,40,40,39,1,True,dept+muni,Nariño,LaLlanada
+52405,NARIÑO,LEIVA,2,1,2,0,True,dept+muni,Nariño,Leiva
+52411,NARIÑO,LINARES,1,11,1,0,True,dept+muni,Nariño,Linares
+52418,NARIÑO,LOS ANDES,25,26,25,0,True,dept+muni,Nariño,LosAndes
+52427,NARIÑO,MAGÜI,7,8,7,0,True,dept+muni,Nariño,Magüí
+52435,NARIÑO,MALLAMA,2,1,1,1,True,dept+muni,Nariño,Mallama
+52490,NARIÑO,OLAYA HERRERA,2,2,2,0,True,dept+muni,Nariño,OlayaHerrera
+52540,NARIÑO,POLICARPA,41,40,40,1,True,dept+muni,Nariño,Policarpa
+52560,NARIÑO,POTOSI,1,1,1,0,True,dept+muni,Nariño,Potosí
+52573,NARIÑO,PUERRES,6,5,5,1,True,dept+muni,Nariño,Puerres
+52612,NARIÑO,RICAURTE,47,44,44,3,True,dept+muni,Nariño,Ricaurte
+52621,NARIÑO,ROBERTO PAYAN,9,27,9,0,True,dept+muni,Nariño,RobertoPayán
+52678,NARIÑO,SAMANIEGO,118,123,117,1,True,dept+muni,Nariño,Samaniego
+52683,NARIÑO,SANDONA,1,1,1,0,True,dept+muni,Nariño,Sandoná
+52696,NARIÑO,SANTA BARBARA,10,10,10,0,True,dept+muni,Nariño,SantaBárbara
+52699,NARIÑO,SANTACRUZ,31,32,31,0,True,dept+muni,Nariño,SantaCruz
+52835,NARIÑO,SAN ANDRES DE TUMACO,166,193,152,14,True,dept+muni,Nariño,Tumaco
+54000,NORTE DE SANTANDER,SIN INFORMACION,1,1,1,0,False,unmatched,,
+54001,NORTE DE SANTANDER,CUCUTA,8,8,8,0,True,dept+muni,NortedeSantander,SanJosédeCúcuta
+54003,NORTE DE SANTANDER,ABREGO,21,25,21,0,True,dept+muni,NortedeSantander,Abrego
+54051,NORTE DE SANTANDER,ARBOLEDAS,1,1,1,0,True,dept+muni,NortedeSantander,Arboledas
+54109,NORTE DE SANTANDER,BUCARASICA,6,6,6,0,True,dept+muni,NortedeSantander,Bucarasica
+54128,NORTE DE SANTANDER,CACHIRA,4,4,4,0,True,dept+muni,NortedeSantander,Cáchira
+54206,NORTE DE SANTANDER,CONVENCION,42,43,42,0,True,dept+muni,NortedeSantander,Convención
+54245,NORTE DE SANTANDER,EL CARMEN,10,8,8,2,True,dept+muni,NortedeSantander,ElCarmen
+54250,NORTE DE SANTANDER,EL TARRA,58,64,57,1,True,dept+muni,NortedeSantander,ElTarra
+54261,NORTE DE SANTANDER,EL ZULIA,2,1,2,0,True,dept+muni,NortedeSantander,ElZulía
+54344,NORTE DE SANTANDER,HACARI,69,78,67,2,True,dept+muni,NortedeSantander,Hacarí
+54347,NORTE DE SANTANDER,HERRAN,2,2,2,0,True,dept+muni,NortedeSantander,Herrán
+54377,NORTE DE SANTANDER,LABATECA,2,2,2,0,True,dept+muni,NortedeSantander,Labateca
+54398,NORTE DE SANTANDER,LA PLAYA,16,17,16,0,True,dept+muni,NortedeSantander,LaPlayadeBelén
+54405,NORTE DE SANTANDER,LOS PATIOS,1,2,1,0,True,dept+muni,NortedeSantander,LosPatios
+54498,NORTE DE SANTANDER,OCAÑA,3,0,0,3,True,dept+muni,NortedeSantander,Ocaña
+54670,NORTE DE SANTANDER,SAN CALIXTO,36,42,36,0,True,dept+muni,NortedeSantander,SanCalixto
+54680,NORTE DE SANTANDER,SANTIAGO,5,8,5,0,True,dept+muni,NortedeSantander,Santiago
+54720,NORTE DE SANTANDER,SARDINATA,22,28,20,2,True,dept+muni,NortedeSantander,Sardinata
+54800,NORTE DE SANTANDER,TEORAMA,90,119,90,0,True,dept+muni,NortedeSantander,Teorama
+54810,NORTE DE SANTANDER,TIBU,96,109,92,4,True,dept+muni,NortedeSantander,Tibú
+54820,NORTE DE SANTANDER,TOLEDO,3,2,2,1,True,dept+muni,NortedeSantander,Toledo
+63548,QUINDIO,PIJAO,5,7,5,0,True,dept+muni,Quindío,Pijao
+66088,RISARALDA,BELEN DE UMBRIA,2,2,2,0,True,dept+muni,Risaralda,BeléndeUmbría
+66318,RISARALDA,GUATICA,1,4,1,0,True,dept+muni,Risaralda,Guática
+66456,RISARALDA,MISTRATO,3,3,3,0,True,dept+muni,Risaralda,Mistrató
+66682,RISARALDA,SANTA ROSA DE CABAL,2,2,2,0,True,dept+muni,Risaralda,SantaRosadeCabal
+66687,RISARALDA,SANTUARIO,1,1,1,0,True,dept+muni,Risaralda,Santuario
+68001,SANTANDER,BUCARAMANGA,3,3,3,0,True,dept+muni,Santander,Bucaramanga
+68081,SANTANDER,BARRANCABERMEJA,7,7,7,0,True,dept+muni,Santander,Barrancabermeja
+68132,SANTANDER,CALIFORNIA,2,2,2,0,True,dept+muni,Santander,California
+68169,SANTANDER,CHARTA,1,1,1,0,True,dept+muni,Santander,Charta
+68190,SANTANDER,CIMITARRA,1,1,1,0,True,dept+muni,Santander,Cimitarra
+68235,SANTANDER,EL CARMEN DE CHUCURI,1,0,0,1,True,dept+muni,Santander,ElCarmendeChucurí
+68255,SANTANDER,EL PLAYON,1,3,1,0,True,dept+muni,Santander,ElPlayón
+68296,SANTANDER,GALAN,1,1,1,0,True,dept+muni,Santander,Galán
+68307,SANTANDER,GIRON,1,1,1,0,True,dept+muni,Santander,Girón
+68344,SANTANDER,HATO,2,2,2,0,True,dept+muni,Santander,Hato
+68385,SANTANDER,LANDAZURI,3,3,3,0,True,dept+muni,Santander,Landázuri
+68406,SANTANDER,LEBRIJA,1,1,1,0,True,dept+muni,Santander,Lebríja
+68444,SANTANDER,MATANZA,9,9,8,1,True,dept+muni,Santander,Matanza
+68547,SANTANDER,PIEDECUESTA,2,2,1,1,True,dept+muni,Santander,Piedecuesta
+68575,SANTANDER,PUERTO WILCHES,1,1,1,0,True,dept+muni,Santander,PuertoWilches
+68615,SANTANDER,RIONEGRO,3,3,3,0,True,dept+muni,Santander,Rionegro
+68655,SANTANDER,SABANA DE TORRES,8,8,8,0,True,dept+muni,Santander,SabanadeTorres
+68686,SANTANDER,SAN MIGUEL,2,2,2,0,True,dept+muni,Santander,SanMiguel
+68689,SANTANDER,SAN VICENTE DE CHUCURI,4,4,4,0,True,dept+muni,Santander,SanVicentedeChucurí
+68745,SANTANDER,SIMACOTA,2,2,2,0,True,dept+muni,Santander,Simacota
+68770,SANTANDER,SUAITA,1,1,1,0,True,dept+muni,Santander,Suaita
+68773,SANTANDER,SUCRE,8,8,8,0,True,dept+muni,Santander,Sucre
+68780,SANTANDER,SURATA,1,1,1,0,True,dept+muni,Santander,Suratá
+68895,SANTANDER,ZAPATOCA,1,1,1,0,True,dept+muni,Santander,Zapatoca
+70204,SUCRE,COLOSO,1,2,1,0,True,dept+muni,Sucre,Colosó
+70215,SUCRE,COROZAL,1,1,1,0,True,dept+muni,Sucre,Corozal
+70230,SUCRE,CHALAN,1,1,1,0,True,dept+muni,Sucre,Chalán
+70473,SUCRE,MORROA,1,1,1,0,True,dept+muni,Sucre,Morroa
+70508,SUCRE,OVEJAS,8,9,7,1,True,dept+muni,Sucre,Ovejas
+70771,SUCRE,SUCRE,1,1,1,0,True,dept+muni,Sucre,Sucre
+73001,TOLIMA,IBAGUE,3,4,3,0,True,dept+muni,Tolima,Ibagué
+73067,TOLIMA,ATACO,4,4,4,0,True,dept+muni,Tolima,Ataco
+73124,TOLIMA,CAJAMARCA,4,4,4,0,True,dept+muni,Tolima,Cajamarca
+73168,TOLIMA,CHAPARRAL,55,61,54,1,True,dept+muni,Tolima,Chaparral
+73236,TOLIMA,DOLORES,11,9,11,0,True,dept+muni,Tolima,Dolores
+73347,TOLIMA,HERVEO,1,1,1,0,True,dept+muni,Tolima,Herveo
+73352,TOLIMA,ICONONZO,4,4,4,0,True,dept+muni,Tolima,Icononzo
+73443,TOLIMA,SAN SEBASTIAN DE MARIQUITA,1,1,1,0,True,dept+muni,Tolima,SanSebastiandeMariquita
+73504,TOLIMA,ORTEGA,39,40,39,0,True,dept+muni,Tolima,Ortega
+73555,TOLIMA,PLANADAS,90,90,88,2,True,dept+muni,Tolima,Planadas
+73616,TOLIMA,RIOBLANCO,40,40,40,0,True,dept+muni,Tolima,Rioblanco
+73622,TOLIMA,RONCESVALLES,10,12,10,0,True,dept+muni,Tolima,Roncesvalles
+73624,TOLIMA,ROVIRA,8,8,8,0,True,dept+muni,Tolima,Rovira
+73675,TOLIMA,SAN ANTONIO,7,7,7,0,True,dept+muni,Tolima,SanAntonio
+73686,TOLIMA,SANTA ISABEL,9,9,9,0,True,dept+muni,Tolima,SantaIsabel
+73870,TOLIMA,VILLAHERMOSA,1,1,1,0,True,dept+muni,Tolima,Villahermosa
+73873,TOLIMA,VILLARRICA,2,2,2,0,True,dept+muni,Tolima,Villarrica
+76001,VALLE DEL CAUCA,SANTIAGO DE CALI,2,3,2,0,True,dept+muni,ValledelCauca,SantiagodeCali
+76100,VALLE DEL CAUCA,BOLIVAR,1,2,1,0,True,dept+muni,ValledelCauca,Bolívar
+76109,VALLE DEL CAUCA,BUENAVENTURA,5,4,4,1,True,dept+muni,ValledelCauca,Buenaventura
+76111,VALLE DEL CAUCA,GUADALAJARA DE BUGA,14,14,14,0,True,dept+muni,ValledelCauca,GuadalajaradeBuga
+76113,VALLE DEL CAUCA,BUGALAGRANDE,10,10,10,0,True,dept+muni,ValledelCauca,Bugalagrande
+76126,VALLE DEL CAUCA,CALIMA,1,1,1,0,True,dept+muni,ValledelCauca,Calima
+76233,VALLE DEL CAUCA,DAGUA,2,5,1,1,True,dept+muni,ValledelCauca,Dagua
+76275,VALLE DEL CAUCA,FLORIDA,38,41,38,0,True,dept+muni,ValledelCauca,Florida
+76318,VALLE DEL CAUCA,GUACARI,2,2,2,0,True,dept+muni,ValledelCauca,Guacarí
+76364,VALLE DEL CAUCA,JAMUNDI,1,0,0,1,True,dept+muni,ValledelCauca,Jamundí
+76377,VALLE DEL CAUCA,LA CUMBRE,2,2,2,0,True,dept+muni,ValledelCauca,LaCumbre
+76520,VALLE DEL CAUCA,PALMIRA,6,8,6,0,True,dept+muni,ValledelCauca,Palmira
+76563,VALLE DEL CAUCA,PRADERA,24,24,22,2,True,dept+muni,ValledelCauca,Pradera
+76670,VALLE DEL CAUCA,SAN PEDRO,1,1,1,0,True,dept+muni,ValledelCauca,SanPedro
+76834,VALLE DEL CAUCA,TULUA,5,9,5,0,True,dept+muni,ValledelCauca,Tuluá
+81001,ARAUCA,ARAUCA,10,10,10,0,True,dept+muni,Arauca,Arauca
+81065,ARAUCA,ARAUQUITA,85,87,79,6,True,dept+muni,Arauca,Arauquita
+81300,ARAUCA,FORTUL,30,26,27,3,True,dept+muni,Arauca,Fortul
+81591,ARAUCA,PUERTO RONDON,17,17,15,2,True,dept+muni,Arauca,PuertoRondón
+81736,ARAUCA,SARAVENA,22,26,19,3,True,dept+muni,Arauca,Saravena
+81794,ARAUCA,TAME,216,219,213,3,True,dept+muni,Arauca,Tame
+85000,CASANARE,SIN INFORMACION,1,1,1,0,False,unmatched,,
+85001,CASANARE,YOPAL,3,3,3,0,True,dept+muni,Casanare,Yopal
+85010,CASANARE,AGUAZUL,3,3,3,0,True,dept+muni,Casanare,Aguazul
+85015,CASANARE,CHAMEZA,2,2,2,0,True,dept+muni,Casanare,Chámeza
+85125,CASANARE,HATO COROZAL,1,1,1,0,True,dept+muni,Casanare,HatoCorozal
+85136,CASANARE,LA SALINA,9,9,9,0,True,dept+muni,Casanare,LaSalina
+85250,CASANARE,PAZ DE ARIPORO,2,2,2,0,True,dept+muni,Casanare,PazdeAriporo
+85315,CASANARE,SACAMA,24,24,24,0,True,dept+muni,Casanare,Sácama
+85400,CASANARE,TAMARA,3,3,3,0,True,dept+muni,Casanare,Támara
+85410,CASANARE,TAURAMENA,5,5,5,0,True,dept+muni,Casanare,Tauramena
+86001,PUTUMAYO,MOCOA,3,3,3,0,True,dept+muni,Putumayo,SanMigueldeMocoa
+86320,PUTUMAYO,ORITO,20,20,20,0,True,dept+muni,Putumayo,Orito
+86568,PUTUMAYO,PUERTO ASIS,93,105,92,1,True,dept+muni,Putumayo,PuertoAsís
+86569,PUTUMAYO,PUERTO CAICEDO,33,31,33,0,True,dept+muni,Putumayo,PuertoCaicedo
+86571,PUTUMAYO,PUERTO GUZMAN,34,33,33,1,True,dept+muni,Putumayo,PuertoGuzmán
+86573,PUTUMAYO,PUERTO LEGUIZAMO,26,26,26,0,True,dept+muni,Putumayo,PuertoLeguízamo
+86757,PUTUMAYO,SAN MIGUEL,26,28,26,0,True,dept+muni,Putumayo,SanMiguel
+86865,PUTUMAYO,VALLE DEL GUAMUEZ,33,39,33,0,True,dept+muni,Putumayo,ValledelGuamuéz
+86885,PUTUMAYO,VILLAGARZON,6,6,6,0,True,dept+muni,Putumayo,Villagarzón
+91001,AMAZONAS,LETICIA,1,1,1,0,True,dept+muni,Amazonas,Leticia
+95001,GUAVIARE,SAN JOSE DEL GUAVIARE,53,53,53,0,True,dept+muni,Guaviare,SanJosédelGuaviare
+95015,GUAVIARE,CALAMAR,16,12,16,0,True,dept+muni,Guaviare,Calamar
+95025,GUAVIARE,EL RETORNO,17,26,17,0,True,dept+muni,Guaviare,ElRetorno
+95200,GUAVIARE,MIRAFLORES,28,32,28,0,True,dept+muni,Guaviare,Miraflores
+97001,VAUPES,MITU,10,10,10,0,True,dept+muni,Vaupés,Mitú
+97161,VAUPES,CARURU,7,7,7,0,True,dept+muni,Vaupés,Carurú
+99773,VICHADA,CUMARIBO,1,1,1,0,True,dept+muni,Vichada,Cumaribo
