@@ -16,33 +16,6 @@ DATA_DIR = BASE_DIR.parent / "data"
 OUT_DIR = DATA_DIR / "derived-data"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-def _first_existing_col(df: pd.DataFrame, candidates: list[str]) -> str:
-    """Return the first column name that exists in df.
-
-    This project has been edited on different machines/locales; some consoles show
-    mojibake (e.g. 'A�o' instead of 'Año'). This helper keeps preprocessing robust.
-    """
-    for c in candidates:
-        if c in df.columns:
-            return c
-    raise KeyError(f"None of these columns were found: {candidates}")
-
-
-def _clean_dane_code(x) -> str:
-    """Normalize DANE municipality code as digits (keep leading zeros)."""
-    if pd.isna(x):
-        return ""
-    s = str(x).strip()
-    # Common Excel import artifact: 52835.0
-    s = re.sub(r"\.0$", "", s)
-    s = re.sub(r"\D", "", s)
-    if not s:
-        return ""
-    # Municipality DANE codes are typically 5 digits (DDMMM)
-    if len(s) < 5:
-        s = s.zfill(5)
-    return s
-
 
 def normalize(name):
     if pd.isna(name):
@@ -161,15 +134,7 @@ def main():
 
     print("Loading CasosMI...")
     df_mi = pd.read_excel(DATA_DIR / "CasosMI_202509.xlsx", sheet_name=0)
-    col_year = _first_existing_col(df_mi, ["Año", "A�o"])
-    col_dane_muni = _first_existing_col(
-        df_mi, ["Código DANE de Municipio", "C�digo DANE de Municipio"]
-    )
-    col_victims = _first_existing_col(
-        df_mi, ["Total de Víctimas del Caso", "Total de V�ctimas del Caso"]
-    )
-
-    df_mi = df_mi[(df_mi[col_year] >= 1994) & (df_mi[col_year] <= 2024)]
+    df_mi = df_mi[(df_mi["Año"] >= 1994) & (df_mi["Año"] <= 2024)]
     df_mi = df_mi[
         df_mi["Tipo de Armas"].str.contains(
             r"MINAS", case=False, na=False, regex=True
@@ -179,112 +144,59 @@ def main():
         "DESMINADO", case=False, na=False
     )
     df_mi["victimas"] = (
-        df_mi[col_victims].fillna(0).astype(int)
+        df_mi["Total de Víctimas del Caso"].fillna(0).astype(int)
     )
-    df_mi["dane_muni"] = df_mi[col_dane_muni].apply(_clean_dane_code)
 
     df_mi_incidents = df_mi[~df_mi["es_desminado_all"]]
     df_demining = df_mi[df_mi["es_desminado_all"]]
+
+    mine_all = df_mi.groupby("Municipio").size().reset_index(name="mine_count")
+    mine_all["key"] = mine_all["Municipio"].apply(normalize)
+    victims_agg = (
+        df_mi.groupby("Municipio")["victimas"]
+        .sum()
+        .reset_index()
+        .rename(columns={"victimas": "total_victims"})
+    )
+    victims_agg["key"] = victims_agg["Municipio"].apply(normalize)
+    incidents_agg = (
+        df_mi_incidents.groupby("Municipio")
+        .size()
+        .reset_index(name="mine_incidents")
+    )
+    incidents_agg["key"] = incidents_agg["Municipio"].apply(normalize)
+    demining_agg = (
+        df_demining.groupby("Municipio")
+        .size()
+        .reset_index(name="demining_count")
+    )
+    demining_agg["key"] = demining_agg["Municipio"].apply(normalize)
 
     gdf["mine_count"] = 0
     gdf["total_victims"] = 0
     gdf["mine_incidents"] = 0
     gdf["demining_count"] = 0
+    lookups = {
+        "mine_count": dict(zip(mine_all["key"], mine_all["mine_count"])),
+        "total_victims": dict(
+            zip(victims_agg["key"], victims_agg["total_victims"])
+        ),
+        "mine_incidents": dict(
+            zip(incidents_agg["key"], incidents_agg["mine_incidents"])
+        ),
+        "demining_count": dict(
+            zip(demining_agg["key"], demining_agg["demining_count"])
+        ),
+    }
 
-    # Aggregate mines by DANE code (prevents name-variant fragmentation)
-    mines_by_dane = (
-        df_mi.groupby("dane_muni")
-        .agg(
-            mine_count=("ID Caso", "count"),
-            total_victims=("victimas", "sum"),
-            municipio=("Municipio", "first"),
-            departamento=("Departamento", "first"),
-        )
-        .reset_index()
-    )
-    inc_counts = df_mi_incidents.groupby("dane_muni")["ID Caso"].count()
-    dem_counts = df_demining.groupby("dane_muni")["ID Caso"].count()
-    mines_by_dane["mine_incidents"] = (
-        mines_by_dane["dane_muni"].map(inc_counts).fillna(0).astype(int)
-    )
-    mines_by_dane["demining_count"] = (
-        mines_by_dane["dane_muni"].map(dem_counts).fillna(0).astype(int)
-    )
-
-    # Match aggregated mines to GADM municipality polygons using dept+muni keys
-    match_rows = []
-    for _, r in mines_by_dane.iterrows():
-        dept = r["departamento"]
-        muni = r["municipio"]
-        dane = r["dane_muni"]
-        dept_k = normalize(dept)
-        muni_k = normalize(muni)
-
-        # Apply same manual corrections used in conflict matching.
-        if (dept_k, muni_k) in MANUAL_MAP:
-            muni_k = MANUAL_MAP[(dept_k, muni_k)]
-
-        geo_idx = geo_lookup.get((dept_k, muni_k)) or geo_lookup.get(("", muni_k))
-
-        if geo_idx is not None:
-            # Accumulate in case multiple DANE groups point to same polygon.
-            gdf.at[geo_idx, "mine_count"] = int(gdf.at[geo_idx, "mine_count"]) + int(
-                r["mine_count"]
-            )
-            gdf.at[geo_idx, "total_victims"] = int(
-                gdf.at[geo_idx, "total_victims"]
-            ) + int(r["total_victims"])
-            gdf.at[geo_idx, "mine_incidents"] = int(
-                gdf.at[geo_idx, "mine_incidents"]
-            ) + int(r["mine_incidents"])
-            gdf.at[geo_idx, "demining_count"] = int(
-                gdf.at[geo_idx, "demining_count"]
-            ) + int(r["demining_count"])
-            match_rows.append(
-                {
-                    "dane_muni": dane,
-                    "departamento": dept,
-                    "municipio": muni,
-                    "mine_count": int(r["mine_count"]),
-                    "total_victims": int(r["total_victims"]),
-                    "mine_incidents": int(r["mine_incidents"]),
-                    "demining_count": int(r["demining_count"]),
-                    "matched": True,
-                    "match_method": "dept+muni",
-                    "matched_NAME_1": gdf.at[geo_idx, "NAME_1"],
-                    "matched_NAME_2": gdf.at[geo_idx, "NAME_2"],
-                }
-            )
-        else:
-            match_rows.append(
-                {
-                    "dane_muni": dane,
-                    "departamento": dept,
-                    "municipio": muni,
-                    "mine_count": int(r["mine_count"]),
-                    "total_victims": int(r["total_victims"]),
-                    "mine_incidents": int(r["mine_incidents"]),
-                    "demining_count": int(r["demining_count"]),
-                    "matched": False,
-                    "match_method": "unmatched",
-                    "matched_NAME_1": None,
-                    "matched_NAME_2": None,
-                }
-            )
-
-    report = pd.DataFrame(match_rows)
-    unmatched = report[~report["matched"]].copy()
-    unmatched = unmatched.sort_values(["mine_count", "total_victims"], ascending=False)
-    report_path = OUT_DIR / "mine_matching_report.csv"
-    unmatched_path = OUT_DIR / "unmatched_mines.csv"
-    report.to_csv(report_path, index=False, encoding="utf-8-sig")
-    unmatched.to_csv(unmatched_path, index=False, encoding="utf-8-sig")
-
-    print(
-        "Mine matching:",
-        f"{int(report['matched'].sum())} of {len(report)} DANE groups matched; "
-        f"unmatched mine events = {int(unmatched['mine_count'].sum())} / {len(df_mi)}",
-    )
+    for col, lookup in lookups.items():
+        for idx, row in gdf.iterrows():
+            if row["key"] in lookup:
+                gdf.at[idx, col] = int(lookup[row["key"]])
+        for mk, val in lookup.items():
+            geo_idx = geo_lookup.get(("", mk))
+            if geo_idx is not None and gdf.at[geo_idx, col] == 0:
+                gdf.at[geo_idx, col] = int(val)
 
     gdf["gap_raw"] = (
         (gdf["mine_incidents"] - gdf["demining_count"]).clip(lower=0).astype(int)

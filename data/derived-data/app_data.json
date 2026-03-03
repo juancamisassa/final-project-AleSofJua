@@ -67,18 +67,18 @@
   },
   "top10_gap": [
     {
-      "NAME_2": "PuertoAs\u00eds",
-      "NAME_1": "Putumayo",
-      "incidents_minus_demining": 91,
-      "mine_incidents": 92,
-      "demining_count": 1
-    },
-    {
       "NAME_2": "PuertoLibertador",
       "NAME_1": "C\u00f3rdoba",
       "incidents_minus_demining": 91,
       "mine_incidents": 91,
       "demining_count": 0
+    },
+    {
+      "NAME_2": "PuertoAs\u00eds",
+      "NAME_1": "Putumayo",
+      "incidents_minus_demining": 91,
+      "mine_incidents": 92,
+      "demining_count": 1
     },
     {
       "NAME_2": "SanVicentedelCagu\u00e1n",
@@ -95,18 +95,18 @@
       "demining_count": 1
     },
     {
+      "NAME_2": "PuertoRico",
+      "NAME_1": "Caquet\u00e1",
+      "incidents_minus_demining": 118,
+      "mine_incidents": 120,
+      "demining_count": 2
+    },
+    {
       "NAME_2": "LaMonta\u00f1ita",
       "NAME_1": "Caquet\u00e1",
       "incidents_minus_demining": 127,
       "mine_incidents": 127,
       "demining_count": 0
-    },
-    {
-      "NAME_2": "Tumaco",
-      "NAME_1": "Nari\u00f1o",
-      "incidents_minus_demining": 138,
-      "mine_incidents": 152,
-      "demining_count": 14
     },
     {
       "NAME_2": "Ituango",
@@ -1026,11 +1026,11 @@
   ],
   "stats": {
     "conflict_events": 13220,
-    "mine_events": 5976,
-    "total_victims": 6397,
+    "mine_events": 6957,
+    "total_victims": 7433,
     "n_muni_conflict": 849,
-    "n_muni_mines": 406,
+    "n_muni_mines": 450,
     "n_total_muni": 1119,
-    "demining_ops": 177
+    "demining_ops": 211
   }
 }
