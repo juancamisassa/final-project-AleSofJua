@@ -100,74 +100,84 @@
   },
   "top10_gap": [
     {
-      "NAME_2": "Turbo",
+      "NAME_2": "Ci\u00e9naga",
+      "NAME_1": "Magdalena",
+      "priority_idx": 5.884251156038548,
+      "crime_count": 149,
+      "mine_incidents": 8,
+      "demining_count": 10
+    },
+    {
+      "NAME_2": "SanVicentedelCagu\u00e1n",
+      "NAME_1": "Caquet\u00e1",
+      "priority_idx": 6.213502121267394,
+      "crime_count": 102,
+      "mine_incidents": 185,
+      "demining_count": 637
+    },
+    {
+      "NAME_2": "Tib\u00fa",
+      "NAME_1": "NortedeSantander",
+      "priority_idx": 6.832139254492095,
+      "crime_count": 157,
+      "mine_incidents": 86,
+      "demining_count": 323
+    },
+    {
+      "NAME_2": "SanCarlos",
       "NAME_1": "Antioquia",
-      "incidents_minus_demining": 4,
-      "mine_incidents": 27,
-      "demining_count": 23
+      "priority_idx": 6.846026925874279,
+      "crime_count": 98,
+      "mine_incidents": 98,
+      "demining_count": 145
     },
     {
-      "NAME_2": "Murind\u00f3",
+      "NAME_2": "Taraz\u00e1",
       "NAME_1": "Antioquia",
-      "incidents_minus_demining": 4,
-      "mine_incidents": 11,
-      "demining_count": 7
+      "priority_idx": 6.879159218664093,
+      "crime_count": 31,
+      "mine_incidents": 196,
+      "demining_count": 344
     },
     {
-      "NAME_2": "SanRafael",
+      "NAME_2": "Medell\u00edn",
       "NAME_1": "Antioquia",
-      "incidents_minus_demining": 5,
-      "mine_incidents": 23,
-      "demining_count": 18
+      "priority_idx": 8.081879683773286,
+      "crime_count": 193,
+      "mine_incidents": 18,
+      "demining_count": 21
     },
     {
-      "NAME_2": "LaVega",
-      "NAME_1": "Cauca",
-      "incidents_minus_demining": 5,
-      "mine_incidents": 7,
-      "demining_count": 2
+      "NAME_2": "Ituango",
+      "NAME_1": "Antioquia",
+      "priority_idx": 9.07529689782338,
+      "crime_count": 82,
+      "mine_incidents": 179,
+      "demining_count": 254
     },
     {
-      "NAME_2": "Simit\u00ed",
-      "NAME_1": "Bol\u00edvar",
-      "incidents_minus_demining": 6,
-      "mine_incidents": 36,
-      "demining_count": 30
+      "NAME_2": "SanJos\u00e9deC\u00facuta",
+      "NAME_1": "NortedeSantander",
+      "priority_idx": 9.633569407713967,
+      "crime_count": 245,
+      "mine_incidents": 5,
+      "demining_count": 16
     },
     {
-      "NAME_2": "SabanadeTorres",
+      "NAME_2": "Tame",
+      "NAME_1": "Arauca",
+      "priority_idx": 11.045374263038415,
+      "crime_count": 206,
+      "mine_incidents": 185,
+      "demining_count": 585
+    },
+    {
+      "NAME_2": "Barrancabermeja",
       "NAME_1": "Santander",
-      "incidents_minus_demining": 6,
-      "mine_incidents": 23,
-      "demining_count": 17
-    },
-    {
-      "NAME_2": "Ungu\u00eda",
-      "NAME_1": "Choc\u00f3",
-      "incidents_minus_demining": 7,
-      "mine_incidents": 13,
-      "demining_count": 6
-    },
-    {
-      "NAME_2": "Cocorn\u00e1",
-      "NAME_1": "Antioquia",
-      "incidents_minus_demining": 8,
-      "mine_incidents": 48,
-      "demining_count": 40
-    },
-    {
-      "NAME_2": "LaLlanada",
-      "NAME_1": "Nari\u00f1o",
-      "incidents_minus_demining": 26,
-      "mine_incidents": 34,
-      "demining_count": 8
-    },
-    {
-      "NAME_2": "Samaniego",
-      "NAME_1": "Nari\u00f1o",
-      "incidents_minus_demining": 30,
-      "mine_incidents": 87,
-      "demining_count": 57
+      "priority_idx": 12.04599339866196,
+      "crime_count": 303,
+      "mine_incidents": 10,
+      "demining_count": 38
     }
   ],
   "demining_pts": [],
