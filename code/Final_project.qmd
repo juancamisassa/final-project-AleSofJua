@@ -67,7 +67,7 @@ has_coords = "Latitud" in df_ev31.columns and "Longitud" in df_ev31.columns
 total_events = pivot["Total"].sum()
 
 print(f"Events in Colombia (1994-2024): {len(df_col):,}")
-print(f"Eventos 31: {len(df_ev31):,} | CasosMI victims: {len(df_mi):,}")
+print(f"AICMA: {len(df_ev31):,} | CasosMI victims: {len(df_mi):,}")
 print(f"Municipalities: {len(gdf)} | Conflict mapped: {gdf['crime_count'].sum():,.0f}")
 ```
 
@@ -158,15 +158,15 @@ plt.show()
 
 ## 3. Mine Events and Victim Data
 
-We use two sources: the **Eventos por MAP/MUSE** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts. (Both are loaded and processed in the wrangling module above.)
+We use two sources: the **AICMA** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts. (Both are loaded and processed in the wrangling module above.)
 
 ### Map: Antipersonnel Mine Events
 
-Each point represents a mine event. Green points indicate demining operations; red points indicate MAP (anti-personnel mine) incidents and other explosive device events. Source: Eventos por MAP/MUSE (Descontamina Colombia).
+Each point represents a mine event. Green points indicate demining operations; red points indicate MAP (anti-personnel mine) incidents and other explosive device events. Source: AICMA (Descontamina Colombia).
 
 ```{python}
 #| label: fig-mines-map
-#| fig-cap: "Antipersonnel Mines by Municipality — Colombia 1994–2024 (Eventos por MAP/MUSE)"
+#| fig-cap: "Antipersonnel Mines by Municipality — Colombia 1994–2024 (AICMA)"
 #| fig-width: 12
 #| fig-height: 16
 
@@ -195,7 +195,7 @@ if has_coords:
 
 ax2.set_title(
     "Antipersonnel Mines by Municipality\n"
-    "Colombia 1994–2024 (Eventos por MAP/MUSE)",
+    "Colombia 1994–2024 (AICMA)",
     fontsize=18, fontweight="bold", color="#222222", pad=20
 )
 ax2.set_axis_off()
@@ -207,12 +207,12 @@ if has_coords:
         markerscale=2.5, framealpha=0.9
     )
 else:
-    ax2.text(0.5, 0.5, "Eventos 31 has no coordinates for point display.",
+    ax2.text(0.5, 0.5, "AICMA has no coordinates for point display.",
              ha="center", va="center", transform=ax2.transAxes, fontsize=12)
 
 fig2.text(
     0.5, 0.02,
-    f"Total events: {len(df_ev31):,} | Source: Descontamina Colombia – Eventos por MAP/MUSE",
+    f"Total events: {len(df_ev31):,} | Source: Descontamina Colombia – AICMA",
     ha="center", fontsize=9, color="#666666"
 )
 
@@ -298,7 +298,7 @@ plt.show()
 
 ## 4. Bivariate Analysis: Conflict vs Mines by Municipality
 
-We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from Eventos por MAP/MUSE. (Matching is performed in the wrangling module.)
+We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from AICMA. (Matching is performed in the wrangling module.)
 
 ```{python}
 #| label: bivariate-data
@@ -436,7 +436,7 @@ for idx in notable:
 
 ax3.set_xlabel("← Low conflict          Armed conflict events (GED)          High conflict →",
                fontsize=12, labelpad=10, color="#333333")
-ax3.set_ylabel("← Few mines          Mine events (Eventos MAP/MUSE)          Many mines →",
+ax3.set_ylabel("← Few mines          Mine events (AICMA)          Many mines →",
                fontsize=12, labelpad=10, color="#333333")
 ax3.set_title(
     "Armed Conflict vs Antipersonnel Mines by Municipality\n"
@@ -499,7 +499,7 @@ ax4.set_axis_off()
 
 fig4.text(
     0.5, 0.02,
-    "Sources: UCDP GED v25.1 + Descontamina Colombia (Eventos MAP/MUSE) | "
+    "Sources: UCDP GED v25.1 + Descontamina Colombia (AICMA) | "
     f"Cutoff: conflict > {conflict_cut:.0f}, mines > {minas_cut:.0f}",
     ha="center", fontsize=9, color="#666666"
 )
@@ -585,7 +585,7 @@ ax5q.set_axis_off()
 
 fig5q.text(
     0.5, 0.02,
-    "Sources: UCDP GED v25.1 + Descontamina Colombia (Eventos MAP/MUSE) | "
+    "Sources: UCDP GED v25.1 + Descontamina Colombia (AICMA) | "
     f"Cutoff: conflict > {conflict_cut:.0f}, mines > {minas_cut:.0f}",
     ha="center", fontsize=9, color="#666666"
 )
@@ -626,7 +626,7 @@ ax_m = ax_c.twinx()
 ax_m.plot(
     years, minas_anual.values,
     color="#1a73e8", linewidth=2.5, marker="o", markersize=4,
-    zorder=4, label="Antipersonnel mine events (Eventos MAP/MUSE)"
+    zorder=4, label="Antipersonnel mine events (AICMA)"
 )
 ax_m.set_ylabel("Antipersonnel mine events", fontsize=13, color="#1a73e8", labelpad=10)
 ax_m.tick_params(axis="y", colors="#1a73e8", labelsize=11)
