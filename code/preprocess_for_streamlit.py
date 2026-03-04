@@ -16,6 +16,12 @@ DATA_DIR = BASE_DIR.parent / "data"
 OUT_DIR = DATA_DIR / "derived-data"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
+# Eventos 31: archivo opcional para desminado + accidentes MAP (solo conteos).
+# CasosMI se sigue usando para conteo de víctimas. Se buscan en este orden:
+EVENTOS_31_PATHS = [
+    DATA_DIR / "EVENTOS 31_ENE_2026.xlsx",
+]
+
 
 def _first_existing_col(df: pd.DataFrame, candidates):
     """Return the first column name from `candidates` that exists in df.columns."""
@@ -58,6 +64,61 @@ def clean_city_name(name):
         r"\s+(municipality|district|town|city)$", "", name, flags=re.IGNORECASE
     )
     return name.strip()
+
+
+def _load_eventos31():
+    """
+    Carga el archivo Eventos 31 si existe (Excel o CSV).
+    Columnas esperadas: Año, Tipo de Evento, Municipio, Departamento,
+    opcional Código DANE. Retorna DataFrame con Año, es_desminado, es_map,
+    municipio, departamento; o None si no se encuentra el archivo.
+    """
+    path = None
+    for p in EVENTOS_31_PATHS:
+        if p.exists():
+            path = p
+            break
+    if path is None:
+        return None
+
+    print(f"Cargando Eventos 31 desde {path.name}...")
+    if path.suffix.lower() == ".csv":
+        df = pd.read_csv(path, encoding="utf-8-sig")
+    else:
+        df = pd.read_excel(path, sheet_name=0)
+
+    col_year = _first_existing_col(df, ["Año", "Ao", "Year", "year"])
+    col_tipo = _first_existing_col(
+        df, ["Tipo de Evento", "Tipo de evento", "Tipo Evento", "tipo_evento"]
+    )
+    col_muni = _first_existing_col(df, ["Municipio", "municipio"])
+    col_dept = _first_existing_col(df, ["Departamento", "departamento"])
+    col_dane = None
+    for c in ["Código DANE de Municipio", "Cdigo DANE de Municipio", "Código DANE", "DANE", "dane_muni"]:
+        if c in df.columns:
+            col_dane = c
+            break
+
+    df = df.rename(columns={
+        col_year: "Año",
+        col_tipo: "Tipo_Evento",
+        col_muni: "Municipio",
+        col_dept: "Departamento",
+    })
+    df = df[(df["Año"] >= 1994) & (df["Año"] <= 2024)].copy()
+    df["es_desminado"] = df["Tipo_Evento"].astype(str).str.contains(
+        "DESMINADO", case=False, na=False
+    )
+    df["es_map"] = df["Tipo_Evento"].astype(str).str.contains(
+        r"MAP|ACCIDENTE", case=False, na=False, regex=True
+    )
+    if col_dane:
+        df["dane_muni"] = df[col_dane].apply(_clean_dane_code)
+    else:
+        df["dane_muni"] = ""
+    df["municipio"] = df["Municipio"].astype(str).str.strip()
+    df["departamento"] = df["Departamento"].astype(str).str.strip()
+    return df
 
 
 MANUAL_MAP = {
@@ -156,131 +217,100 @@ def main():
     for idx, total in crime_totals.items():
         gdf.at[idx, "crime_count"] = int(total)
 
-    print("Loading CasosMI...")
-    df_mi = pd.read_excel(DATA_DIR / "CasosMI_202509.xlsx", sheet_name=0)
-    # Handle possible mojibake in Excel column names (Año / A�o, etc.)
-    col_year = _first_existing_col(df_mi, ["Año", "A�o"])
-    col_dane_muni = _first_existing_col(
-        df_mi, ["Código DANE de Municipio", "C�digo DANE de Municipio"]
-    )
-    col_victims = _first_existing_col(
-        df_mi, ["Total de Víctimas del Caso", "Total de V�ctimas del Caso"]
-    )
-
-    df_mi = df_mi[(df_mi[col_year] >= 1994) & (df_mi[col_year] <= 2024)]
-    df_mi = df_mi[
-        df_mi["Tipo de Armas"].str.contains(
-            r"MINAS", case=False, na=False, regex=True
-        )
-    ].copy()
-    df_mi["es_desminado_all"] = df_mi["Tipo de Evento"].str.contains(
-        "DESMINADO", case=False, na=False
-    )
-    df_mi["victimas"] = (
-        df_mi[col_victims].fillna(0).astype(int)
-    )
-    df_mi["dane_muni"] = df_mi[col_dane_muni].apply(_clean_dane_code)
-
-    df_mi_incidents = df_mi[~df_mi["es_desminado_all"]]
-    df_demining = df_mi[df_mi["es_desminado_all"]]
-
     gdf["mine_count"] = 0
     gdf["total_victims"] = 0
     gdf["mine_incidents"] = 0
     gdf["demining_count"] = 0
 
-    # ── Aggregate mines by DANE municipality code ──────────────────────
-    mines_by_dane = (
-        df_mi.groupby("dane_muni")
-        .agg(
-            mine_count=("ID Caso", "count"),
-            total_victims=("victimas", "sum"),
-            municipio=("Municipio", "first"),
-            departamento=("Departamento", "first"),
+    years = list(range(1994, 2025))
+    df_ev31 = _load_eventos31()
+    if df_ev31 is None:
+        raise FileNotFoundError(
+            "EVENTOS 31 no encontrado. Coloca EVENTOS 31_ENE_2026.xlsx en data/"
         )
-        .reset_index()
-    )
 
-    inc_counts = df_mi_incidents.groupby("dane_muni")["ID Caso"].count()
-    dem_counts = df_demining.groupby("dane_muni")["ID Caso"].count()
-    mines_by_dane["mine_incidents"] = (
-        mines_by_dane["dane_muni"].map(inc_counts).fillna(0).astype(int)
+    # EVENTOS 31: demining_count, mine_incidents (MAP), mine_count
+    ev31_agg = df_ev31.groupby(["departamento", "municipio"]).agg(
+        demining_count=("es_desminado", "sum"),
+        map_count=("es_map", "sum"),
+    ).reset_index()
+    ev31_agg["mine_incidents"] = ev31_agg["map_count"].astype(int)
+    ev31_agg["mine_count"] = (
+        ev31_agg["demining_count"].astype(int) + ev31_agg["mine_incidents"]
     )
-    mines_by_dane["demining_count"] = (
-        mines_by_dane["dane_muni"].map(dem_counts).fillna(0).astype(int)
-    )
-
-    # ── Match DANE groups to GADM polygons (using dept+muni + MANUAL_MAP) ─
     match_rows = []
-    for _, r in mines_by_dane.iterrows():
-        dept = r["departamento"]
-        muni = r["municipio"]
-        dane = r["dane_muni"]
-        dept_k = normalize(dept)
-        muni_k = normalize(muni)
-
-        manual_key = (dept_k, muni_k)
-        if manual_key in MANUAL_MAP:
-            muni_k = MANUAL_MAP[manual_key]
-
+    for _, r in ev31_agg.iterrows():
+        dept_k = normalize(r["departamento"])
+        muni_k = normalize(r["municipio"])
+        if (dept_k, muni_k) in MANUAL_MAP:
+            muni_k = MANUAL_MAP[(dept_k, muni_k)]
         geo_idx = geo_lookup.get((dept_k, muni_k)) or geo_lookup.get(("", muni_k))
-
-        row_info = {
-            "dane_muni": dane,
-            "departamento": dept,
-            "municipio": muni,
+        if geo_idx is not None:
+            gdf.at[geo_idx, "mine_count"] += int(r["mine_count"])
+            gdf.at[geo_idx, "mine_incidents"] += int(r["mine_incidents"])
+            gdf.at[geo_idx, "demining_count"] += int(r["demining_count"])
+        match_rows.append({
+            "departamento": r["departamento"], "municipio": r["municipio"],
             "mine_count": int(r["mine_count"]),
-            "total_victims": int(r["total_victims"]),
             "mine_incidents": int(r["mine_incidents"]),
             "demining_count": int(r["demining_count"]),
-        }
-
-        if geo_idx is not None:
-            gdf.at[geo_idx, "mine_count"] = int(gdf.at[geo_idx, "mine_count"]) + int(
-                r["mine_count"]
-            )
-            gdf.at[geo_idx, "total_victims"] = int(
-                gdf.at[geo_idx, "total_victims"]
-            ) + int(r["total_victims"])
-            gdf.at[geo_idx, "mine_incidents"] = int(
-                gdf.at[geo_idx, "mine_incidents"]
-            ) + int(r["mine_incidents"])
-            gdf.at[geo_idx, "demining_count"] = int(
-                gdf.at[geo_idx, "demining_count"]
-            ) + int(r["demining_count"])
-            row_info.update(
-                {
-                    "matched": True,
-                    "match_method": "dept+muni",
-                    "matched_NAME_1": gdf.at[geo_idx, "NAME_1"],
-                    "matched_NAME_2": gdf.at[geo_idx, "NAME_2"],
-                }
-            )
-        else:
-            row_info.update(
-                {
-                    "matched": False,
-                    "match_method": "unmatched",
-                    "matched_NAME_1": None,
-                    "matched_NAME_2": None,
-                }
-            )
-
-        match_rows.append(row_info)
-
+            "matched": geo_idx is not None,
+        })
     report = pd.DataFrame(match_rows)
-    unmatched = report[~report["matched"]].copy()
-    unmatched = unmatched.sort_values(["mine_count", "total_victims"], ascending=False)
-    report.to_csv(OUT_DIR / "mine_matching_report.csv", index=False, encoding="utf-8-sig")
-    unmatched.to_csv(
-        OUT_DIR / "unmatched_mines.csv", index=False, encoding="utf-8-sig"
+    desminado_anual = (
+        df_ev31.loc[df_ev31["es_desminado"]]
+        .groupby("Año").size()
+        .reindex(years, fill_value=0)
     )
+    accidentes_map_anual = (
+        df_ev31.loc[df_ev31["es_map"]]
+        .groupby("Año").size()
+        .reindex(years, fill_value=0)
+    )
+    incidentes_anual = accidentes_map_anual
+    df_demining = df_ev31[df_ev31["es_desminado"]].copy()
+    if "Latitud" in df_ev31.columns and "Longitud" in df_ev31.columns:
+        dem_pts = (
+            df_demining[["Latitud", "Longitud", "Municipio"]]
+            .dropna(subset=["Latitud", "Longitud"])
+            .copy()
+        )
+    else:
+        dem_pts = pd.DataFrame(columns=["Latitud", "Longitud", "Municipio"])
+    print("Cargando CasosMI (solo víctimas)...")
+    df_mi = pd.read_excel(DATA_DIR / "CasosMI_202509.xlsx", sheet_name=0)
+    col_year = _first_existing_col(df_mi, ["Año", "Ao"])
+    col_victims = _first_existing_col(
+        df_mi, ["Total de Víctimas del Caso", "Total de Vctimas del Caso"]
+    )
+    df_mi = df_mi[(df_mi[col_year] >= 1994) & (df_mi[col_year] <= 2024)]
+    df_mi = df_mi[
+        df_mi["Tipo de Armas"].str.contains(r"MINAS", case=False, na=False, regex=True)
+    ].copy()
+    df_mi["victimas"] = df_mi[col_victims].fillna(0).astype(int)
+    df_mi["departamento"] = df_mi["Departamento"].astype(str).str.strip()
+    df_mi["municipio"] = df_mi["Municipio"].astype(str).str.strip()
+    victims_by_dept_muni = (
+        df_mi.groupby(["departamento", "municipio"])["victimas"].sum().reset_index()
+    )
+    for _, r in victims_by_dept_muni.iterrows():
+        dept_k = normalize(r["departamento"])
+        muni_k = normalize(r["municipio"])
+        if (dept_k, muni_k) in MANUAL_MAP:
+            muni_k = MANUAL_MAP[(dept_k, muni_k)]
+        geo_idx = geo_lookup.get((dept_k, muni_k)) or geo_lookup.get(("", muni_k))
+        if geo_idx is not None:
+            gdf.at[geo_idx, "total_victims"] += int(r["victimas"])
 
+    unmatched = report[~report["matched"]].copy()
+    if "mine_count" in unmatched.columns:
+        unmatched = unmatched.sort_values("mine_count", ascending=False)
+    report.to_csv(OUT_DIR / "mine_matching_report.csv", index=False, encoding="utf-8-sig")
+    unmatched.to_csv(OUT_DIR / "unmatched_mines.csv", index=False, encoding="utf-8-sig")
     print(
-        "Mine matching:",
-        f"{int(report['matched'].sum())} of {len(report)} DANE groups matched; "
-        f"unmatched mine events = {int(unmatched['mine_count'].sum())} "
-        f"/ {len(df_mi)}",
+        f"Eventos 31: {len(df_ev31)} eventos; "
+        f"desminado {int(desminado_anual.sum())}, MAP {int(accidentes_map_anual.sum())}; "
+        f"víctimas (CasosMI): {int(gdf['total_victims'].sum())}",
     )
 
     gdf["gap_raw"] = (
@@ -302,18 +332,6 @@ def main():
     country_gdf = gpd.GeoDataFrame(geometry=[country_geom], crs=gdf.crs)
     country_outline_str = country_gdf.to_json()
 
-    years = list(range(1994, 2025))
-    desminado_anual = (
-        df_demining.groupby("Año")["ID Caso"]
-        .count()
-        .reindex(years, fill_value=0)
-    )
-    incidentes_anual = (
-        df_mi_incidents.groupby("Año")["ID Caso"]
-        .count()
-        .reindex(years, fill_value=0)
-    )
-
     gdf["incidents_minus_demining"] = (
         gdf["mine_incidents"] - gdf["demining_count"]
     )
@@ -326,12 +344,6 @@ def main():
     top_candidates = top_candidates.drop_duplicates(subset="NAME_2", keep="first")
     top10 = top_candidates.head(10).sort_values(
         "incidents_minus_demining", ascending=True
-    )
-
-    dem_pts = (
-        df_demining[["Latitud", "Longitud", "Municipio"]]
-        .dropna(subset=["Latitud", "Longitud"])
-        .copy()
     )
 
     stats = {
@@ -351,8 +363,9 @@ def main():
     )
 
     payload = {
-        "desminado_anual": desminado_anual.to_dict(),
-        "incidentes_anual": incidentes_anual.to_dict(),
+        "desminado_anual": {int(k): int(v) for k, v in desminado_anual.to_dict().items()},
+        "accidentes_map_anual": {int(k): int(v) for k, v in accidentes_map_anual.to_dict().items()},
+        "incidentes_anual": {int(k): int(v) for k, v in incidentes_anual.to_dict().items()},
         "top10_gap": top10.to_dict(orient="records"),
         "demining_pts": dem_pts.to_dict(orient="records"),
         "stats": stats,

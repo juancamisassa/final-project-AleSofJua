@@ -1,1036 +1,183 @@
 {
   "desminado_anual": {
-    "1994": 1,
-    "1995": 3,
-    "1996": 0,
-    "1997": 3,
-    "1998": 0,
-    "1999": 0,
-    "2000": 0,
-    "2001": 1,
-    "2002": 4,
-    "2003": 0,
-    "2004": 0,
-    "2005": 0,
-    "2006": 0,
-    "2007": 1,
-    "2008": 0,
-    "2009": 0,
-    "2010": 4,
-    "2011": 6,
-    "2012": 2,
-    "2013": 4,
-    "2014": 12,
-    "2015": 6,
-    "2016": 7,
-    "2017": 41,
-    "2018": 7,
-    "2019": 4,
-    "2020": 5,
-    "2021": 5,
-    "2022": 7,
-    "2023": 25,
-    "2024": 29
+    "1994": 57,
+    "1995": 40,
+    "1996": 36,
+    "1997": 46,
+    "1998": 18,
+    "1999": 20,
+    "2000": 66,
+    "2001": 86,
+    "2002": 415,
+    "2003": 674,
+    "2004": 988,
+    "2005": 678,
+    "2006": 725,
+    "2007": 796,
+    "2008": 672,
+    "2009": 1804,
+    "2010": 2038,
+    "2011": 2425,
+    "2012": 2911,
+    "2013": 2175,
+    "2014": 2326,
+    "2015": 2089,
+    "2016": 1604,
+    "2017": 597,
+    "2018": 434,
+    "2019": 462,
+    "2020": 418,
+    "2021": 285,
+    "2022": 365,
+    "2023": 800,
+    "2024": 997
+  },
+  "accidentes_map_anual": {
+    "1994": 42,
+    "1995": 44,
+    "1996": 48,
+    "1997": 43,
+    "1998": 30,
+    "1999": 26,
+    "2000": 83,
+    "2001": 162,
+    "2002": 344,
+    "2003": 457,
+    "2004": 549,
+    "2005": 614,
+    "2006": 658,
+    "2007": 582,
+    "2008": 524,
+    "2009": 495,
+    "2010": 390,
+    "2011": 391,
+    "2012": 379,
+    "2013": 309,
+    "2014": 212,
+    "2015": 140,
+    "2016": 57,
+    "2017": 42,
+    "2018": 118,
+    "2019": 71,
+    "2020": 102,
+    "2021": 95,
+    "2022": 88,
+    "2023": 68,
+    "2024": 61
   },
   "incidentes_anual": {
-    "1994": 22,
-    "1995": 9,
-    "1996": 14,
-    "1997": 22,
-    "1998": 12,
-    "1999": 8,
-    "2000": 44,
-    "2001": 109,
-    "2002": 148,
-    "2003": 238,
-    "2004": 510,
-    "2005": 506,
-    "2006": 676,
-    "2007": 599,
-    "2008": 502,
-    "2009": 586,
-    "2010": 463,
-    "2011": 462,
-    "2012": 196,
-    "2013": 116,
-    "2014": 74,
-    "2015": 52,
-    "2016": 20,
-    "2017": 50,
-    "2018": 68,
-    "2019": 45,
-    "2020": 67,
-    "2021": 46,
-    "2022": 33,
-    "2023": 54,
-    "2024": 74
+    "1994": 42,
+    "1995": 44,
+    "1996": 48,
+    "1997": 43,
+    "1998": 30,
+    "1999": 26,
+    "2000": 83,
+    "2001": 162,
+    "2002": 344,
+    "2003": 457,
+    "2004": 549,
+    "2005": 614,
+    "2006": 658,
+    "2007": 582,
+    "2008": 524,
+    "2009": 495,
+    "2010": 390,
+    "2011": 391,
+    "2012": 379,
+    "2013": 309,
+    "2014": 212,
+    "2015": 140,
+    "2016": 57,
+    "2017": 42,
+    "2018": 118,
+    "2019": 71,
+    "2020": 102,
+    "2021": 95,
+    "2022": 88,
+    "2023": 68,
+    "2024": 61
   },
   "top10_gap": [
     {
-      "NAME_2": "PuertoAs\u00eds",
-      "NAME_1": "Putumayo",
-      "incidents_minus_demining": 91,
-      "mine_incidents": 92,
-      "demining_count": 1
+      "NAME_2": "Turbo",
+      "NAME_1": "Antioquia",
+      "incidents_minus_demining": 4,
+      "mine_incidents": 27,
+      "demining_count": 23
     },
     {
-      "NAME_2": "PuertoLibertador",
-      "NAME_1": "C\u00f3rdoba",
-      "incidents_minus_demining": 91,
-      "mine_incidents": 91,
-      "demining_count": 0
+      "NAME_2": "Murind\u00f3",
+      "NAME_1": "Antioquia",
+      "incidents_minus_demining": 4,
+      "mine_incidents": 11,
+      "demining_count": 7
     },
     {
-      "NAME_2": "SanVicentedelCagu\u00e1n",
-      "NAME_1": "Caquet\u00e1",
-      "incidents_minus_demining": 110,
-      "mine_incidents": 112,
+      "NAME_2": "SanRafael",
+      "NAME_1": "Antioquia",
+      "incidents_minus_demining": 5,
+      "mine_incidents": 23,
+      "demining_count": 18
+    },
+    {
+      "NAME_2": "LaVega",
+      "NAME_1": "Cauca",
+      "incidents_minus_demining": 5,
+      "mine_incidents": 7,
       "demining_count": 2
+    },
+    {
+      "NAME_2": "Simit\u00ed",
+      "NAME_1": "Bol\u00edvar",
+      "incidents_minus_demining": 6,
+      "mine_incidents": 36,
+      "demining_count": 30
+    },
+    {
+      "NAME_2": "SabanadeTorres",
+      "NAME_1": "Santander",
+      "incidents_minus_demining": 6,
+      "mine_incidents": 23,
+      "demining_count": 17
+    },
+    {
+      "NAME_2": "Ungu\u00eda",
+      "NAME_1": "Choc\u00f3",
+      "incidents_minus_demining": 7,
+      "mine_incidents": 13,
+      "demining_count": 6
+    },
+    {
+      "NAME_2": "Cocorn\u00e1",
+      "NAME_1": "Antioquia",
+      "incidents_minus_demining": 8,
+      "mine_incidents": 48,
+      "demining_count": 40
+    },
+    {
+      "NAME_2": "LaLlanada",
+      "NAME_1": "Nari\u00f1o",
+      "incidents_minus_demining": 26,
+      "mine_incidents": 34,
+      "demining_count": 8
     },
     {
       "NAME_2": "Samaniego",
       "NAME_1": "Nari\u00f1o",
-      "incidents_minus_demining": 116,
-      "mine_incidents": 117,
-      "demining_count": 1
-    },
-    {
-      "NAME_2": "LaMonta\u00f1ita",
-      "NAME_1": "Caquet\u00e1",
-      "incidents_minus_demining": 127,
-      "mine_incidents": 127,
-      "demining_count": 0
-    },
-    {
-      "NAME_2": "Tumaco",
-      "NAME_1": "Nari\u00f1o",
-      "incidents_minus_demining": 138,
-      "mine_incidents": 152,
-      "demining_count": 14
-    },
-    {
-      "NAME_2": "Ituango",
-      "NAME_1": "Antioquia",
-      "incidents_minus_demining": 145,
-      "mine_incidents": 147,
-      "demining_count": 2
-    },
-    {
-      "NAME_2": "Taraz\u00e1",
-      "NAME_1": "Antioquia",
-      "incidents_minus_demining": 151,
-      "mine_incidents": 151,
-      "demining_count": 0
-    },
-    {
-      "NAME_2": "VistaHermosa",
-      "NAME_1": "Meta",
-      "incidents_minus_demining": 194,
-      "mine_incidents": 195,
-      "demining_count": 1
-    },
-    {
-      "NAME_2": "Tame",
-      "NAME_1": "Arauca",
-      "incidents_minus_demining": 210,
-      "mine_incidents": 213,
-      "demining_count": 3
+      "incidents_minus_demining": 30,
+      "mine_incidents": 87,
+      "demining_count": 57
     }
   ],
-  "demining_pts": [
-    {
-      "Latitud": 6.283852,
-      "Longitud": -71.097743,
-      "Municipio": "PUERTO RONDON"
-    },
-    {
-      "Latitud": 7.026988,
-      "Longitud": -71.426747,
-      "Municipio": "ARAUQUITA"
-    },
-    {
-      "Latitud": 7.016397069,
-      "Longitud": -75.71363382,
-      "Municipio": "TOLEDO"
-    },
-    {
-      "Latitud": 6.97082104,
-      "Longitud": -73.014811964,
-      "Municipio": "PIEDECUESTA"
-    },
-    {
-      "Latitud": 3.062875557,
-      "Longitud": -76.321279771,
-      "Municipio": "CALOTO"
-    },
-    {
-      "Latitud": 3.42063665,
-      "Longitud": -76.178418412,
-      "Municipio": "PRADERA"
-    },
-    {
-      "Latitud": 5.810938364,
-      "Longitud": -76.191894424,
-      "Municipio": "EL CARMEN DE ATRATO"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 5.519692873,
-      "Longitud": -74.99718577,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 2.758083657,
-      "Longitud": -73.137801709,
-      "Municipio": "PUERTO RICO"
-    },
-    {
-      "Latitud": 1.749138704,
-      "Longitud": -75.558239064,
-      "Municipio": "FLORENCIA"
-    },
-    {
-      "Latitud": 1.807399,
-      "Longitud": -78.764073,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 9.549655271,
-      "Longitud": -75.188559161,
-      "Municipio": "OVEJAS"
-    },
-    {
-      "Latitud": 5.41308,
-      "Longitud": -74.992263,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 2.11965,
-      "Longitud": -74.766451,
-      "Municipio": "SAN VICENTE DEL CAGUAN"
-    },
-    {
-      "Latitud": 8.6413401087,
-      "Longitud": -72.9109680335,
-      "Municipio": "TIBU"
-    },
-    {
-      "Latitud": 3.135423634,
-      "Longitud": -74.957977964,
-      "Municipio": "BARAYA"
-    },
-    {
-      "Latitud": 7.0174901209,
-      "Longitud": -76.1446887962,
-      "Municipio": "DABEIBA"
-    },
-    {
-      "Latitud": 6.664260002,
-      "Longitud": -73.564752876,
-      "Municipio": "EL CARMEN DE CHUCURI"
-    },
-    {
-      "Latitud": 8.2097908012,
-      "Longitud": -72.7402206679,
-      "Municipio": "SARDINATA"
-    },
-    {
-      "Latitud": 3.067538,
-      "Longitud": -75.138773,
-      "Municipio": "TELLO"
-    },
-    {
-      "Latitud": 1.807399,
-      "Longitud": -78.764073,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 1.807399,
-      "Longitud": -78.764073,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 2.758083657,
-      "Longitud": -73.137801709,
-      "Municipio": "PUERTO RICO"
-    },
-    {
-      "Latitud": 2.177143,
-      "Longitud": -73.78661,
-      "Municipio": "LA MACARENA"
-    },
-    {
-      "Latitud": 7.171629,
-      "Longitud": -75.764673,
-      "Municipio": "ITUANGO"
-    },
-    {
-      "Latitud": 5.4130863014,
-      "Longitud": -74.9922577601,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 1.308465061,
-      "Longitud": -74.197469706,
-      "Municipio": "SAN VICENTE DEL CAGUAN"
-    },
-    {
-      "Latitud": 8.678263671,
-      "Longitud": -73.0317596981,
-      "Municipio": "EL TARRA"
-    },
-    {
-      "Latitud": 5.41308,
-      "Longitud": -74.992263,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 2.534488312,
-      "Longitud": -77.005112065,
-      "Municipio": "EL TAMBO"
-    },
-    {
-      "Latitud": 3.441051399,
-      "Longitud": -73.761154704,
-      "Municipio": "GRANADA"
-    },
-    {
-      "Latitud": 9.563752,
-      "Longitud": -73.334143,
-      "Municipio": "LA JAGUA DE IBIRICO"
-    },
-    {
-      "Latitud": 0.497708465,
-      "Longitud": -77.240476252,
-      "Municipio": "IPIALES"
-    },
-    {
-      "Latitud": 5.41308,
-      "Longitud": -74.992263,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 3.7807407393,
-      "Longitud": -76.7167847483,
-      "Municipio": "DAGUA"
-    },
-    {
-      "Latitud": 8.3237559872,
-      "Longitud": -73.3584456987,
-      "Municipio": "OCA\u00d1A"
-    },
-    {
-      "Latitud": 2.49785068,
-      "Longitud": -75.291349457,
-      "Municipio": "ALGECIRAS"
-    },
-    {
-      "Latitud": 2.49785068,
-      "Longitud": -75.291349457,
-      "Municipio": "ALGECIRAS"
-    },
-    {
-      "Latitud": 6.906941714,
-      "Longitud": -71.850707567,
-      "Municipio": "SARAVENA"
-    },
-    {
-      "Latitud": 6.799338394,
-      "Longitud": -71.298274293,
-      "Municipio": "ARAUQUITA"
-    },
-    {
-      "Latitud": 1.749138704,
-      "Longitud": -75.558239064,
-      "Municipio": "FLORENCIA"
-    },
-    {
-      "Latitud": 4.316107698,
-      "Longitud": -74.181072702,
-      "Municipio": "BOGOTA, D.C."
-    },
-    {
-      "Latitud": 4.316107698,
-      "Longitud": -74.181072702,
-      "Municipio": "BOGOTA, D.C."
-    },
-    {
-      "Latitud": 3.493340766,
-      "Longitud": -77.118728315,
-      "Municipio": "BUENAVENTURA"
-    },
-    {
-      "Latitud": 4.6501730303,
-      "Longitud": -74.1073590032,
-      "Municipio": "BOGOTA, D.C."
-    },
-    {
-      "Latitud": 4.316107698,
-      "Longitud": -74.181072702,
-      "Municipio": "BOGOTA, D.C."
-    },
-    {
-      "Latitud": 4.316107698,
-      "Longitud": -74.181072702,
-      "Municipio": "BOGOTA, D.C."
-    },
-    {
-      "Latitud": 5.519692873,
-      "Longitud": -74.99718577,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 10.469207257,
-      "Longitud": -75.361160527,
-      "Municipio": "SANTA ROSA"
-    },
-    {
-      "Latitud": 8.3998536222,
-      "Longitud": -73.4240760839,
-      "Municipio": "OCA\u00d1A"
-    },
-    {
-      "Latitud": 1.749138704,
-      "Longitud": -75.558239064,
-      "Municipio": "FLORENCIA"
-    },
-    {
-      "Latitud": 1.735354202,
-      "Longitud": -77.48134359,
-      "Municipio": "POLICARPA"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 6.799338394,
-      "Longitud": -71.298274293,
-      "Municipio": "ARAUQUITA"
-    },
-    {
-      "Latitud": 7.813896829,
-      "Longitud": -76.16846678,
-      "Municipio": "TIERRALTA"
-    },
-    {
-      "Latitud": 7.757967437,
-      "Longitud": -76.643746573,
-      "Municipio": "CAREPA"
-    },
-    {
-      "Latitud": 6.828773855,
-      "Longitud": -76.708613491,
-      "Municipio": "MURINDO"
-    },
-    {
-      "Latitud": 8.361831987,
-      "Longitud": -73.078263298,
-      "Municipio": "HACARI"
-    },
-    {
-      "Latitud": 6.799338394,
-      "Longitud": -71.298274293,
-      "Municipio": "ARAUQUITA"
-    },
-    {
-      "Latitud": 6.997267375,
-      "Longitud": -74.558656518,
-      "Municipio": "REMEDIOS"
-    },
-    {
-      "Latitud": 6.997267375,
-      "Longitud": -74.558656518,
-      "Municipio": "REMEDIOS"
-    },
-    {
-      "Latitud": 6.997267375,
-      "Longitud": -74.558656518,
-      "Municipio": "REMEDIOS"
-    },
-    {
-      "Latitud": 6.997267375,
-      "Longitud": -74.558656518,
-      "Municipio": "REMEDIOS"
-    },
-    {
-      "Latitud": 6.997267375,
-      "Longitud": -74.558656518,
-      "Municipio": "REMEDIOS"
-    },
-    {
-      "Latitud": 7.302257942,
-      "Longitud": -74.837153992,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 7.254196645,
-      "Longitud": -74.8210989007,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 7.254196645,
-      "Longitud": -74.8210989007,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 7.26692339,
-      "Longitud": -74.621639263,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 7.26692339,
-      "Longitud": -74.621639263,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 5.940434685,
-      "Longitud": -75.354290227,
-      "Municipio": "LA UNION"
-    },
-    {
-      "Latitud": 1.945591321,
-      "Longitud": -76.182047216,
-      "Municipio": "ISNOS"
-    },
-    {
-      "Latitud": 3.09897343,
-      "Longitud": -75.81684413,
-      "Municipio": "PLANADAS"
-    },
-    {
-      "Latitud": 3.1200903844,
-      "Longitud": -76.3099414497,
-      "Municipio": "CALOTO"
-    },
-    {
-      "Latitud": 7.813896829,
-      "Longitud": -76.16846678,
-      "Municipio": "TIERRALTA"
-    },
-    {
-      "Latitud": 7.341549718,
-      "Longitud": -75.678422773,
-      "Municipio": "ITUANGO"
-    },
-    {
-      "Latitud": 7.665155105,
-      "Longitud": -75.223697441,
-      "Municipio": "CACERES"
-    },
-    {
-      "Latitud": 7.193110778,
-      "Longitud": -75.108489539,
-      "Municipio": "ANORI"
-    },
-    {
-      "Latitud": 5.708114524,
-      "Longitud": -75.094697954,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 7.8838030684,
-      "Longitud": -76.5624447274,
-      "Municipio": "APARTADO"
-    },
-    {
-      "Latitud": 3.135423634,
-      "Longitud": -74.957977964,
-      "Municipio": "BARAYA"
-    },
-    {
-      "Latitud": 1.6975634923,
-      "Longitud": -77.5859865152,
-      "Municipio": "CUMBITARA"
-    },
-    {
-      "Latitud": 9.5821338414,
-      "Longitud": -75.0356884157,
-      "Municipio": "EL CARMEN DE BOLIVAR"
-    },
-    {
-      "Latitud": 6.906941714,
-      "Longitud": -71.850707567,
-      "Municipio": "SARAVENA"
-    },
-    {
-      "Latitud": 6.390650479,
-      "Longitud": -71.791786468,
-      "Municipio": "TAME"
-    },
-    {
-      "Latitud": 6.750907234,
-      "Longitud": -71.791242408,
-      "Municipio": "FORTUL"
-    },
-    {
-      "Latitud": 6.750907234,
-      "Longitud": -71.791242408,
-      "Municipio": "FORTUL"
-    },
-    {
-      "Latitud": 6.411761829,
-      "Longitud": -70.966789642,
-      "Municipio": "PUERTO RONDON"
-    },
-    {
-      "Latitud": 6.906941714,
-      "Longitud": -71.850707567,
-      "Municipio": "SARAVENA"
-    },
-    {
-      "Latitud": 1.147671848,
-      "Longitud": -78.05811118,
-      "Municipio": "RICAURTE"
-    },
-    {
-      "Latitud": 0.944223274,
-      "Longitud": -77.959584455,
-      "Municipio": "CUMBAL"
-    },
-    {
-      "Latitud": 0.433884539,
-      "Longitud": -76.521582034,
-      "Municipio": "PUERTO ASIS"
-    },
-    {
-      "Latitud": 0.854351651,
-      "Longitud": -77.350325234,
-      "Municipio": "PUERRES"
-    },
-    {
-      "Latitud": 0.497708465,
-      "Longitud": -77.240476252,
-      "Municipio": "IPIALES"
-    },
-    {
-      "Latitud": 1.155947016,
-      "Longitud": -77.846646464,
-      "Municipio": "MALLAMA"
-    },
-    {
-      "Latitud": 1.147671848,
-      "Longitud": -78.05811118,
-      "Municipio": "RICAURTE"
-    },
-    {
-      "Latitud": 1.147671848,
-      "Longitud": -78.05811118,
-      "Municipio": "RICAURTE"
-    },
-    {
-      "Latitud": 1.44563774,
-      "Longitud": -78.156210724,
-      "Municipio": "BARBACOAS"
-    },
-    {
-      "Latitud": 1.430555262,
-      "Longitud": -77.691795591,
-      "Municipio": "SAMANIEGO"
-    },
-    {
-      "Latitud": 2.811616698,
-      "Longitud": -73.666522336,
-      "Municipio": "VISTAHERMOSA"
-    },
-    {
-      "Latitud": 2.84981013,
-      "Longitud": -76.31124919,
-      "Municipio": "JAMBALO"
-    },
-    {
-      "Latitud": 2.936865997,
-      "Longitud": -76.745824296,
-      "Municipio": "SUAREZ"
-    },
-    {
-      "Latitud": 2.534488312,
-      "Longitud": -77.005112065,
-      "Municipio": "EL TAMBO"
-    },
-    {
-      "Latitud": 2.369625312,
-      "Longitud": -76.710519323,
-      "Municipio": "TIMBIO"
-    },
-    {
-      "Latitud": 8.206637527,
-      "Longitud": -73.337650332,
-      "Municipio": "OCA\u00d1A"
-    },
-    {
-      "Latitud": 3.42063665,
-      "Longitud": -76.178418412,
-      "Municipio": "PRADERA"
-    },
-    {
-      "Latitud": 3.213892389,
-      "Longitud": -76.627604178,
-      "Municipio": "JAMUNDI"
-    },
-    {
-      "Latitud": 2.49785068,
-      "Longitud": -75.291349457,
-      "Municipio": "ALGECIRAS"
-    },
-    {
-      "Latitud": 2.49785068,
-      "Longitud": -75.291349457,
-      "Municipio": "ALGECIRAS"
-    },
-    {
-      "Latitud": 9.745147021,
-      "Longitud": -74.880670367,
-      "Municipio": "ZAMBRANO"
-    },
-    {
-      "Latitud": 4.688288271,
-      "Longitud": -76.934440816,
-      "Municipio": "MEDIO SAN JUAN"
-    },
-    {
-      "Latitud": 8.9982784918,
-      "Longitud": -72.8997210617,
-      "Municipio": "TIBU"
-    },
-    {
-      "Latitud": 5.5245688415,
-      "Longitud": -75.0416610463,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 6.997267375,
-      "Longitud": -74.558656518,
-      "Municipio": "REMEDIOS"
-    },
-    {
-      "Latitud": 8.9982784918,
-      "Longitud": -72.8997210617,
-      "Municipio": "TIBU"
-    },
-    {
-      "Latitud": 2.752260112,
-      "Longitud": -72.721094102,
-      "Municipio": "PUERTO CONCORDIA"
-    },
-    {
-      "Latitud": 2.329337283,
-      "Longitud": -77.26314906,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 3.135423634,
-      "Longitud": -74.957977964,
-      "Municipio": "BARAYA"
-    },
-    {
-      "Latitud": 8.0820136662,
-      "Longitud": -72.8007583831,
-      "Municipio": "SARDINATA"
-    },
-    {
-      "Latitud": 3.152983,
-      "Longitud": -75.055253,
-      "Municipio": "BARAYA"
-    },
-    {
-      "Latitud": 6.799338394,
-      "Longitud": -71.298274293,
-      "Municipio": "ARAUQUITA"
-    },
-    {
-      "Latitud": 4.09166877,
-      "Longitud": -73.492915945,
-      "Municipio": "VILLAVICENCIO"
-    },
-    {
-      "Latitud": 2.4638318696,
-      "Longitud": -77.2355895893,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 2.329337283,
-      "Longitud": -77.26314906,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 8.361831987,
-      "Longitud": -73.078263298,
-      "Municipio": "HACARI"
-    },
-    {
-      "Latitud": 8.713507237,
-      "Longitud": -72.79925855,
-      "Municipio": "TIBU"
-    },
-    {
-      "Latitud": 3.117523361,
-      "Longitud": -71.938056916,
-      "Municipio": "MAPIRIPAN"
-    },
-    {
-      "Latitud": 2.257427,
-      "Longitud": -77.24905,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 8.253700061,
-      "Longitud": -73.971345899,
-      "Municipio": "MORALES"
-    },
-    {
-      "Latitud": 7.111788462,
-      "Longitud": -75.562234738,
-      "Municipio": "BRICE\u00d1O"
-    },
-    {
-      "Latitud": 2.329337283,
-      "Longitud": -77.26314906,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 2.084732945,
-      "Longitud": -77.208813302,
-      "Municipio": "BALBOA"
-    },
-    {
-      "Latitud": 2.329337283,
-      "Longitud": -77.26314906,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 2.534488312,
-      "Longitud": -77.005112065,
-      "Municipio": "EL TAMBO"
-    },
-    {
-      "Latitud": 2.084732945,
-      "Longitud": -77.208813302,
-      "Municipio": "BALBOA"
-    },
-    {
-      "Latitud": 1.541847847,
-      "Longitud": -77.61781608,
-      "Municipio": "LA LLANADA"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 7.193110778,
-      "Longitud": -75.108489539,
-      "Municipio": "ANORI"
-    },
-    {
-      "Latitud": 8.01710024,
-      "Longitud": -74.463429112,
-      "Municipio": "MONTECRISTO"
-    },
-    {
-      "Latitud": 6.799338394,
-      "Longitud": -71.298274293,
-      "Municipio": "ARAUQUITA"
-    },
-    {
-      "Latitud": 2.329337283,
-      "Longitud": -77.26314906,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 7.348778319,
-      "Longitud": -73.054389973,
-      "Municipio": "MATANZA"
-    },
-    {
-      "Latitud": 6.188449,
-      "Longitud": -74.987831,
-      "Municipio": "SAN CARLOS"
-    },
-    {
-      "Latitud": 1.807399,
-      "Longitud": -78.764073,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 1.807399,
-      "Longitud": -78.764073,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 2.4638318696,
-      "Longitud": -77.2355895893,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 3.722918,
-      "Longitud": -75.480765,
-      "Municipio": "CHAPARRAL"
-    },
-    {
-      "Latitud": 1.807399,
-      "Longitud": -78.764073,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    },
-    {
-      "Latitud": 2.5276745905,
-      "Longitud": -75.9578336509,
-      "Municipio": "PAEZ"
-    },
-    {
-      "Latitud": 2.328076586,
-      "Longitud": -76.001172988,
-      "Municipio": "LA PLATA"
-    },
-    {
-      "Latitud": 7.26692339,
-      "Longitud": -74.621639263,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 2.329337283,
-      "Longitud": -77.26314906,
-      "Municipio": "ARGELIA"
-    },
-    {
-      "Latitud": 8.253700061,
-      "Longitud": -73.971345899,
-      "Municipio": "MORALES"
-    },
-    {
-      "Latitud": 7.26692339,
-      "Longitud": -74.621639263,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 7.26692339,
-      "Longitud": -74.621639263,
-      "Municipio": "SEGOVIA"
-    },
-    {
-      "Latitud": 8.867990035,
-      "Longitud": -73.345859216,
-      "Municipio": "EL CARMEN"
-    },
-    {
-      "Latitud": 7.813896829,
-      "Longitud": -76.16846678,
-      "Municipio": "TIERRALTA"
-    },
-    {
-      "Latitud": 6.750907234,
-      "Longitud": -71.791242408,
-      "Municipio": "FORTUL"
-    },
-    {
-      "Latitud": 0.746432215,
-      "Longitud": -75.880229785,
-      "Municipio": "PUERTO GUZMAN"
-    },
-    {
-      "Latitud": 8.867990035,
-      "Longitud": -73.345859216,
-      "Municipio": "EL CARMEN"
-    },
-    {
-      "Latitud": 7.111788462,
-      "Longitud": -75.562234738,
-      "Municipio": "BRICE\u00d1O"
-    },
-    {
-      "Latitud": 4.272940191,
-      "Longitud": -76.987858279,
-      "Municipio": "EL LITORAL DEL SAN JUAN"
-    },
-    {
-      "Latitud": 5.5245688415,
-      "Longitud": -75.0416610463,
-      "Municipio": "SAMANA"
-    },
-    {
-      "Latitud": 1.72559011,
-      "Longitud": -77.592816372,
-      "Municipio": "CUMBITARA"
-    },
-    {
-      "Latitud": 6.390650479,
-      "Longitud": -71.791786468,
-      "Municipio": "TAME"
-    },
-    {
-      "Latitud": 7.0662452028,
-      "Longitud": -72.230834246,
-      "Municipio": "TOLEDO"
-    },
-    {
-      "Latitud": 7.813896829,
-      "Longitud": -76.16846678,
-      "Municipio": "TIERRALTA"
-    },
-    {
-      "Latitud": 8.3549248706,
-      "Longitud": -74.0341624921,
-      "Municipio": "MORALES"
-    },
-    {
-      "Latitud": 3.09897343,
-      "Longitud": -75.81684413,
-      "Municipio": "PLANADAS"
-    },
-    {
-      "Latitud": 9.52099808,
-      "Longitud": -73.322493379,
-      "Municipio": "LA JAGUA DE IBIRICO"
-    },
-    {
-      "Latitud": 1.72559011,
-      "Longitud": -77.592816372,
-      "Municipio": "CUMBITARA"
-    },
-    {
-      "Latitud": 6.390650479,
-      "Longitud": -71.791786468,
-      "Municipio": "TAME"
-    },
-    {
-      "Latitud": 1.574550638,
-      "Longitud": -78.615409629,
-      "Municipio": "SAN ANDRES DE TUMACO"
-    }
-  ],
+  "demining_pts": [],
   "stats": {
     "conflict_events": 13220,
-    "mine_events": 5976,
+    "mine_events": 34125,
     "total_victims": 6397,
     "n_muni_conflict": 849,
-    "n_muni_mines": 406,
+    "n_muni_mines": 702,
     "n_total_muni": 1119,
-    "demining_ops": 177
+    "demining_ops": 26928
   }
 }

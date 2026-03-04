@@ -95,11 +95,15 @@ def _load_preprocessed():
     incidentes_anual = pd.Series(
         {int(k): v for k, v in app_data["incidentes_anual"].items()}
     ).reindex(years, fill_value=0)
+    accidentes_map_anual = pd.Series(
+        {int(k): v for k, v in app_data.get("accidentes_map_anual", app_data["incidentes_anual"]).items()}
+    ).reindex(years, fill_value=0)
 
     return {
         "geojson": geojson_str,
         "country_outline": country_outline_str,
         "desminado_anual": desminado_anual,
+        "accidentes_map_anual": accidentes_map_anual,
         "incidentes_anual": incidentes_anual,
         "top10_gap": pd.DataFrame(app_data["top10_gap"]),
         "demining_pts": pd.DataFrame(app_data["demining_pts"]),
@@ -222,10 +226,17 @@ def page_maps(data):
     st.markdown(
         "### Armed Conflict & Mine Events — Colombia 1994–2024"
     )
+    st.caption(
+        "Eventos de minas (desminado, MAP): EVENTOS 31. Víctimas: CasosMI."
+    )
 
     map_choice = st.selectbox(
         "Right-side map",
-        ["Mine incidents (by municipality)", "Mine victims (by municipality)"],
+        [
+            "Mine incidents (MAP) by municipality",
+            "Mine victims by municipality",
+            "Desminado by municipality",
+        ],
         label_visibility="collapsed",
     )
 
@@ -249,17 +260,30 @@ def page_maps(data):
         st_folium(m_conflict, height=620, use_container_width=True)
 
     with col_right:
-        if map_choice.startswith("Mine incidents"):
-            st.markdown("**Cumulative Antipersonnel Mine Incidents by Municipality (1994–2024)**")
+        if "Desminado" in map_choice:
+            st.markdown("**Eventos de desminado por municipio (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
-                value_col="mine_count",
-                caption="Mine events",
+                value_col="demining_count",
+                caption="Eventos desminado",
+                colors=[
+                    "#ffffff", "#e6f4ea", "#b3e0c2",
+                    "#66c088", "#2d9d5a", "#1a7a3e", "#0d4d26",
+                ],
+                tooltip_alias="Eventos desminado",
+                **MAP_OPTS,
+            )
+        elif map_choice.startswith("Mine incidents"):
+            st.markdown("**Accidentes MAP por municipio (1994–2024)**")
+            m_right = _build_choropleth(
+                data["geojson"],
+                value_col="mine_incidents",
+                caption="Accidentes MAP",
                 colors=[
                     "#ffffff", "#f0f4ff", "#ccdcff",
                     "#88aaee", "#4477cc", "#1a4e99", "#0a2d6b",
                 ],
-                tooltip_alias="Mine incidents",
+                tooltip_alias="Accidentes MAP",
                 **MAP_OPTS,
             )
         else:
@@ -279,13 +303,14 @@ def page_maps(data):
 
 
 def page_timeline(data):
-    st.markdown("### Demining Operations Over Time — Colombia 1994–2024")
+    st.markdown("### Desminado y accidentes MAP por año — Colombia 1994–2024")
+    st.caption("Conteo anual por tipo de evento. Fuente: EVENTOS 31 (desminado + accidentes MAP); víctimas: CasosMI.")
 
     years = list(range(1994, 2025))
     dem = data["desminado_anual"]
-    inc = data["incidentes_anual"]
+    map_ev = data["accidentes_map_anual"]
 
-    # ── Top panel: demining line chart with two milestones ────────────
+    # ── Line chart: desminado + accidentes MAP por año ─────────────────
     fig = go.Figure()
 
     fig.add_trace(
@@ -297,13 +322,24 @@ def page_timeline(data):
             marker=dict(size=6, color="#22aa22"),
             fill="tozeroy",
             fillcolor="rgba(34,170,34,0.15)",
-            name="Demining operations",
-            hovertemplate="Year: %{x}<br>Operations: %{y:,}<extra></extra>",
+            name="Desminado",
+            hovertemplate="Año: %{x}<br>Desminado: %{y:,}<extra></extra>",
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=years,
+            y=map_ev.values,
+            mode="lines+markers",
+            line=dict(color="#cc5500", width=2.5),
+            marker=dict(size=6, color="#cc5500"),
+            name="Accidentes MAP",
+            hovertemplate="Año: %{x}<br>Accidentes MAP: %{y:,}<extra></extra>",
         )
     )
 
     MILESTONES_SHOWN = {2012: "Peace Negotiations", 2016: "Peace Agreement"}
-    y_max = int(dem.max() * 1.1) or 10
+    y_max = int(max(dem.max(), map_ev.max()) * 1.1) or 10
     for yr, txt in MILESTONES_SHOWN.items():
         fig.add_vline(
             x=yr, line_dash="dot", line_color="#888888", line_width=1,
@@ -331,7 +367,7 @@ def page_timeline(data):
             range=[1993.5, 2024.5],
             tickangle=-45,
         ),
-        yaxis=dict(title="Demining operations", color="#22aa22"),
+        yaxis=dict(title="Conteo de eventos"),
         legend=dict(
             x=0.02, y=0.98, bgcolor="rgba(255,255,255,0.9)",
             bordercolor="#cccccc", borderwidth=1,
@@ -341,8 +377,9 @@ def page_timeline(data):
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # ── Bottom panel: 100 % stacked bar (incidents vs demining) ──────
-    st.markdown("**Proportion of mine events: incidents vs demining**")
+    # ── Bottom panel: proporción desminado vs accidentes MAP ──────────
+    inc = data["incidentes_anual"]
+    st.markdown("**Proporción de eventos: incidentes vs desminado**")
 
     total = dem.values + inc.values
     safe_total = np.where(total > 0, total, 1)
@@ -352,16 +389,16 @@ def page_timeline(data):
     fig2 = go.Figure()
     fig2.add_trace(
         go.Bar(
-            x=years, y=pct_inc, name="Mine incidents",
+            x=years, y=pct_inc, name="Incidentes minas",
             marker_color="#cc5500",
-            hovertemplate="Year %{x}<br>Incidents: %{y:.1f}%<extra></extra>",
+            hovertemplate="Año %{x}<br>Incidentes: %{y:.1f}%<extra></extra>",
         )
     )
     fig2.add_trace(
         go.Bar(
-            x=years, y=pct_dem, name="Demining operations",
+            x=years, y=pct_dem, name="Desminado",
             marker_color="#22aa22",
-            hovertemplate="Year %{x}<br>Demining: %{y:.1f}%<extra></extra>",
+            hovertemplate="Año %{x}<br>Desminado: %{y:.1f}%<extra></extra>",
         )
     )
     fig2.update_layout(

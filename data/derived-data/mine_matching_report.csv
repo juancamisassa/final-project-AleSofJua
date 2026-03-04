@@ -1,419 +1,769 @@
-﻿dane_muni,departamento,municipio,mine_count,total_victims,mine_incidents,demining_count,matched,match_method,matched_NAME_1,matched_NAME_2
-,EXTERIOR,FRONTERA VENEZUELA,1,13,1,0,False,unmatched,,
-05000,ANTIOQUIA,SIN INFORMACION,4,3,4,0,False,unmatched,,
-05001,ANTIOQUIA,MEDELLIN,5,4,5,0,True,dept+muni,Antioquia,Medellín
-05002,ANTIOQUIA,ABEJORRAL,3,3,3,0,True,dept+muni,Antioquia,Abejorral
-05004,ANTIOQUIA,ABRIAQUI,1,1,1,0,True,dept+muni,Antioquia,Abriaquí
-05021,ANTIOQUIA,ALEJANDRIA,5,5,5,0,True,dept+muni,Antioquia,Alejandría
-05031,ANTIOQUIA,AMALFI,16,16,16,0,True,dept+muni,Antioquia,Amalfi
-05038,ANTIOQUIA,ANGOSTURA,8,8,8,0,True,dept+muni,Antioquia,Angostura
-05040,ANTIOQUIA,ANORI,85,95,83,2,True,dept+muni,Antioquia,Anorí
-05042,ANTIOQUIA,SANTA FE DE ANTIOQUIA,3,3,3,0,True,dept+muni,Antioquia,SantafédeAntioquia
-05045,ANTIOQUIA,APARTADO,30,30,29,1,True,dept+muni,Antioquia,Apartadó
-05055,ANTIOQUIA,ARGELIA,38,37,37,1,True,dept+muni,Antioquia,Argelia
-05107,ANTIOQUIA,BRICEÑO,33,37,31,2,True,dept+muni,Antioquia,Briceño
-05120,ANTIOQUIA,CACERES,24,23,23,1,True,dept+muni,Antioquia,Cáceres
-05125,ANTIOQUIA,CAICEDO,4,4,4,0,True,dept+muni,Antioquia,Caicedo
-05134,ANTIOQUIA,CAMPAMENTO,19,19,19,0,True,dept+muni,Antioquia,Campamento
-05138,ANTIOQUIA,CAÑASGORDAS,2,5,2,0,True,dept+muni,Antioquia,Cañasgordas
-05142,ANTIOQUIA,CARACOLI,1,1,1,0,True,dept+muni,Antioquia,Caracolí
-05147,ANTIOQUIA,CAREPA,3,2,2,1,True,dept+muni,Antioquia,Carepa
-05148,ANTIOQUIA,EL CARMEN DE VIBORAL,12,12,12,0,True,dept+muni,Antioquia,ElCarmendeViboral
-05154,ANTIOQUIA,CAUCASIA,2,2,2,0,True,dept+muni,Antioquia,Caucasia
-05172,ANTIOQUIA,CHIGORODO,3,3,3,0,True,dept+muni,Antioquia,Chigorodó
-05197,ANTIOQUIA,COCORNA,25,27,25,0,True,dept+muni,Antioquia,Cocorná
-05234,ANTIOQUIA,DABEIBA,64,74,63,1,True,dept+muni,Antioquia,Dabeiba
-05250,ANTIOQUIA,EL BAGRE,12,12,12,0,True,dept+muni,Antioquia,ElBagre
-05284,ANTIOQUIA,FRONTINO,9,16,9,0,True,dept+muni,Antioquia,Frontino
-05313,ANTIOQUIA,GRANADA,44,46,44,0,True,dept+muni,Antioquia,Granada
-05315,ANTIOQUIA,GUADALUPE,12,15,12,0,True,dept+muni,Antioquia,Guadalupe
-05318,ANTIOQUIA,GUARNE,1,1,1,0,True,dept+muni,Antioquia,Guarné
-05321,ANTIOQUIA,GUATAPE,1,1,1,0,True,dept+muni,Antioquia,Guatapé
-05360,ANTIOQUIA,ITAGÜI,1,1,1,0,True,dept+muni,Antioquia,Itagüí
-05361,ANTIOQUIA,ITUANGO,149,165,147,2,True,dept+muni,Antioquia,Ituango
-05364,ANTIOQUIA,JARDIN,1,1,1,0,True,dept+muni,Antioquia,Jardín
-05400,ANTIOQUIA,LA UNION,6,5,5,1,True,dept+muni,Antioquia,LaUnión
-05411,ANTIOQUIA,LIBORINA,1,1,1,0,True,dept+muni,Antioquia,Liborina
-05425,ANTIOQUIA,MACEO,1,7,1,0,True,dept+muni,Antioquia,Maceo
-05467,ANTIOQUIA,MONTEBELLO,3,3,3,0,True,dept+muni,Antioquia,Montebello
-05475,ANTIOQUIA,MURINDO,14,13,13,1,True,dept+muni,Antioquia,Murindó
-05480,ANTIOQUIA,MUTATA,15,15,15,0,True,dept+muni,Antioquia,Mutatá
-05483,ANTIOQUIA,NARIÑO,17,18,17,0,True,dept+muni,Antioquia,Nariño
-05490,ANTIOQUIA,NECOCLI,1,2,1,0,True,dept+muni,Antioquia,Necoclí
-05495,ANTIOQUIA,NECHI,1,1,1,0,True,dept+muni,Antioquia,Nechí
-05541,ANTIOQUIA,PEÑOL,2,3,2,0,True,dept+muni,Antioquia,Peñol
-05543,ANTIOQUIA,PEQUE,5,5,5,0,True,dept+muni,Antioquia,Pequé
-05579,ANTIOQUIA,PUERTO BERRIO,4,4,4,0,True,dept+muni,Antioquia,PuertoBerrío
-05591,ANTIOQUIA,PUERTO TRIUNFO,1,1,1,0,True,dept+muni,Antioquia,PuertoTriunfo
-05604,ANTIOQUIA,REMEDIOS,23,19,17,6,True,dept+muni,Antioquia,Remedios
-05615,ANTIOQUIA,RIONEGRO,3,3,3,0,True,dept+muni,Antioquia,Rionegro
-05628,ANTIOQUIA,SABANALARGA,4,4,4,0,True,dept+muni,Antioquia,Sabanalarga
-05647,ANTIOQUIA,SAN ANDRES DE CUERQUIA,13,12,13,0,True,dept+muni,Antioquia,SanAndrésdeCuerquia
-05649,ANTIOQUIA,SAN CARLOS,81,81,80,1,True,dept+muni,Antioquia,SanCarlos
-05652,ANTIOQUIA,SAN FRANCISCO,48,49,48,0,True,dept+muni,Antioquia,SanFrancisco
-05658,ANTIOQUIA,SAN JOSE DE LA MONTAÑA,2,2,2,0,True,dept+muni,Antioquia,SanJosédelaMontaña
-05660,ANTIOQUIA,SAN LUIS,36,36,36,0,True,dept+muni,Antioquia,SanLuís
-05665,ANTIOQUIA,SAN PEDRO DE URABA,1,2,1,0,True,dept+muni,Antioquia,SanPedrodeUrabá
-05667,ANTIOQUIA,SAN RAFAEL,19,19,19,0,True,dept+muni,Antioquia,SanRafael
-05670,ANTIOQUIA,SAN ROQUE,5,5,5,0,True,dept+muni,Antioquia,SanRoque
-05674,ANTIOQUIA,SAN VICENTE FERRER,1,1,1,0,False,unmatched,,
-05686,ANTIOQUIA,SANTA ROSA DE OSOS,2,3,2,0,True,dept+muni,Antioquia,SantaRosadeOsos
-05690,ANTIOQUIA,SANTO DOMINGO,3,3,3,0,True,dept+muni,Antioquia,SantoDomingo
-05697,ANTIOQUIA,EL SANTUARIO,2,2,2,0,True,dept+muni,Antioquia,Santuario
-05736,ANTIOQUIA,SEGOVIA,31,26,23,8,True,dept+muni,Antioquia,Segovia
-05756,ANTIOQUIA,SONSON,42,42,42,0,True,dept+muni,Antioquia,Sonsón
-05790,ANTIOQUIA,TARAZA,151,180,151,0,True,dept+muni,Antioquia,Tarazá
-05819,ANTIOQUIA,TOLEDO,2,4,1,1,True,dept+muni,Antioquia,Toledo
-05837,ANTIOQUIA,TURBO,12,12,12,0,True,dept+muni,Antioquia,Turbo
-05847,ANTIOQUIA,URRAO,11,18,11,0,True,dept+muni,Antioquia,Urrao
-05854,ANTIOQUIA,VALDIVIA,68,80,68,0,True,dept+muni,Antioquia,Valdivia
-05858,ANTIOQUIA,VEGACHI,6,6,6,0,True,dept+muni,Antioquia,Vegachí
-05873,ANTIOQUIA,VIGIA DEL FUERTE,1,1,1,0,True,dept+muni,Antioquia,VigíadelFuerte
-05885,ANTIOQUIA,YALI,1,1,1,0,True,dept+muni,Antioquia,Yalí
-05887,ANTIOQUIA,YARUMAL,32,36,32,0,True,dept+muni,Antioquia,Yarumal
-05890,ANTIOQUIA,YOLOMBO,7,6,7,0,True,dept+muni,Antioquia,Yolombó
-05893,ANTIOQUIA,YONDO,3,4,3,0,True,dept+muni,Antioquia,Yondó
-05895,ANTIOQUIA,ZARAGOZA,10,10,10,0,True,dept+muni,Antioquia,Zaragoza
-11001,"BOGOTA, D. C.","BOGOTA, D.C.",14,9,9,5,True,dept+muni,BogotáD.C.,BogotáD.C.
-13001,BOLIVAR,CARTAGENA DE INDIAS,3,4,3,0,True,dept+muni,Bolívar,CartagenadeIndias
-13042,BOLIVAR,ARENAL,14,16,14,0,True,dept+muni,Bolívar,Arenal
-13074,BOLIVAR,BARRANCO DE LOBA,3,3,3,0,True,dept+muni,Bolívar,BarrancodeLoba
-13160,BOLIVAR,CANTAGALLO,14,14,14,0,True,dept+muni,Bolívar,Cantagallo
-13212,BOLIVAR,CORDOBA,2,3,2,0,True,dept+muni,Bolívar,Córdoba
-13244,BOLIVAR,EL CARMEN DE BOLIVAR,36,39,35,1,True,dept+muni,Bolívar,ElCarmendeBolívar
-13458,BOLIVAR,MONTECRISTO,10,16,9,1,True,dept+muni,Bolívar,Montecristo
-13473,BOLIVAR,MORALES,13,9,10,3,True,dept+muni,Bolívar,Morales
-13490,BOLIVAR,NOROSI,3,7,3,0,False,unmatched,,
-13549,BOLIVAR,PINILLOS,1,1,1,0,True,dept+muni,Bolívar,Pinillos
-13600,BOLIVAR,RIO VIEJO,3,3,3,0,True,dept+muni,Bolívar,RíoViejo
-13654,BOLIVAR,SAN JACINTO,10,9,10,0,True,dept+muni,Bolívar,SanJacinto
-13655,BOLIVAR,SAN JACINTO DEL CAUCA,1,1,1,0,True,dept+muni,Bolívar,SanJacintodelCauca
-13657,BOLIVAR,SAN JUAN NEPOMUCENO,3,3,3,0,True,dept+muni,Bolívar,SanJuanNepomuceno
-13670,BOLIVAR,SAN PABLO,32,32,32,0,True,dept+muni,Bolívar,SanPablo
-13683,BOLIVAR,SANTA ROSA,9,20,8,1,True,dept+muni,Bolívar,SantaRosa
-13688,BOLIVAR,SANTA ROSA DEL SUR,29,31,29,0,True,dept+muni,Bolívar,SantaRosadelSur
-13744,BOLIVAR,SIMITI,22,22,22,0,True,dept+muni,Bolívar,Simití
-13810,BOLIVAR,TIQUISIO,4,5,4,0,True,dept+muni,Bolívar,Tiquisio
-13873,BOLIVAR,VILLANUEVA,1,1,1,0,True,dept+muni,Bolívar,Villanueva
-13894,BOLIVAR,ZAMBRANO,11,14,10,1,True,dept+muni,Bolívar,Zambrano
-15377,BOYACA,LABRANZAGRANDE,8,8,8,0,True,dept+muni,Boyacá,Labranzagrande
-15518,BOYACA,PAJARITO,11,11,11,0,True,dept+muni,Boyacá,Pajarito
-15533,BOYACA,PAYA,3,3,3,0,True,dept+muni,Boyacá,Paya
-15550,BOYACA,PISBA,3,3,3,0,True,dept+muni,Boyacá,Pisba
-15632,BOYACA,SABOYA,1,1,1,0,True,dept+muni,Boyacá,Saboyá
-15790,BOYACA,TASCO,1,1,1,0,True,dept+muni,Boyacá,Tasco
-17001,CALDAS,MANIZALES,3,3,3,0,True,dept+muni,Caldas,Manizales
-17013,CALDAS,AGUADAS,7,7,7,0,True,dept+muni,Caldas,Aguadas
-17433,CALDAS,MANZANARES,1,1,1,0,True,dept+muni,Caldas,Manzanares
-17446,CALDAS,MARULANDA,4,4,4,0,True,dept+muni,Caldas,Marulanda
-17495,CALDAS,NORCASIA,4,4,4,0,True,dept+muni,Caldas,Norcasia
-17513,CALDAS,PACORA,2,2,2,0,True,dept+muni,Caldas,Pácora
-17541,CALDAS,PENSILVANIA,7,7,7,0,True,dept+muni,Caldas,Pensilvania
-17614,CALDAS,RIOSUCIO,2,2,2,0,True,dept+muni,Caldas,Riosucio
-17662,CALDAS,SAMANA,59,54,51,8,True,dept+muni,Caldas,Samaná
-18001,CAQUETA,FLORENCIA,35,32,32,3,True,dept+muni,Caquetá,Florencia
-18094,CAQUETA,BELEN DE LOS ANDAQUIES,2,2,2,0,True,dept+muni,Caquetá,BeléndelosAndaquies
-18150,CAQUETA,CARTAGENA DEL CHAIRA,32,39,32,0,True,dept+muni,Caquetá,CartagenadelChairá
-18205,CAQUETA,CURILLO,3,3,3,0,True,dept+muni,Caquetá,Curillo
-18247,CAQUETA,EL DONCELLO,5,6,5,0,True,dept+muni,Caquetá,ElDoncello
-18256,CAQUETA,EL PAUJIL,15,15,15,0,True,dept+muni,Caquetá,ElPaujíl
-18410,CAQUETA,LA MONTAÑITA,127,129,127,0,True,dept+muni,Caquetá,LaMontañita
-18460,CAQUETA,MILAN,18,22,18,0,True,dept+muni,Caquetá,Milán
-18479,CAQUETA,MORELIA,2,4,2,0,True,dept+muni,Caquetá,Morelia
-18592,CAQUETA,PUERTO RICO,58,62,58,0,True,dept+muni,Caquetá,PuertoRico
-18610,CAQUETA,SAN JOSE DEL FRAGUA,13,14,13,0,True,dept+muni,Caquetá,SanJosédelFragua
-18753,CAQUETA,SAN VICENTE DEL CAGUAN,114,129,112,2,True,dept+muni,Caquetá,SanVicentedelCaguán
-18756,CAQUETA,SOLANO,14,14,14,0,True,dept+muni,Caquetá,Solano
-18785,CAQUETA,SOLITA,2,2,2,0,True,dept+muni,Caquetá,Solita
-18860,CAQUETA,VALPARAISO,2,2,2,0,True,dept+muni,Caquetá,Valparaíso
-19001,CAUCA,POPAYAN,5,5,5,0,True,dept+muni,Cauca,Popayán
-19022,CAUCA,ALMAGUER,1,1,1,0,True,dept+muni,Cauca,Almaguer
-19050,CAUCA,ARGELIA,55,54,46,9,True,dept+muni,Cauca,Argelia
-19075,CAUCA,BALBOA,17,13,15,2,True,dept+muni,Cauca,Balboa
-19100,CAUCA,BOLIVAR,5,5,5,0,True,dept+muni,Cauca,Bolívar
-19110,CAUCA,BUENOS AIRES,6,10,6,0,True,dept+muni,Cauca,BuenosAires
-19130,CAUCA,CAJIBIO,9,9,9,0,True,dept+muni,Cauca,Cajibío
-19137,CAUCA,CALDONO,7,7,7,0,True,dept+muni,Cauca,Caldonó
-19142,CAUCA,CALOTO,20,17,18,2,True,dept+muni,Cauca,Caloto
-19212,CAUCA,CORINTO,21,22,21,0,True,dept+muni,Cauca,Corinto
-19256,CAUCA,EL TAMBO,53,49,50,3,True,dept+muni,Cauca,ElTambo
-19364,CAUCA,JAMBALO,6,6,5,1,True,dept+muni,Cauca,Jambaló
-19392,CAUCA,LA SIERRA,1,1,1,0,True,dept+muni,Cauca,LaSierra
-19397,CAUCA,LA VEGA,4,4,4,0,True,dept+muni,Cauca,LaVega
-19418,CAUCA,LOPEZ DE MICAY,3,8,3,0,True,dept+muni,Cauca,LópezdeMicay
-19450,CAUCA,MERCADERES,1,1,1,0,True,dept+muni,Cauca,Mercaderes
-19455,CAUCA,MIRANDA,10,10,10,0,True,dept+muni,Cauca,Miranda
-19473,CAUCA,MORALES,11,11,11,0,True,dept+muni,Cauca,Morales
-19517,CAUCA,PAEZ,13,13,12,1,True,dept+muni,Cauca,Páez
-19532,CAUCA,PATIA,9,9,9,0,True,dept+muni,Cauca,Patía
-19548,CAUCA,PIENDAMO  TUNIA,1,1,1,0,False,unmatched,,
-19585,CAUCA,PURACE,2,2,2,0,True,dept+muni,Cauca,Puracé
-19693,CAUCA,SAN SEBASTIAN,4,4,4,0,True,dept+muni,Cauca,SanSebastián
-19698,CAUCA,SANTANDER DE QUILICHAO,2,2,2,0,True,dept+muni,Cauca,SantanderdeQuilichao
-19701,CAUCA,SANTA ROSA,21,22,21,0,True,dept+muni,Cauca,SantaRosa
-19760,CAUCA,SOTARA PAISPAMBA,1,1,1,0,False,unmatched,,
-19780,CAUCA,SUAREZ,15,17,14,1,True,dept+muni,Cauca,Suárez
-19807,CAUCA,TIMBIO,1,0,0,1,True,dept+muni,Cauca,Timbío
-19821,CAUCA,TORIBIO,17,27,17,0,True,dept+muni,Cauca,Toribío
-20001,CESAR,VALLEDUPAR,6,6,6,0,True,dept+muni,Cesar,Valledupar
-20011,CESAR,AGUACHICA,4,4,4,0,True,dept+muni,Cesar,Aguachica
-20175,CESAR,CHIMICHAGUA,1,1,1,0,True,dept+muni,Cesar,Chimichagua
-20178,CESAR,CHIRIGUANA,1,1,1,0,True,dept+muni,Cesar,Chiriguaná
-20228,CESAR,CURUMANI,6,6,6,0,True,dept+muni,Cesar,Curumaní
-20400,CESAR,LA JAGUA DE IBIRICO,11,11,9,2,True,dept+muni,Cesar,LaJaguadeIbirico
-20517,CESAR,PAILITAS,3,4,3,0,True,dept+muni,Cesar,Pailitas
-20550,CESAR,PELAYA,2,3,2,0,True,dept+muni,Cesar,Pelaya
-20621,CESAR,LA PAZ,1,1,1,0,True,dept+muni,Cesar,LaPaz
-20770,CESAR,SAN MARTIN,1,1,1,0,True,dept+muni,Cesar,SanMartín
-23000,CORDOBA,SIN INFORMACION,1,0,1,0,False,unmatched,,
-23001,CORDOBA,MONTERIA,1,1,1,0,True,dept+muni,Córdoba,Montería
-23189,CORDOBA,CIENAGA DE ORO,2,2,2,0,True,dept+muni,Córdoba,CiénagadeOro
-23350,CORDOBA,LA APARTADA,1,1,1,0,True,dept+muni,Córdoba,LaApartada
-23466,CORDOBA,MONTELIBANO,9,13,9,0,True,dept+muni,Córdoba,Montelíbano
-23580,CORDOBA,PUERTO LIBERTADOR,91,92,91,0,True,dept+muni,Córdoba,PuertoLibertador
-23807,CORDOBA,TIERRALTA,55,56,51,4,True,dept+muni,Córdoba,Tierralta
-25019,CUNDINAMARCA,ALBAN,3,3,3,0,True,dept+muni,Cundinamarca,Albán
-25120,CUNDINAMARCA,CABRERA,8,8,8,0,True,dept+muni,Cundinamarca,Cabrera
-25148,CUNDINAMARCA,CAPARRAPI,3,3,3,0,True,dept+muni,Cundinamarca,Caparrapí
-25178,CUNDINAMARCA,CHIPAQUE,1,1,1,0,True,dept+muni,Cundinamarca,Chipaque
-25258,CUNDINAMARCA,EL PEÑON,4,4,4,0,True,dept+muni,Cundinamarca,ElPeñon
-25297,CUNDINAMARCA,GACHETA,1,1,1,0,True,dept+muni,Cundinamarca,Gachetá
-25320,CUNDINAMARCA,GUADUAS,5,5,5,0,True,dept+muni,Cundinamarca,Guaduas
-25335,CUNDINAMARCA,GUAYABETAL,2,2,2,0,True,dept+muni,Cundinamarca,Guayabetal
-25339,CUNDINAMARCA,GUTIERREZ,1,1,1,0,True,dept+muni,Cundinamarca,Gutiérrez
-25394,CUNDINAMARCA,LA PALMA,4,4,4,0,True,dept+muni,Cundinamarca,LaPalma
-25398,CUNDINAMARCA,LA PEÑA,1,1,1,0,True,dept+muni,Cundinamarca,LaPeña
-25438,CUNDINAMARCA,MEDINA,1,2,1,0,True,dept+muni,Cundinamarca,Medina
-25488,CUNDINAMARCA,NILO,1,1,1,0,True,dept+muni,Cundinamarca,Nilo
-25535,CUNDINAMARCA,PASCA,2,2,2,0,True,dept+muni,Cundinamarca,Pasca
-25572,CUNDINAMARCA,PUERTO SALGAR,1,0,1,0,True,dept+muni,Cundinamarca,PuertoSalgar
-25580,CUNDINAMARCA,PULI,1,1,1,0,True,dept+muni,Cundinamarca,Pulí
-25649,CUNDINAMARCA,SAN BERNARDO,1,1,1,0,True,dept+muni,Cundinamarca,SanBernardo
-25823,CUNDINAMARCA,TOPAIPI,2,2,2,0,True,dept+muni,Cundinamarca,Topaipí
-25851,CUNDINAMARCA,UTICA,2,2,2,0,True,dept+muni,Cundinamarca,Útica
-25862,CUNDINAMARCA,VERGARA,1,1,1,0,True,dept+muni,Cundinamarca,Vergara
-25873,CUNDINAMARCA,VILLAPINZON,2,2,2,0,True,dept+muni,Cundinamarca,Villapinzón
-25885,CUNDINAMARCA,YACOPI,1,1,1,0,True,dept+muni,Cundinamarca,Yacopí
-27000,CHOCO,SIN INFORMACION,9,9,9,0,False,unmatched,,
-27001,CHOCO,QUIBDO,7,6,7,0,True,dept+muni,Chocó,Quibdó
-27006,CHOCO,ACANDI,2,2,2,0,True,dept+muni,Chocó,Acandí
-27025,CHOCO,ALTO BAUDO,7,6,7,0,True,dept+muni,Chocó,AltoBaudó
-27050,CHOCO,ATRATO,2,2,2,0,True,dept+muni,Chocó,Atrato
-27073,CHOCO,BAGADO,1,1,1,0,True,dept+muni,Chocó,Bagadó
-27075,CHOCO,BAHIA SOLANO,1,1,1,0,True,dept+muni,Chocó,BahíaSolano
-27077,CHOCO,BAJO BAUDO,3,2,3,0,True,dept+muni,Chocó,BajoBaudó
-27099,CHOCO,BOJAYA,5,6,5,0,True,dept+muni,Chocó,Bojayá
-27135,CHOCO,EL CANTON DEL SAN PABLO,1,1,1,0,True,dept+muni,Chocó,ElCantóndelSanPablo
-27150,CHOCO,CARMEN DEL DARIEN,5,6,5,0,True,dept+muni,Chocó,ElCarmendelDarién
-27245,CHOCO,EL CARMEN DE ATRATO,6,5,5,1,True,dept+muni,Chocó,ElCarmendeAtrato
-27250,CHOCO,EL LITORAL DEL SAN JUAN,5,4,4,1,True,dept+muni,Chocó,ElLitoraldelSanJuan
-27361,CHOCO,ISTMINA,5,9,5,0,True,dept+muni,Chocó,Istmina
-27372,CHOCO,JURADO,1,1,1,0,True,dept+muni,Chocó,Juradó
-27425,CHOCO,MEDIO ATRATO,1,4,1,0,True,dept+muni,Chocó,MedioAtrato
-27450,CHOCO,MEDIO SAN JUAN,2,1,1,1,True,dept+muni,Chocó,MedioSanJuan
-27491,CHOCO,NOVITA,9,14,9,0,True,dept+muni,Chocó,Nóvita
-27580,CHOCO,RIO IRO,2,2,2,0,True,dept+muni,Chocó,RíoIro
-27615,CHOCO,RIOSUCIO,14,12,14,0,True,dept+muni,Chocó,Riosucio
-27660,CHOCO,SAN JOSE DEL PALMAR,2,3,2,0,True,dept+muni,Chocó,SanJosédelPalmar
-27745,CHOCO,SIPI,6,17,6,0,True,dept+muni,Chocó,Sipí
-27787,CHOCO,TADO,5,5,5,0,True,dept+muni,Chocó,Tadó
-27800,CHOCO,UNGUIA,6,4,6,0,True,dept+muni,Chocó,Unguía
-41000,HUILA,SIN INFORMACION,1,0,1,0,False,unmatched,,
-41001,HUILA,NEIVA,17,17,17,0,True,dept+muni,Huila,Neiva
-41006,HUILA,ACEVEDO,3,3,3,0,True,dept+muni,Huila,Acevedo
-41020,HUILA,ALGECIRAS,38,37,34,4,True,dept+muni,Huila,Algeciras
-41078,HUILA,BARAYA,21,16,17,4,True,dept+muni,Huila,Baraya
-41206,HUILA,COLOMBIA,15,19,15,0,True,dept+muni,Huila,Colombia
-41298,HUILA,GARZON,3,1,3,0,True,dept+muni,Huila,Garzón
-41306,HUILA,GIGANTE,4,4,4,0,True,dept+muni,Huila,Gigante
-41359,HUILA,ISNOS,9,9,8,1,True,dept+muni,Huila,Isnos
-41378,HUILA,LA ARGENTINA,1,1,1,0,True,dept+muni,Huila,LaArgentina
-41396,HUILA,LA PLATA,2,0,1,1,True,dept+muni,Huila,LaPlata
-41524,HUILA,PALERMO,3,3,3,0,True,dept+muni,Huila,Palermo
-41551,HUILA,PITALITO,2,4,2,0,True,dept+muni,Huila,Pitalito
-41668,HUILA,SAN AGUSTIN,4,4,4,0,True,dept+muni,Huila,SanAgustín
-41676,HUILA,SANTA MARIA,2,2,2,0,True,dept+muni,Huila,SantaMaría
-41799,HUILA,TELLO,5,4,4,1,True,dept+muni,Huila,Tello
-44001,LA GUAJIRA,RIOHACHA,3,3,3,0,True,dept+muni,LaGuajira,Riohacha
-44090,LA GUAJIRA,DIBULLA,1,1,1,0,True,dept+muni,LaGuajira,Dibulla
-44110,LA GUAJIRA,EL MOLINO,1,1,1,0,True,dept+muni,LaGuajira,ElMolino
-44279,LA GUAJIRA,FONSECA,1,1,1,0,True,dept+muni,LaGuajira,Fonseca
-44430,LA GUAJIRA,MAICAO,1,2,1,0,True,dept+muni,LaGuajira,Maicao
-44650,LA GUAJIRA,SAN JUAN DEL CESAR,3,4,3,0,True,dept+muni,LaGuajira,SanJuandelCesar
-44855,LA GUAJIRA,URUMITA,4,4,4,0,True,dept+muni,LaGuajira,Urumita
-44874,LA GUAJIRA,VILLANUEVA,2,2,2,0,True,dept+muni,LaGuajira,Villanueva
-47001,MAGDALENA,SANTA MARTA,4,4,4,0,True,dept+muni,Magdalena,SantaMarta
-47053,MAGDALENA,ARACATACA,2,3,2,0,True,dept+muni,Magdalena,Aracataca
-47189,MAGDALENA,CIENAGA,2,2,2,0,True,dept+muni,Magdalena,Ciénaga
-47288,MAGDALENA,FUNDACION,2,3,2,0,True,dept+muni,Magdalena,Fundación
-50001,META,VILLAVICENCIO,11,9,10,1,True,dept+muni,Meta,Villavicencio
-50006,META,ACACIAS,2,2,2,0,True,dept+muni,Meta,Acacías
-50110,META,BARRANCA DE UPIA,1,1,1,0,True,dept+muni,Meta,BarrancadeUpía
-50223,META,CUBARRAL,7,7,7,0,True,dept+muni,Meta,SanLuisdeCubarral
-50251,META,EL CASTILLO,12,12,12,0,True,dept+muni,Meta,ElCastillo
-50270,META,EL DORADO,11,11,11,0,True,dept+muni,Meta,ElDorado
-50287,META,FUENTE DE ORO,1,1,1,0,True,dept+muni,Meta,FuentedeOro
-50313,META,GRANADA,13,40,12,1,True,dept+muni,Meta,Granada
-50318,META,GUAMAL,4,3,4,0,True,dept+muni,Meta,Guamal
-50325,META,MAPIRIPAN,14,15,13,1,True,dept+muni,Meta,Mapiripán
-50330,META,MESETAS,51,53,51,0,True,dept+muni,Meta,Mesetas
-50350,META,LA MACARENA,65,79,64,1,True,dept+muni,Meta,LaMacarena
-50370,META,URIBE,76,75,76,0,True,dept+muni,Meta,LaUribe
-50400,META,LEJANIAS,11,11,11,0,True,dept+muni,Meta,Lejanías
-50450,META,PUERTO CONCORDIA,8,9,7,1,True,dept+muni,Meta,PuertoConcordia
-50568,META,PUERTO GAITAN,15,15,15,0,True,dept+muni,Meta,PuertoGaitán
-50577,META,PUERTO LLERAS,7,7,7,0,True,dept+muni,Meta,PuertoLleras
-50590,META,PUERTO RICO,64,66,62,2,True,dept+muni,Meta,PuertoRico
-50683,META,SAN JUAN DE ARAMA,30,31,30,0,True,dept+muni,Meta,SanJuandeArama
-50686,META,SAN JUANITO,12,12,12,0,True,dept+muni,Meta,SanJuanito
-50711,META,VISTAHERMOSA,196,200,195,1,True,dept+muni,Meta,VistaHermosa
-52000,NARIÑO,SIN INFORMACION,2,9,2,0,False,unmatched,,
-52001,NARIÑO,PASTO,4,4,4,0,True,dept+muni,Nariño,SanJuandePasto
-52079,NARIÑO,BARBACOAS,43,46,42,1,True,dept+muni,Nariño,Barbacoas
-52227,NARIÑO,CUMBAL,7,6,6,1,True,dept+muni,Nariño,Cumbal
-52233,NARIÑO,CUMBITARA,30,28,27,3,True,dept+muni,Nariño,Cumbitara
-52250,NARIÑO,EL CHARCO,5,5,5,0,True,dept+muni,Nariño,ElCharco
-52256,NARIÑO,EL ROSARIO,2,2,2,0,True,dept+muni,Nariño,ElRosario
-52258,NARIÑO,EL TABLON DE GOMEZ,1,1,1,0,True,dept+muni,Nariño,ElTablóndeGomez
-52356,NARIÑO,IPIALES,17,15,15,2,True,dept+muni,Nariño,Ipiales
-52378,NARIÑO,LA CRUZ,1,1,1,0,True,dept+muni,Nariño,LaCruz
-52385,NARIÑO,LA LLANADA,40,40,39,1,True,dept+muni,Nariño,LaLlanada
-52405,NARIÑO,LEIVA,2,1,2,0,True,dept+muni,Nariño,Leiva
-52411,NARIÑO,LINARES,1,11,1,0,True,dept+muni,Nariño,Linares
-52418,NARIÑO,LOS ANDES,25,26,25,0,True,dept+muni,Nariño,LosAndes
-52427,NARIÑO,MAGÜI,7,8,7,0,True,dept+muni,Nariño,Magüí
-52435,NARIÑO,MALLAMA,2,1,1,1,True,dept+muni,Nariño,Mallama
-52490,NARIÑO,OLAYA HERRERA,2,2,2,0,True,dept+muni,Nariño,OlayaHerrera
-52540,NARIÑO,POLICARPA,41,40,40,1,True,dept+muni,Nariño,Policarpa
-52560,NARIÑO,POTOSI,1,1,1,0,True,dept+muni,Nariño,Potosí
-52573,NARIÑO,PUERRES,6,5,5,1,True,dept+muni,Nariño,Puerres
-52612,NARIÑO,RICAURTE,47,44,44,3,True,dept+muni,Nariño,Ricaurte
-52621,NARIÑO,ROBERTO PAYAN,9,27,9,0,True,dept+muni,Nariño,RobertoPayán
-52678,NARIÑO,SAMANIEGO,118,123,117,1,True,dept+muni,Nariño,Samaniego
-52683,NARIÑO,SANDONA,1,1,1,0,True,dept+muni,Nariño,Sandoná
-52696,NARIÑO,SANTA BARBARA,10,10,10,0,True,dept+muni,Nariño,SantaBárbara
-52699,NARIÑO,SANTACRUZ,31,32,31,0,True,dept+muni,Nariño,SantaCruz
-52835,NARIÑO,SAN ANDRES DE TUMACO,166,193,152,14,True,dept+muni,Nariño,Tumaco
-54000,NORTE DE SANTANDER,SIN INFORMACION,1,1,1,0,False,unmatched,,
-54001,NORTE DE SANTANDER,CUCUTA,8,8,8,0,True,dept+muni,NortedeSantander,SanJosédeCúcuta
-54003,NORTE DE SANTANDER,ABREGO,21,25,21,0,True,dept+muni,NortedeSantander,Abrego
-54051,NORTE DE SANTANDER,ARBOLEDAS,1,1,1,0,True,dept+muni,NortedeSantander,Arboledas
-54109,NORTE DE SANTANDER,BUCARASICA,6,6,6,0,True,dept+muni,NortedeSantander,Bucarasica
-54128,NORTE DE SANTANDER,CACHIRA,4,4,4,0,True,dept+muni,NortedeSantander,Cáchira
-54206,NORTE DE SANTANDER,CONVENCION,42,43,42,0,True,dept+muni,NortedeSantander,Convención
-54245,NORTE DE SANTANDER,EL CARMEN,10,8,8,2,True,dept+muni,NortedeSantander,ElCarmen
-54250,NORTE DE SANTANDER,EL TARRA,58,64,57,1,True,dept+muni,NortedeSantander,ElTarra
-54261,NORTE DE SANTANDER,EL ZULIA,2,1,2,0,True,dept+muni,NortedeSantander,ElZulía
-54344,NORTE DE SANTANDER,HACARI,69,78,67,2,True,dept+muni,NortedeSantander,Hacarí
-54347,NORTE DE SANTANDER,HERRAN,2,2,2,0,True,dept+muni,NortedeSantander,Herrán
-54377,NORTE DE SANTANDER,LABATECA,2,2,2,0,True,dept+muni,NortedeSantander,Labateca
-54398,NORTE DE SANTANDER,LA PLAYA,16,17,16,0,True,dept+muni,NortedeSantander,LaPlayadeBelén
-54405,NORTE DE SANTANDER,LOS PATIOS,1,2,1,0,True,dept+muni,NortedeSantander,LosPatios
-54498,NORTE DE SANTANDER,OCAÑA,3,0,0,3,True,dept+muni,NortedeSantander,Ocaña
-54670,NORTE DE SANTANDER,SAN CALIXTO,36,42,36,0,True,dept+muni,NortedeSantander,SanCalixto
-54680,NORTE DE SANTANDER,SANTIAGO,5,8,5,0,True,dept+muni,NortedeSantander,Santiago
-54720,NORTE DE SANTANDER,SARDINATA,22,28,20,2,True,dept+muni,NortedeSantander,Sardinata
-54800,NORTE DE SANTANDER,TEORAMA,90,119,90,0,True,dept+muni,NortedeSantander,Teorama
-54810,NORTE DE SANTANDER,TIBU,96,109,92,4,True,dept+muni,NortedeSantander,Tibú
-54820,NORTE DE SANTANDER,TOLEDO,3,2,2,1,True,dept+muni,NortedeSantander,Toledo
-63548,QUINDIO,PIJAO,5,7,5,0,True,dept+muni,Quindío,Pijao
-66088,RISARALDA,BELEN DE UMBRIA,2,2,2,0,True,dept+muni,Risaralda,BeléndeUmbría
-66318,RISARALDA,GUATICA,1,4,1,0,True,dept+muni,Risaralda,Guática
-66456,RISARALDA,MISTRATO,3,3,3,0,True,dept+muni,Risaralda,Mistrató
-66682,RISARALDA,SANTA ROSA DE CABAL,2,2,2,0,True,dept+muni,Risaralda,SantaRosadeCabal
-66687,RISARALDA,SANTUARIO,1,1,1,0,True,dept+muni,Risaralda,Santuario
-68001,SANTANDER,BUCARAMANGA,3,3,3,0,True,dept+muni,Santander,Bucaramanga
-68081,SANTANDER,BARRANCABERMEJA,7,7,7,0,True,dept+muni,Santander,Barrancabermeja
-68132,SANTANDER,CALIFORNIA,2,2,2,0,True,dept+muni,Santander,California
-68169,SANTANDER,CHARTA,1,1,1,0,True,dept+muni,Santander,Charta
-68190,SANTANDER,CIMITARRA,1,1,1,0,True,dept+muni,Santander,Cimitarra
-68235,SANTANDER,EL CARMEN DE CHUCURI,1,0,0,1,True,dept+muni,Santander,ElCarmendeChucurí
-68255,SANTANDER,EL PLAYON,1,3,1,0,True,dept+muni,Santander,ElPlayón
-68296,SANTANDER,GALAN,1,1,1,0,True,dept+muni,Santander,Galán
-68307,SANTANDER,GIRON,1,1,1,0,True,dept+muni,Santander,Girón
-68344,SANTANDER,HATO,2,2,2,0,True,dept+muni,Santander,Hato
-68385,SANTANDER,LANDAZURI,3,3,3,0,True,dept+muni,Santander,Landázuri
-68406,SANTANDER,LEBRIJA,1,1,1,0,True,dept+muni,Santander,Lebríja
-68444,SANTANDER,MATANZA,9,9,8,1,True,dept+muni,Santander,Matanza
-68547,SANTANDER,PIEDECUESTA,2,2,1,1,True,dept+muni,Santander,Piedecuesta
-68575,SANTANDER,PUERTO WILCHES,1,1,1,0,True,dept+muni,Santander,PuertoWilches
-68615,SANTANDER,RIONEGRO,3,3,3,0,True,dept+muni,Santander,Rionegro
-68655,SANTANDER,SABANA DE TORRES,8,8,8,0,True,dept+muni,Santander,SabanadeTorres
-68686,SANTANDER,SAN MIGUEL,2,2,2,0,True,dept+muni,Santander,SanMiguel
-68689,SANTANDER,SAN VICENTE DE CHUCURI,4,4,4,0,True,dept+muni,Santander,SanVicentedeChucurí
-68745,SANTANDER,SIMACOTA,2,2,2,0,True,dept+muni,Santander,Simacota
-68770,SANTANDER,SUAITA,1,1,1,0,True,dept+muni,Santander,Suaita
-68773,SANTANDER,SUCRE,8,8,8,0,True,dept+muni,Santander,Sucre
-68780,SANTANDER,SURATA,1,1,1,0,True,dept+muni,Santander,Suratá
-68895,SANTANDER,ZAPATOCA,1,1,1,0,True,dept+muni,Santander,Zapatoca
-70204,SUCRE,COLOSO,1,2,1,0,True,dept+muni,Sucre,Colosó
-70215,SUCRE,COROZAL,1,1,1,0,True,dept+muni,Sucre,Corozal
-70230,SUCRE,CHALAN,1,1,1,0,True,dept+muni,Sucre,Chalán
-70473,SUCRE,MORROA,1,1,1,0,True,dept+muni,Sucre,Morroa
-70508,SUCRE,OVEJAS,8,9,7,1,True,dept+muni,Sucre,Ovejas
-70771,SUCRE,SUCRE,1,1,1,0,True,dept+muni,Sucre,Sucre
-73001,TOLIMA,IBAGUE,3,4,3,0,True,dept+muni,Tolima,Ibagué
-73067,TOLIMA,ATACO,4,4,4,0,True,dept+muni,Tolima,Ataco
-73124,TOLIMA,CAJAMARCA,4,4,4,0,True,dept+muni,Tolima,Cajamarca
-73168,TOLIMA,CHAPARRAL,55,61,54,1,True,dept+muni,Tolima,Chaparral
-73236,TOLIMA,DOLORES,11,9,11,0,True,dept+muni,Tolima,Dolores
-73347,TOLIMA,HERVEO,1,1,1,0,True,dept+muni,Tolima,Herveo
-73352,TOLIMA,ICONONZO,4,4,4,0,True,dept+muni,Tolima,Icononzo
-73443,TOLIMA,SAN SEBASTIAN DE MARIQUITA,1,1,1,0,True,dept+muni,Tolima,SanSebastiandeMariquita
-73504,TOLIMA,ORTEGA,39,40,39,0,True,dept+muni,Tolima,Ortega
-73555,TOLIMA,PLANADAS,90,90,88,2,True,dept+muni,Tolima,Planadas
-73616,TOLIMA,RIOBLANCO,40,40,40,0,True,dept+muni,Tolima,Rioblanco
-73622,TOLIMA,RONCESVALLES,10,12,10,0,True,dept+muni,Tolima,Roncesvalles
-73624,TOLIMA,ROVIRA,8,8,8,0,True,dept+muni,Tolima,Rovira
-73675,TOLIMA,SAN ANTONIO,7,7,7,0,True,dept+muni,Tolima,SanAntonio
-73686,TOLIMA,SANTA ISABEL,9,9,9,0,True,dept+muni,Tolima,SantaIsabel
-73870,TOLIMA,VILLAHERMOSA,1,1,1,0,True,dept+muni,Tolima,Villahermosa
-73873,TOLIMA,VILLARRICA,2,2,2,0,True,dept+muni,Tolima,Villarrica
-76001,VALLE DEL CAUCA,SANTIAGO DE CALI,2,3,2,0,True,dept+muni,ValledelCauca,SantiagodeCali
-76100,VALLE DEL CAUCA,BOLIVAR,1,2,1,0,True,dept+muni,ValledelCauca,Bolívar
-76109,VALLE DEL CAUCA,BUENAVENTURA,5,4,4,1,True,dept+muni,ValledelCauca,Buenaventura
-76111,VALLE DEL CAUCA,GUADALAJARA DE BUGA,14,14,14,0,True,dept+muni,ValledelCauca,GuadalajaradeBuga
-76113,VALLE DEL CAUCA,BUGALAGRANDE,10,10,10,0,True,dept+muni,ValledelCauca,Bugalagrande
-76126,VALLE DEL CAUCA,CALIMA,1,1,1,0,True,dept+muni,ValledelCauca,Calima
-76233,VALLE DEL CAUCA,DAGUA,2,5,1,1,True,dept+muni,ValledelCauca,Dagua
-76275,VALLE DEL CAUCA,FLORIDA,38,41,38,0,True,dept+muni,ValledelCauca,Florida
-76318,VALLE DEL CAUCA,GUACARI,2,2,2,0,True,dept+muni,ValledelCauca,Guacarí
-76364,VALLE DEL CAUCA,JAMUNDI,1,0,0,1,True,dept+muni,ValledelCauca,Jamundí
-76377,VALLE DEL CAUCA,LA CUMBRE,2,2,2,0,True,dept+muni,ValledelCauca,LaCumbre
-76520,VALLE DEL CAUCA,PALMIRA,6,8,6,0,True,dept+muni,ValledelCauca,Palmira
-76563,VALLE DEL CAUCA,PRADERA,24,24,22,2,True,dept+muni,ValledelCauca,Pradera
-76670,VALLE DEL CAUCA,SAN PEDRO,1,1,1,0,True,dept+muni,ValledelCauca,SanPedro
-76834,VALLE DEL CAUCA,TULUA,5,9,5,0,True,dept+muni,ValledelCauca,Tuluá
-81001,ARAUCA,ARAUCA,10,10,10,0,True,dept+muni,Arauca,Arauca
-81065,ARAUCA,ARAUQUITA,85,87,79,6,True,dept+muni,Arauca,Arauquita
-81300,ARAUCA,FORTUL,30,26,27,3,True,dept+muni,Arauca,Fortul
-81591,ARAUCA,PUERTO RONDON,17,17,15,2,True,dept+muni,Arauca,PuertoRondón
-81736,ARAUCA,SARAVENA,22,26,19,3,True,dept+muni,Arauca,Saravena
-81794,ARAUCA,TAME,216,219,213,3,True,dept+muni,Arauca,Tame
-85000,CASANARE,SIN INFORMACION,1,1,1,0,False,unmatched,,
-85001,CASANARE,YOPAL,3,3,3,0,True,dept+muni,Casanare,Yopal
-85010,CASANARE,AGUAZUL,3,3,3,0,True,dept+muni,Casanare,Aguazul
-85015,CASANARE,CHAMEZA,2,2,2,0,True,dept+muni,Casanare,Chámeza
-85125,CASANARE,HATO COROZAL,1,1,1,0,True,dept+muni,Casanare,HatoCorozal
-85136,CASANARE,LA SALINA,9,9,9,0,True,dept+muni,Casanare,LaSalina
-85250,CASANARE,PAZ DE ARIPORO,2,2,2,0,True,dept+muni,Casanare,PazdeAriporo
-85315,CASANARE,SACAMA,24,24,24,0,True,dept+muni,Casanare,Sácama
-85400,CASANARE,TAMARA,3,3,3,0,True,dept+muni,Casanare,Támara
-85410,CASANARE,TAURAMENA,5,5,5,0,True,dept+muni,Casanare,Tauramena
-86001,PUTUMAYO,MOCOA,3,3,3,0,True,dept+muni,Putumayo,SanMigueldeMocoa
-86320,PUTUMAYO,ORITO,20,20,20,0,True,dept+muni,Putumayo,Orito
-86568,PUTUMAYO,PUERTO ASIS,93,105,92,1,True,dept+muni,Putumayo,PuertoAsís
-86569,PUTUMAYO,PUERTO CAICEDO,33,31,33,0,True,dept+muni,Putumayo,PuertoCaicedo
-86571,PUTUMAYO,PUERTO GUZMAN,34,33,33,1,True,dept+muni,Putumayo,PuertoGuzmán
-86573,PUTUMAYO,PUERTO LEGUIZAMO,26,26,26,0,True,dept+muni,Putumayo,PuertoLeguízamo
-86757,PUTUMAYO,SAN MIGUEL,26,28,26,0,True,dept+muni,Putumayo,SanMiguel
-86865,PUTUMAYO,VALLE DEL GUAMUEZ,33,39,33,0,True,dept+muni,Putumayo,ValledelGuamuéz
-86885,PUTUMAYO,VILLAGARZON,6,6,6,0,True,dept+muni,Putumayo,Villagarzón
-91001,AMAZONAS,LETICIA,1,1,1,0,True,dept+muni,Amazonas,Leticia
-95001,GUAVIARE,SAN JOSE DEL GUAVIARE,53,53,53,0,True,dept+muni,Guaviare,SanJosédelGuaviare
-95015,GUAVIARE,CALAMAR,16,12,16,0,True,dept+muni,Guaviare,Calamar
-95025,GUAVIARE,EL RETORNO,17,26,17,0,True,dept+muni,Guaviare,ElRetorno
-95200,GUAVIARE,MIRAFLORES,28,32,28,0,True,dept+muni,Guaviare,Miraflores
-97001,VAUPES,MITU,10,10,10,0,True,dept+muni,Vaupés,Mitú
-97161,VAUPES,CARURU,7,7,7,0,True,dept+muni,Vaupés,Carurú
-99773,VICHADA,CUMARIBO,1,1,1,0,True,dept+muni,Vichada,Cumaribo
+﻿departamento,municipio,mine_count,mine_incidents,demining_count,matched
+AMAZONAS,LA CHORRERA,1,0,1,True
+AMAZONAS,LA PEDRERA,0,0,0,True
+AMAZONAS,PUERTO ARICA,0,0,0,True
+AMAZONAS,PUERTO SANTANDER,1,1,0,True
+ANTIOQUIA,ABEJORRAL,25,5,20,True
+ANTIOQUIA,ABRIAQUÍ,3,2,1,True
+ANTIOQUIA,ALEJANDRÍA,10,6,4,True
+ANTIOQUIA,AMALFI,79,22,57,True
+ANTIOQUIA,ANDES,1,0,1,True
+ANTIOQUIA,ANGELÓPOLIS,1,0,1,True
+ANTIOQUIA,ANGOSTURA,64,17,47,True
+ANTIOQUIA,ANORÍ,508,115,393,True
+ANTIOQUIA,ANZÁ,1,0,1,True
+ANTIOQUIA,APARTADÓ,112,38,74,True
+ANTIOQUIA,ARGELIA,127,45,82,True
+ANTIOQUIA,BARBOSA,3,0,3,True
+ANTIOQUIA,BELLO,2,1,1,True
+ANTIOQUIA,BETULIA,1,0,1,True
+ANTIOQUIA,BRICEÑO,120,30,90,True
+ANTIOQUIA,BURITICÁ,6,2,4,True
+ANTIOQUIA,CAICEDO,5,0,5,True
+ANTIOQUIA,CALDAS,4,0,4,True
+ANTIOQUIA,CAMPAMENTO,127,28,99,True
+ANTIOQUIA,CARACOLÍ,4,2,2,True
+ANTIOQUIA,CARAMANTA,1,1,0,True
+ANTIOQUIA,CAREPA,21,3,18,True
+ANTIOQUIA,CARMEN DE VIBORAL,42,13,29,True
+ANTIOQUIA,CAROLINA,1,0,1,True
+ANTIOQUIA,CAUCASIA,7,4,3,True
+ANTIOQUIA,CAÑASGORDAS,7,5,2,True
+ANTIOQUIA,CHIGORODÓ,16,8,8,True
+ANTIOQUIA,CISNEROS,2,2,0,True
+ANTIOQUIA,CIUDAD BOLÍVAR,1,0,1,True
+ANTIOQUIA,COCORNÁ,88,48,40,True
+ANTIOQUIA,CONCEPCIÓN,4,2,2,True
+ANTIOQUIA,CÁCERES,145,40,105,True
+ANTIOQUIA,DABEIBA,176,75,101,True
+ANTIOQUIA,DON MATÍAS,1,0,1,True
+ANTIOQUIA,EL BAGRE,71,28,43,True
+ANTIOQUIA,FRONTINO,26,8,18,True
+ANTIOQUIA,GIRALDO,1,0,1,True
+ANTIOQUIA,GRANADA,141,51,90,True
+ANTIOQUIA,GUADALUPE,41,8,33,True
+ANTIOQUIA,GUARNE,2,1,1,True
+ANTIOQUIA,GUATAPÉ,12,5,7,True
+ANTIOQUIA,GÓMEZ PLATA,1,1,0,True
+ANTIOQUIA,ITAGÜÍ,0,0,0,True
+ANTIOQUIA,ITUANGO,433,179,254,True
+ANTIOQUIA,JARDÍN,2,1,1,True
+ANTIOQUIA,LA CEJA,1,0,1,True
+ANTIOQUIA,LA ESTRELLA,3,1,2,True
+ANTIOQUIA,LA UNIÓN,7,3,4,True
+ANTIOQUIA,LIBORINA,1,1,0,True
+ANTIOQUIA,MACEO,1,1,0,True
+ANTIOQUIA,MARINILLA,1,0,1,True
+ANTIOQUIA,MEDELLÍN,39,18,21,True
+ANTIOQUIA,MONTEBELLO,17,4,13,True
+ANTIOQUIA,MURINDÓ,18,11,7,True
+ANTIOQUIA,MUTATÁ,60,17,43,True
+ANTIOQUIA,NARIÑO,67,27,40,True
+ANTIOQUIA,NECHÍ,8,2,6,True
+ANTIOQUIA,NECOCLÍ,2,2,0,True
+ANTIOQUIA,PEQUE,17,6,11,True
+ANTIOQUIA,PEÑOL,3,2,1,True
+ANTIOQUIA,PUERTO BERRÍO,4,2,2,True
+ANTIOQUIA,PUERTO NARE,3,0,3,True
+ANTIOQUIA,PUERTO TRIUNFO,2,2,0,True
+ANTIOQUIA,REMEDIOS,79,23,56,True
+ANTIOQUIA,RETIRO,0,0,0,True
+ANTIOQUIA,RIONEGRO,5,2,3,True
+ANTIOQUIA,SABANALARGA,17,3,14,True
+ANTIOQUIA,SALGAR,0,0,0,True
+ANTIOQUIA,SAN ANDRÉS,54,9,45,True
+ANTIOQUIA,SAN CARLOS,243,98,145,True
+ANTIOQUIA,SAN FRANCISCO,225,70,155,True
+ANTIOQUIA,SAN JERÓNIMO,1,1,0,True
+ANTIOQUIA,SAN JOSÉ DE LA MONTAÑA,3,0,3,True
+ANTIOQUIA,SAN JUAN DE URABÁ,1,1,0,True
+ANTIOQUIA,SAN LUIS,136,57,79,True
+ANTIOQUIA,SAN PEDRO,1,0,1,True
+ANTIOQUIA,SAN PEDRO DE URABÁ,1,0,1,True
+ANTIOQUIA,SAN RAFAEL,41,23,18,True
+ANTIOQUIA,SAN ROQUE,11,4,7,True
+ANTIOQUIA,SAN VICENTE,1,1,0,True
+ANTIOQUIA,SANTA BÁRBARA,1,0,1,True
+ANTIOQUIA,SANTA FE ANTIOQUIA,16,9,7,False
+ANTIOQUIA,SANTA ROSA DE OSOS,2,1,1,True
+ANTIOQUIA,SANTO DOMINGO,3,3,0,True
+ANTIOQUIA,SANTUARIO,7,4,3,True
+ANTIOQUIA,SEGOVIA,92,23,69,True
+ANTIOQUIA,SONSÓN,139,60,79,True
+ANTIOQUIA,SOPETRÁN,1,0,1,False
+ANTIOQUIA,TARAZÁ,540,196,344,True
+ANTIOQUIA,TARSO,1,0,1,True
+ANTIOQUIA,TOLEDO,26,1,25,True
+ANTIOQUIA,TURBO,50,27,23,True
+ANTIOQUIA,TÁMESIS,0,0,0,True
+ANTIOQUIA,URAMITA,3,0,3,True
+ANTIOQUIA,URRAO,56,21,35,True
+ANTIOQUIA,VALDIVIA,228,69,159,True
+ANTIOQUIA,VEGACHÍ,12,5,7,True
+ANTIOQUIA,VENECIA,2,0,2,True
+ANTIOQUIA,VIGÍA DEL FUERTE,6,1,5,True
+ANTIOQUIA,YALÍ,4,2,2,True
+ANTIOQUIA,YARUMAL,137,30,107,True
+ANTIOQUIA,YOLOMBÓ,26,11,15,True
+ANTIOQUIA,YONDÓ,48,6,42,True
+ANTIOQUIA,ZARAGOZA,49,26,23,True
+ARAUCA,ARAUCA,58,20,38,True
+ARAUCA,ARAUQUITA,1137,104,1033,True
+ARAUCA,CRAVO NORTE,7,2,5,True
+ARAUCA,FORTUL,184,29,155,True
+ARAUCA,PUERTO RONDÓN,146,12,134,True
+ARAUCA,SARAVENA,206,34,172,True
+ARAUCA,TAME,770,185,585,True
+ATLANTICO,BARRANQUILLA,1,1,0,True
+ATLANTICO,GALAPA,0,0,0,True
+ATLANTICO,PONEDERA,0,0,0,True
+ATLANTICO,PUERTO COLOMBIA,2,0,2,True
+ATLANTICO,SABANAGRANDE,1,1,0,True
+ATLANTICO,SANTA LUCÍA,1,0,1,True
+ATLANTICO,SOLEDAD,1,0,1,True
+BOGOTA DC,Bogotá DC,122,17,105,True
+BOLIVAR,ACHÍ,5,2,3,True
+BOLIVAR,ALTOS DEL ROSARIO,3,0,3,True
+BOLIVAR,ARENAL,68,19,49,True
+BOLIVAR,ARJONA,1,0,1,True
+BOLIVAR,BARRANCO DE LOBA,5,4,1,True
+BOLIVAR,CALAMAR,1,0,1,True
+BOLIVAR,CANTAGALLO,118,18,100,True
+BOLIVAR,CARTAGENA DE INDIAS,5,3,2,True
+BOLIVAR,CLEMENCIA,0,0,0,True
+BOLIVAR,CÓRDOBA,20,4,16,True
+BOLIVAR,EL CARMEN DE BOLÍVAR,341,60,281,True
+BOLIVAR,EL GUAMO,2,1,1,True
+BOLIVAR,EL PEÑÓN,0,0,0,True
+BOLIVAR,MARÍA LA BAJA,3,0,3,True
+BOLIVAR,MONTECRISTO,46,13,33,True
+BOLIVAR,MORALES,96,20,76,True
+BOLIVAR,NOROSÍ,27,5,22,False
+BOLIVAR,PINILLOS,3,1,2,True
+BOLIVAR,REGIDOR,3,2,1,True
+BOLIVAR,RÍOVIEJO,17,1,16,True
+BOLIVAR,SAN ESTANISLAO,1,0,1,True
+BOLIVAR,SAN JACINTO,46,16,30,True
+BOLIVAR,SAN JACINTO DEL CAUCA,1,1,0,True
+BOLIVAR,SAN JUAN NEPOMUCENO,23,5,18,True
+BOLIVAR,SAN MARTÍN DE LOBA,5,3,2,True
+BOLIVAR,SAN PABLO,167,44,123,True
+BOLIVAR,SANTA CATALINA,1,0,1,True
+BOLIVAR,SANTA ROSA DEL SUR,127,49,78,True
+BOLIVAR,SIMITÍ,66,36,30,True
+BOLIVAR,TIQUISIO,14,7,7,True
+BOLIVAR,TURBACO,1,0,1,True
+BOLIVAR,VILLANUEVA,7,2,5,True
+BOLIVAR,ZAMBRANO,118,23,95,True
+BOYACA,ALMEIDA,0,0,0,True
+BOYACA,AQUITANIA,1,1,0,True
+BOYACA,BELÉN,1,0,1,True
+BOYACA,CAMPOHERMOSO,2,0,2,True
+BOYACA,CERINZA,0,0,0,True
+BOYACA,CHISCAS,12,1,11,True
+BOYACA,CHITA,23,1,22,True
+BOYACA,CHIVOR,0,0,0,True
+BOYACA,COPER,0,0,0,True
+BOYACA,CUBARÁ,36,4,32,True
+BOYACA,EL COCUY,6,2,4,True
+BOYACA,EL ESPINO,1,0,1,True
+BOYACA,GARAGOA,1,1,0,True
+BOYACA,GÁMEZA,1,0,1,True
+BOYACA,GÜICÁN,5,0,5,True
+BOYACA,JERICÓ,1,0,1,True
+BOYACA,LA UVITA,1,0,1,True
+BOYACA,LABRANZAGRANDE,30,9,21,True
+BOYACA,MACANAL,0,0,0,True
+BOYACA,MARIPÍ,1,0,1,True
+BOYACA,MIRAFLORES,1,0,1,True
+BOYACA,MONGUA,3,0,3,True
+BOYACA,OTANCHE,4,1,3,True
+BOYACA,PAJARITO,33,7,26,True
+BOYACA,PAUNA,1,1,0,True
+BOYACA,PAYA,8,1,7,True
+BOYACA,PESCA,3,0,3,True
+BOYACA,PISBA,36,7,29,True
+BOYACA,PUERTO BOYACÁ,2,0,2,True
+BOYACA,PÁEZ,2,1,1,True
+BOYACA,QUÍPAMA,1,1,0,True
+BOYACA,SAN EDUARDO,1,1,0,True
+BOYACA,SAN LUIS DE GACENO,1,0,1,True
+BOYACA,SAN MATEO,1,0,1,True
+BOYACA,SAN PABLO DE BORBUR,1,0,1,True
+BOYACA,SANTA MARÍA,0,0,0,True
+BOYACA,SATIVANORTE,0,0,0,True
+BOYACA,SATIVASUR,1,0,1,True
+BOYACA,SOCOTÁ,7,0,7,True
+BOYACA,SOGAMOSO,2,1,1,True
+BOYACA,SUSACÓN,1,0,1,True
+BOYACA,SUTATENZA,0,0,0,True
+BOYACA,TASCO,1,1,0,True
+BOYACA,TUNJA,1,0,1,True
+BOYACA,ZETAQUIRA,3,0,3,True
+CALDAS,AGUADAS,12,5,7,True
+CALDAS,ANSERMA,2,2,0,True
+CALDAS,BELALCÁZAR,1,1,0,True
+CALDAS,FILADELFIA,1,1,0,True
+CALDAS,LA DORADA,2,2,0,True
+CALDAS,MANIZALES,4,2,2,True
+CALDAS,MANZANARES,7,3,4,True
+CALDAS,MARMATO,1,0,1,True
+CALDAS,MARULANDA,20,7,13,True
+CALDAS,NORCASIA,4,2,2,True
+CALDAS,PALESTINA,1,0,1,True
+CALDAS,PENSILVANIA,29,11,18,True
+CALDAS,PÁCORA,5,4,1,True
+CALDAS,RIOSUCIO,13,5,8,True
+CALDAS,SALAMINA,6,2,4,True
+CALDAS,SAMANÁ,161,68,93,True
+CALDAS,SUPÍA,1,1,0,True
+CALDAS,VILLAMARÍA,0,0,0,True
+CAQUETA,ALBANIA,10,0,10,True
+CAQUETA,BELÉN DE LOS ANDAQUÍES,24,6,18,True
+CAQUETA,CARTAGENA DEL CHAIRÁ,357,34,323,True
+CAQUETA,CURILLO,36,4,32,True
+CAQUETA,EL DONCELLO,66,13,53,True
+CAQUETA,EL PAUJIL,137,24,113,True
+CAQUETA,FLORENCIA,213,56,157,True
+CAQUETA,MILÁN,80,16,64,True
+CAQUETA,MONTAÑITA,687,142,545,True
+CAQUETA,MORELIA,11,3,8,True
+CAQUETA,PUERTO RICO,424,96,328,True
+CAQUETA,SAN JOSÉ DEL FRAGUA,55,9,46,True
+CAQUETA,SAN VICENTE DEL CAGUÁN,822,185,637,True
+CAQUETA,SOLANO,95,12,83,True
+CAQUETA,SOLITA,7,2,5,True
+CAQUETA,VALPARAÍSO,24,3,21,True
+CASANARE,AGUAZUL,51,10,41,True
+CASANARE,CHÁMEZA,17,7,10,True
+CASANARE,HATO COROZAL,16,2,14,True
+CASANARE,LA SALINA,18,3,15,True
+CASANARE,MANÍ,0,0,0,True
+CASANARE,MONTERREY,3,0,3,True
+CASANARE,NUNCHÍA,6,0,6,True
+CASANARE,PAZ DE ARIPORO,12,2,10,True
+CASANARE,PORE,1,0,1,True
+CASANARE,RECETOR,6,0,6,True
+CASANARE,SABANALARGA,1,0,1,True
+CASANARE,SÁCAMA,37,10,27,True
+CASANARE,TAURAMENA,15,4,11,True
+CASANARE,TRINIDAD,3,0,3,True
+CASANARE,TÁMARA,16,3,13,True
+CASANARE,VILLANUEVA,0,0,0,True
+CASANARE,YOPAL,20,4,16,True
+CAUCA,ALMAGUER,4,1,3,True
+CAUCA,ARGELIA,340,63,277,True
+CAUCA,BALBOA,119,16,103,True
+CAUCA,BOLÍVAR,11,7,4,True
+CAUCA,BUENOS AIRES,33,8,25,True
+CAUCA,CAJIBÍO,38,10,28,True
+CAUCA,CALDONO,80,8,72,True
+CAUCA,CALOTO,118,18,100,True
+CAUCA,CORINTO,147,15,132,True
+CAUCA,EL TAMBO,242,66,176,True
+CAUCA,FLORENCIA,1,1,0,True
+CAUCA,GUACHENE,12,0,12,False
+CAUCA,GUAPI,12,2,10,True
+CAUCA,INZÁ,32,1,31,True
+CAUCA,JAMBALÓ,79,8,71,True
+CAUCA,LA SIERRA,4,2,2,True
+CAUCA,LA VEGA,9,7,2,True
+CAUCA,LÓPEZ,23,7,16,True
+CAUCA,MERCADERES,6,2,4,True
+CAUCA,MIRANDA,122,19,103,True
+CAUCA,MORALES,47,2,45,True
+CAUCA,PADILLA,2,0,2,True
+CAUCA,PATÍA,80,16,64,True
+CAUCA,PIAMONTE,28,2,26,True
+CAUCA,PIENDAMÓ,12,2,10,True
+CAUCA,POPAYÁN,10,4,6,True
+CAUCA,PUERTO TEJADA,2,0,2,True
+CAUCA,PURACÉ,14,7,7,True
+CAUCA,PÁEZ,65,11,54,True
+CAUCA,ROSAS,2,0,2,True
+CAUCA,SAN SEBASTIÁN,24,9,15,True
+CAUCA,SANTA ROSA,50,25,25,True
+CAUCA,SANTANDER DE QUILICHAO,29,6,23,True
+CAUCA,SILVIA,22,3,19,True
+CAUCA,SOTARÁ,1,0,1,True
+CAUCA,SUCRE,2,0,2,True
+CAUCA,SUÁREZ,182,15,167,True
+CAUCA,TIMBIQUÍ,3,0,3,True
+CAUCA,TIMBÍO,2,0,2,True
+CAUCA,TORIBÍO,151,22,129,True
+CAUCA,TOTORÓ,7,1,6,True
+CAUCA,VILLA RICA,2,0,2,True
+CESAR,AGUACHICA,19,5,14,True
+CESAR,AGUSTÍN CODAZZI,28,2,26,True
+CESAR,BECERRIL,11,2,9,True
+CESAR,BOSCONIA,0,0,0,True
+CESAR,CHIMICHAGUA,2,0,2,True
+CESAR,CHIRIGUANÁ,7,0,7,True
+CESAR,CURUMANÍ,19,6,13,True
+CESAR,EL COPEY,7,3,4,True
+CESAR,EL PASO,1,0,1,True
+CESAR,GAMARRA,3,0,3,True
+CESAR,GONZÁLEZ,2,0,2,True
+CESAR,LA GLORIA,11,0,11,True
+CESAR,LA JAGUA DE IBIRICO,21,8,13,True
+CESAR,LA PAZ,24,1,23,True
+CESAR,MANAURE BALCÓN DEL CESAR,9,1,8,False
+CESAR,PAILITAS,24,10,14,True
+CESAR,PELAYA,15,7,8,True
+CESAR,PUEBLO BELLO,9,5,4,True
+CESAR,RÍO DE ORO,5,0,5,True
+CESAR,SAN ALBERTO,4,1,3,True
+CESAR,SAN DIEGO,12,0,12,True
+CESAR,SAN MARTÍN,6,4,2,True
+CESAR,TAMALAMEQUE,1,0,1,True
+CESAR,VALLEDUPAR,29,10,19,True
+CHOCO,ACANDÍ,6,3,3,True
+CHOCO,ALTO BAUDÓ,40,5,35,True
+CHOCO,BAGADÓ,10,3,7,True
+CHOCO,BAHÍA SOLANO,7,3,4,True
+CHOCO,BAJO BAUDÓ,38,4,34,True
+CHOCO,BOJAYÁ,26,8,18,True
+CHOCO,CERTEGUI,1,1,0,True
+CHOCO,CONDOTO,3,0,3,True
+CHOCO,EL CANTÓN DEL SAN PABLO,2,1,1,True
+CHOCO,EL CARMEN DEL ATRATO,35,8,27,False
+CHOCO,EL CARMEN DEL DARIEN,30,8,22,True
+CHOCO,ISTMINA,37,13,24,True
+CHOCO,JURADÓ,13,5,8,True
+CHOCO,LITORAL DEL SAN JUAN,27,3,24,True
+CHOCO,LLORÓ,6,2,4,True
+CHOCO,MEDIO ATRATO,9,1,8,True
+CHOCO,MEDIO BAUDÓ,5,1,4,True
+CHOCO,MEDIO SAN JUAN,25,5,20,True
+CHOCO,NUEVO BELEN DE BAJIRA,13,3,10,False
+CHOCO,NUQUÍ,9,2,7,True
+CHOCO,NÓVITA,36,12,24,True
+CHOCO,QUIBDÓ,51,11,40,True
+CHOCO,RIO IRÓ,10,5,5,True
+CHOCO,RIO QUITO,3,1,2,True
+CHOCO,RIOSUCIO,67,20,47,True
+CHOCO,SAN JOSÉ DEL PALMAR,40,8,32,True
+CHOCO,SIPÍ,29,5,24,True
+CHOCO,TADÓ,55,13,42,True
+CHOCO,UNGUÍA,19,13,6,True
+CORDOBA,CIÉNAGA DE ORO,2,2,0,True
+CORDOBA,MONTELÍBANO,72,10,62,True
+CORDOBA,MONTERÍA,2,2,0,True
+CORDOBA,PLANETA RICA,0,0,0,True
+CORDOBA,PUERTO LIBERTADOR,302,92,210,True
+CORDOBA,SAHAGÚN,1,0,1,True
+CORDOBA,SAN JOSE DE URE,12,0,12,False
+CORDOBA,TIERRALTA,270,99,171,True
+CORDOBA,VALENCIA,3,0,3,True
+CUNDINAMARCA,AGUA DE DIOS,0,0,0,True
+CUNDINAMARCA,ALBÁN,7,5,2,True
+CUNDINAMARCA,ANOLAIMA,0,0,0,True
+CUNDINAMARCA,ARBELÁEZ,2,0,2,True
+CUNDINAMARCA,BELTRÁN,1,1,0,True
+CUNDINAMARCA,BITUIMA,3,0,3,True
+CUNDINAMARCA,BOJACÁ,0,0,0,True
+CUNDINAMARCA,CABRERA,49,3,46,True
+CUNDINAMARCA,CAPARRAPÍ,2,1,1,True
+CUNDINAMARCA,CARMEN DE CARUPA,0,0,0,True
+CUNDINAMARCA,CHAGUANÍ,11,4,7,True
+CUNDINAMARCA,CHIPAQUE,2,1,1,True
+CUNDINAMARCA,CHOCONTÁ,3,1,2,True
+CUNDINAMARCA,CÁQUEZA,1,0,1,True
+CUNDINAMARCA,EL PEÑÓN,11,3,8,True
+CUNDINAMARCA,FACATATIVÁ,0,0,0,True
+CUNDINAMARCA,FOSCA,2,0,2,True
+CUNDINAMARCA,FUSAGASUGÁ,3,0,3,True
+CUNDINAMARCA,FÓMEQUE,8,2,6,True
+CUNDINAMARCA,GACHALÁ,2,0,2,True
+CUNDINAMARCA,GACHETÁ,9,2,7,True
+CUNDINAMARCA,GAMA,5,1,4,True
+CUNDINAMARCA,GUACHETÁ,0,0,0,True
+CUNDINAMARCA,GUADUAS,12,7,5,True
+CUNDINAMARCA,GUASCA,1,0,1,True
+CUNDINAMARCA,GUATAQUÍ,2,0,2,True
+CUNDINAMARCA,GUATAVITA,2,1,1,True
+CUNDINAMARCA,GUAYABAL DE SÍQUIMA,6,3,3,True
+CUNDINAMARCA,GUAYABETAL,18,2,16,True
+CUNDINAMARCA,GUTIÉRREZ,28,2,26,True
+CUNDINAMARCA,JERUSALÉN,4,0,4,True
+CUNDINAMARCA,JUNÍN,9,0,9,True
+CUNDINAMARCA,LA PALMA,42,13,29,True
+CUNDINAMARCA,LA PEÑA,3,2,1,True
+CUNDINAMARCA,LA VEGA,1,0,1,True
+CUNDINAMARCA,MACHETÁ,4,1,3,True
+CUNDINAMARCA,MEDINA,10,0,10,True
+CUNDINAMARCA,NARIÑO,2,0,2,True
+CUNDINAMARCA,NILO,2,1,1,True
+CUNDINAMARCA,PACHO,1,0,1,True
+CUNDINAMARCA,PAIME,2,0,2,True
+CUNDINAMARCA,PANDI,2,1,1,True
+CUNDINAMARCA,PARATEBUENO,1,0,1,True
+CUNDINAMARCA,PASCA,7,4,3,True
+CUNDINAMARCA,PULÍ,18,2,16,True
+CUNDINAMARCA,QUEBRADANEGRA,2,1,1,True
+CUNDINAMARCA,QUETAME,4,1,3,True
+CUNDINAMARCA,QUIPILE,4,0,4,True
+CUNDINAMARCA,SAN BERNARDO,10,3,7,True
+CUNDINAMARCA,SAN CAYETANO,0,0,0,True
+CUNDINAMARCA,SAN JUAN DE RIOSECO,11,1,10,True
+CUNDINAMARCA,SASAIMA,2,1,1,True
+CUNDINAMARCA,SESQUILÉ,1,1,0,True
+CUNDINAMARCA,SIBATÉ,3,0,3,True
+CUNDINAMARCA,SILVANIA,13,0,13,True
+CUNDINAMARCA,TIBACUY,1,0,1,True
+CUNDINAMARCA,TOPAIPÍ,21,5,16,True
+CUNDINAMARCA,UBALÁ,2,0,2,True
+CUNDINAMARCA,UNE,6,1,5,True
+CUNDINAMARCA,VENECIA,16,0,16,True
+CUNDINAMARCA,VERGARA,3,1,2,True
+CUNDINAMARCA,VIANÍ,5,2,3,True
+CUNDINAMARCA,VILLAGÓMEZ,1,1,0,True
+CUNDINAMARCA,VILLAPINZÓN,1,1,0,True
+CUNDINAMARCA,VILLETA,4,0,4,True
+CUNDINAMARCA,VIOTÁ,2,0,2,True
+CUNDINAMARCA,YACOPÍ,1,0,1,True
+CUNDINAMARCA,ÚTICA,7,2,5,True
+GUAINIA,BARRANCOMINAS,12,1,11,True
+GUAINIA,INIRIDA,2,1,1,True
+GUAINIA,MORICHAL NUEVO,1,0,1,True
+GUAVIARE,CALAMAR,164,21,143,True
+GUAVIARE,EL RETORNO,135,25,110,True
+GUAVIARE,MIRAFLORES,149,31,118,True
+GUAVIARE,SAN JOSÉ DEL GUAVIARE,349,56,293,True
+HUILA,ACEVEDO,18,3,15,True
+HUILA,AIPE,27,0,27,True
+HUILA,ALGECIRAS,159,37,122,True
+HUILA,ALTAMIRA,6,0,6,True
+HUILA,BARAYA,155,32,123,True
+HUILA,CAMPOALEGRE,17,1,16,True
+HUILA,COLOMBIA,242,30,212,True
+HUILA,GARZÓN,22,2,20,True
+HUILA,GIGANTE,9,1,8,True
+HUILA,GUADALUPE,1,0,1,True
+HUILA,HOBO,5,0,5,True
+HUILA,IQUIRA,10,1,9,True
+HUILA,ISNOS,42,13,29,True
+HUILA,LA ARGENTINA,5,3,2,True
+HUILA,LA PLATA,10,2,8,True
+HUILA,NEIVA,48,9,39,True
+HUILA,NÁTAGA,1,0,1,True
+HUILA,PAICOL,1,0,1,True
+HUILA,PALERMO,8,2,6,True
+HUILA,PITAL,1,0,1,True
+HUILA,PITALITO,4,1,3,True
+HUILA,RIVERA,3,1,2,True
+HUILA,SALADOBLANCO,5,0,5,True
+HUILA,SAN AGUSTÍN,40,7,33,True
+HUILA,SANTA MARÍA,9,3,6,True
+HUILA,SUAZA,8,1,7,True
+HUILA,TARQUI,1,0,1,True
+HUILA,TELLO,56,5,51,True
+HUILA,TERUEL,5,0,5,True
+HUILA,TESALIA,1,0,1,True
+HUILA,YAGUARÁ,3,0,3,True
+LA GUAJIRA,ALBANIA,5,1,4,True
+LA GUAJIRA,BARRANCAS,13,0,13,True
+LA GUAJIRA,DIBULLA,14,3,11,True
+LA GUAJIRA,DISTRACCIÓN,1,0,1,True
+LA GUAJIRA,EL MOLINO,6,2,4,True
+LA GUAJIRA,FONSECA,8,1,7,True
+LA GUAJIRA,HATO NUEVO,2,0,2,True
+LA GUAJIRA,LA JAGUA DEL PILAR,2,1,1,True
+LA GUAJIRA,MAICAO,15,0,15,True
+LA GUAJIRA,MANAURE,2,0,2,True
+LA GUAJIRA,RIOHACHA,11,3,8,True
+LA GUAJIRA,SAN JUAN DEL CESAR,14,3,11,True
+LA GUAJIRA,URIBIA,4,2,2,True
+LA GUAJIRA,URUMITA,16,3,13,True
+LA GUAJIRA,VILLANUEVA,16,1,15,True
+MAGDALENA,ARACATACA,3,1,2,True
+MAGDALENA,CHIVOLO,0,0,0,True
+MAGDALENA,CIÉNAGA,18,8,10,True
+MAGDALENA,FUNDACIÓN,11,1,10,True
+MAGDALENA,NUEVA GRANADA,1,0,1,True
+MAGDALENA,PIVIJAY,0,0,0,True
+MAGDALENA,PLATO,3,1,2,True
+MAGDALENA,SANTA MARTA,9,5,4,True
+MAGDALENA,TENERIFE,0,0,0,True
+MAGDALENA,ZONA BANANERA,2,1,1,True
+META,ACACÍAS,24,6,18,True
+META,CASTILLA LA NUEVA,1,0,1,True
+META,CUBARRAL,90,7,83,True
+META,CUMARAL,6,0,6,True
+META,EL CALVARIO,9,3,6,True
+META,EL CASTILLO,119,22,97,True
+META,EL DORADO,78,10,68,True
+META,FUENTE DE ORO,2,1,1,True
+META,GRANADA,19,10,9,True
+META,GUAMAL,18,4,14,True
+META,LA MACARENA,550,56,494,True
+META,LEJANÍAS,117,23,94,True
+META,MAPIRIPÁN,86,16,70,True
+META,MESETAS,958,79,879,True
+META,PUERTO CONCORDIA,41,1,40,True
+META,PUERTO GAITÁN,49,6,43,True
+META,PUERTO LLERAS,68,9,59,True
+META,PUERTO LÓPEZ,3,0,3,True
+META,PUERTO RICO,648,62,586,True
+META,SAN CARLOS DE GUAROA,1,0,1,True
+META,SAN JUAN DE ARAMA,104,38,66,True
+META,SAN JUANITO,18,7,11,True
+META,SAN MARTÍN,10,0,10,True
+META,URIBE,1599,104,1495,True
+META,VILLAVICENCIO,20,8,12,True
+META,VISTAHERMOSA,749,158,591,True
+NARIÑO,ANCUYÁ,1,0,1,True
+NARIÑO,BARBACOAS,226,53,173,True
+NARIÑO,BELÉN,1,1,0,True
+NARIÑO,COLÓN,1,1,0,True
+NARIÑO,CUMBAL,38,8,30,True
+NARIÑO,CUMBITARA,54,26,28,True
+NARIÑO,CaRDOBA,21,1,20,False
+NARIÑO,EL CHARCO,26,5,21,True
+NARIÑO,EL PEÑOL,1,0,1,True
+NARIÑO,EL ROSARIO,23,3,20,True
+NARIÑO,EL TABLÓN,1,0,1,True
+NARIÑO,EL TAMBO,2,0,2,True
+NARIÑO,FRANCISCO PIZARRO,3,0,3,True
+NARIÑO,FUNES,1,0,1,True
+NARIÑO,GUACHUCAL,1,0,1,True
+NARIÑO,IPIALES,92,17,75,True
+NARIÑO,LA CRUZ,5,2,3,True
+NARIÑO,LA FLORIDA,2,0,2,True
+NARIÑO,LA LLANADA,42,34,8,True
+NARIÑO,LA TOLA,1,0,1,True
+NARIÑO,LA UNIÓN,1,0,1,True
+NARIÑO,LEIVA,19,4,15,True
+NARIÑO,LINARES,3,0,3,True
+NARIÑO,LOS ANDES,37,19,18,True
+NARIÑO,MAGÜÍ,76,17,59,True
+NARIÑO,MALLAMA,30,3,27,True
+NARIÑO,MOSQUERA,2,0,2,True
+NARIÑO,OLAYA HERRERA,25,2,23,True
+NARIÑO,PASTO,8,0,8,True
+NARIÑO,POLICARPA,110,51,59,True
+NARIÑO,POTOSÍ,3,1,2,True
+NARIÑO,PUERRES,23,4,19,True
+NARIÑO,PUPIALES,1,0,1,True
+NARIÑO,RICAURTE,186,64,122,True
+NARIÑO,ROBERTO PAYÁN,57,21,36,True
+NARIÑO,SAMANIEGO,144,87,57,True
+NARIÑO,SAN BERNARDO,1,1,0,True
+NARIÑO,SAN LORENZO,2,1,1,True
+NARIÑO,SAN PABLO,3,1,2,True
+NARIÑO,SAN PEDRO DE CARTAGO,0,0,0,True
+NARIÑO,SANDONÁ,2,2,0,True
+NARIÑO,SANTA BÁRBARA,18,5,13,True
+NARIÑO,SANTA CRUZ,96,40,56,True
+NARIÑO,SAPUYES,1,0,1,True
+NARIÑO,TAMINANGO,2,0,2,True
+NARIÑO,TUMACO,1673,221,1452,True
+NARIÑO,TÚQUERRES,7,1,6,True
+NARIÑO,YACUANQUER,1,0,1,True
+NORTE DE SANTANDER,ARBOLEDAS,8,3,5,True
+NORTE DE SANTANDER,BOCHALEMA,1,0,1,True
+NORTE DE SANTANDER,BUCARASICA,15,2,13,True
+NORTE DE SANTANDER,CHITAGÁ,7,0,7,True
+NORTE DE SANTANDER,CONVENCIÓN,238,57,181,True
+NORTE DE SANTANDER,CUCUTILLA,1,0,1,True
+NORTE DE SANTANDER,CÁCHIRA,6,2,4,True
+NORTE DE SANTANDER,CÚCUTA,21,5,16,True
+NORTE DE SANTANDER,DURANIA,4,1,3,True
+NORTE DE SANTANDER,EL CARMEN,98,21,77,True
+NORTE DE SANTANDER,EL TARRA,275,57,218,True
+NORTE DE SANTANDER,EL ZULIA,12,3,9,True
+NORTE DE SANTANDER,HACARÍ,241,77,164,True
+NORTE DE SANTANDER,HERRÁN,3,1,2,True
+NORTE DE SANTANDER,LA ESPERANZA,0,0,0,True
+NORTE DE SANTANDER,LA PLAYA,43,17,26,True
+NORTE DE SANTANDER,LABATECA,4,1,3,True
+NORTE DE SANTANDER,LOS PATIOS,0,0,0,True
+NORTE DE SANTANDER,OCAÑA,39,5,34,True
+NORTE DE SANTANDER,PAMPLONA,1,0,1,True
+NORTE DE SANTANDER,PUERTO SANTANDER,0,0,0,True
+NORTE DE SANTANDER,RAGONVALIA,0,0,0,True
+NORTE DE SANTANDER,SALAZAR,5,2,3,True
+NORTE DE SANTANDER,SAN CALIXTO,166,48,118,True
+NORTE DE SANTANDER,SAN CAYETANO,2,0,2,True
+NORTE DE SANTANDER,SANTIAGO,4,3,1,True
+NORTE DE SANTANDER,SARDINATA,120,30,90,True
+NORTE DE SANTANDER,SILOS,3,0,3,True
+NORTE DE SANTANDER,TEORAMA,373,105,268,True
+NORTE DE SANTANDER,TIBÚ,409,86,323,True
+NORTE DE SANTANDER,TOLEDO,29,6,23,True
+NORTE DE SANTANDER,VILLA CARO,0,0,0,True
+NORTE DE SANTANDER,VILLA DEL ROSARIO,1,0,1,True
+NORTE DE SANTANDER,ÁBREGO,67,19,48,True
+PUTUMAYO,COLÓN,1,0,1,True
+PUTUMAYO,MOCOA,25,5,20,True
+PUTUMAYO,ORITO,155,18,137,True
+PUTUMAYO,PUERTO ASÍS,533,86,447,True
+PUTUMAYO,PUERTO CAICEDO,144,31,113,True
+PUTUMAYO,PUERTO GUZMÁN,223,25,198,True
+PUTUMAYO,PUERTO LEGUÍZAMO,206,21,185,True
+PUTUMAYO,SAN FRANCISCO,1,0,1,True
+PUTUMAYO,SAN MIGUEL,140,17,123,True
+PUTUMAYO,SANTIAGO,3,0,3,True
+PUTUMAYO,VALLE DEL GUAMUEZ,143,30,113,True
+PUTUMAYO,VILLAGARZÓN,53,11,42,True
+QUINDIO,CALARCÁ,2,0,2,True
+QUINDIO,CIRCASIA,0,0,0,True
+QUINDIO,CÓRDOBA,9,1,8,True
+QUINDIO,GÉNOVA,11,1,10,True
+QUINDIO,MONTENEGRO,1,1,0,True
+QUINDIO,PIJAO,16,4,12,True
+QUINDIO,QUIMBAYA,1,0,1,True
+QUINDIO,SALENTO,5,0,5,True
+RISARALDA,APÍA,0,0,0,True
+RISARALDA,BELÉN DE UMBRÍA,2,2,0,True
+RISARALDA,DOSQUEBRADAS,1,0,1,True
+RISARALDA,GUÁTICA,2,1,1,True
+RISARALDA,LA CELIA,1,0,1,True
+RISARALDA,LA VIRGINIA,1,0,1,True
+RISARALDA,MISTRATÓ,27,4,23,True
+RISARALDA,PEREIRA,4,1,3,True
+RISARALDA,PUEBLO RICO,8,1,7,True
+RISARALDA,QUINCHÍA,3,2,1,True
+RISARALDA,SANTA ROSA DE CABAL,2,2,0,True
+RISARALDA,SANTUARIO,2,1,1,True
+SANTANDER,ALBANIA,0,0,0,True
+SANTANDER,ARATOCA,0,0,0,True
+SANTANDER,BARRANCABERMEJA,48,10,38,True
+SANTANDER,BETULIA,7,0,7,True
+SANTANDER,BOLÍVAR,7,0,7,True
+SANTANDER,BUCARAMANGA,17,8,9,True
+SANTANDER,CALIFORNIA,21,3,18,True
+SANTANDER,CAPITANEJO,2,0,2,True
+SANTANDER,CARCASÍ,2,0,2,True
+SANTANDER,CEPITÁ,1,0,1,True
+SANTANDER,CERRITO,2,0,2,True
+SANTANDER,CHARTA,9,2,7,True
+SANTANDER,CHIMA,3,0,3,True
+SANTANDER,CIMITARRA,6,3,3,True
+SANTANDER,CONFINES,0,0,0,True
+SANTANDER,CONTRATACIÓN,1,0,1,True
+SANTANDER,COROMORO,0,0,0,True
+SANTANDER,CURITÍ,3,1,2,True
+SANTANDER,EL CARMEN,34,3,31,True
+SANTANDER,EL GUACAMAYO,0,0,0,True
+SANTANDER,EL PEÑÓN,8,4,4,True
+SANTANDER,EL PLAYÓN,14,2,12,True
+SANTANDER,FLORIDABLANCA,2,0,2,True
+SANTANDER,FLORIÁN,0,0,0,True
+SANTANDER,GALÁN,10,3,7,True
+SANTANDER,GIRÓN,19,2,17,True
+SANTANDER,GUACA,3,0,3,True
+SANTANDER,GUADALUPE,1,1,0,True
+SANTANDER,GUAPOTÁ,0,0,0,True
+SANTANDER,HATO,9,3,6,True
+SANTANDER,LA BELLEZA,7,2,5,True
+SANTANDER,LA PAZ,1,0,1,True
+SANTANDER,LANDÁZURI,4,4,0,True
+SANTANDER,LEBRÍJA,9,1,8,True
+SANTANDER,MACARAVITA,2,1,1,True
+SANTANDER,MATANZA,35,15,20,True
+SANTANDER,MÁLAGA,2,0,2,True
+SANTANDER,ONZAGA,0,0,0,True
+SANTANDER,PIEDECUESTA,4,2,2,True
+SANTANDER,PINCHOTE,1,1,0,True
+SANTANDER,PUENTE NACIONAL,2,0,2,True
+SANTANDER,PUERTO PARRA,1,0,1,True
+SANTANDER,PUERTO WILCHES,4,2,2,True
+SANTANDER,RIONEGRO,14,4,10,True
+SANTANDER,SABANA DE TORRES,40,23,17,True
+SANTANDER,SAN ANDRÉS,1,0,1,True
+SANTANDER,SAN GIL,1,0,1,True
+SANTANDER,SAN MIGUEL,2,2,0,True
+SANTANDER,SAN VICENTE DE CHUCURÍ,37,7,30,True
+SANTANDER,SANTA HELENA DEL OPÓN,2,0,2,True
+SANTANDER,SIMACOTA,9,6,3,True
+SANTANDER,SUAITA,2,1,1,True
+SANTANDER,SUCRE,15,6,9,True
+SANTANDER,SURATÁ,41,8,33,True
+SANTANDER,TONA,3,0,3,True
+SANTANDER,VÉLEZ,1,1,0,True
+SANTANDER,ZAPATOCA,4,1,3,True
+SUCRE,CHALÁN,19,3,16,True
+SUCRE,COLOSÓ,8,2,6,True
+SUCRE,COROZAL,3,2,1,True
+SUCRE,GALERAS,1,1,0,True
+SUCRE,LA UNIÓN,1,1,0,True
+SUCRE,LOS PALMITOS,8,1,7,True
+SUCRE,MAJAGUAL,1,1,0,True
+SUCRE,MORROA,8,1,7,True
+SUCRE,OVEJAS,69,10,59,True
+SUCRE,SAN BENITO ABAD,2,0,2,True
+SUCRE,SAN ONOFRE,8,3,5,True
+SUCRE,SAN PEDRO,2,0,2,True
+SUCRE,SINCELEJO,0,0,0,True
+SUCRE,SINCÉ,0,0,0,True
+SUCRE,SUCRE,2,1,1,True
+SUCRE,TOLUVIEJO,0,0,0,True
+TOLIMA,ALPUJARRA,2,0,2,True
+TOLIMA,ALVARADO,3,2,1,True
+TOLIMA,ANZOÁTEGUI,4,1,3,True
+TOLIMA,ATACO,22,1,21,True
+TOLIMA,CAJAMARCA,21,3,18,True
+TOLIMA,CASABIANCA,1,0,1,True
+TOLIMA,CHAPARRAL,260,54,206,True
+TOLIMA,COYAIMA,3,1,2,True
+TOLIMA,CUNDAY,9,0,9,True
+TOLIMA,DOLORES,82,13,69,True
+TOLIMA,FALAN,0,0,0,True
+TOLIMA,GUAMO,1,0,1,True
+TOLIMA,HERVEO,6,3,3,True
+TOLIMA,IBAGUÉ,38,3,35,True
+TOLIMA,ICONONZO,7,5,2,True
+TOLIMA,LÉRIDA,1,1,0,True
+TOLIMA,LÍBANO,6,1,5,True
+TOLIMA,MELGAR,1,1,0,True
+TOLIMA,MURILLO,0,0,0,True
+TOLIMA,NATAGAIMA,9,1,8,True
+TOLIMA,ORTEGA,22,7,15,True
+TOLIMA,PLANADAS,662,82,580,True
+TOLIMA,PRADO,10,1,9,True
+TOLIMA,PURIFICACIÓN,1,0,1,True
+TOLIMA,RIOBLANCO,178,46,132,True
+TOLIMA,RONCESVALLES,25,12,13,True
+TOLIMA,ROVIRA,43,14,29,True
+TOLIMA,SALDAÑA,0,0,0,True
+TOLIMA,SAN ANTONIO,43,8,35,True
+TOLIMA,SAN LUIS,1,0,1,True
+TOLIMA,SANTA ISABEL,2,0,2,True
+TOLIMA,SUÁREZ,0,0,0,True
+TOLIMA,VALLE DE SAN JUAN,0,0,0,True
+TOLIMA,VENADILLO,3,2,1,True
+TOLIMA,VILLAHERMOSA,4,3,1,True
+TOLIMA,VILLARRICA,39,3,36,True
+VALLE DEL CAUCA,ANDALUCÍA,3,0,3,True
+VALLE DEL CAUCA,BOLÍVAR,4,2,2,True
+VALLE DEL CAUCA,BUENAVENTURA,50,11,39,True
+VALLE DEL CAUCA,BUGA,50,8,42,True
+VALLE DEL CAUCA,BUGALAGRANDE,8,2,6,True
+VALLE DEL CAUCA,CALI,14,2,12,True
+VALLE DEL CAUCA,CALIMA,4,1,3,True
+VALLE DEL CAUCA,DAGUA,29,4,25,True
+VALLE DEL CAUCA,EL CAIRO,1,0,1,True
+VALLE DEL CAUCA,EL CERRITO,12,1,11,True
+VALLE DEL CAUCA,EL DOVIO,4,1,3,True
+VALLE DEL CAUCA,EL ÁGUILA,2,1,1,True
+VALLE DEL CAUCA,FLORIDA,208,60,148,True
+VALLE DEL CAUCA,GINEBRA,2,0,2,True
+VALLE DEL CAUCA,GUACARÍ,6,2,4,True
+VALLE DEL CAUCA,JAMUNDÍ,48,4,44,True
+VALLE DEL CAUCA,LA CUMBRE,1,1,0,True
+VALLE DEL CAUCA,PALMIRA,51,13,38,True
+VALLE DEL CAUCA,PRADERA,131,23,108,True
+VALLE DEL CAUCA,RESTREPO,1,1,0,True
+VALLE DEL CAUCA,RIOFRÍO,3,1,2,True
+VALLE DEL CAUCA,SAN PEDRO,17,4,13,True
+VALLE DEL CAUCA,SEVILLA,4,1,3,True
+VALLE DEL CAUCA,TRUJILLO,2,0,2,True
+VALLE DEL CAUCA,TULUÁ,97,8,89,True
+VALLE DEL CAUCA,VERSALLES,1,0,1,True
+VALLE DEL CAUCA,YOTOCO,1,0,1,True
+VAUPES,CARURÚ,85,12,73,True
+VAUPES,MITÚ,75,19,56,True
+VICHADA,CUMARIBO,55,6,49,True
+VICHADA,LA PRIMAVERA,2,0,2,True
+VICHADA,PUERTO CARREÑO,1,1,0,True
