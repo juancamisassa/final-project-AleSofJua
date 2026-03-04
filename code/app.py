@@ -245,6 +245,66 @@ def _build_choropleth(
     return m
 
 
+def _build_priority_map_plotly(geojson_str, value_col="priority_idx"):
+    """Build priority map with Plotly (more reliable than Folium on Streamlit Cloud)."""
+    data = json.loads(geojson_str)
+    features = data["features"]
+
+    locations = []
+    z_vals = []
+    hover_names = []
+    for f in features:
+        props = f["properties"]
+        n1 = props.get("NAME_1", "")
+        n2 = props.get("NAME_2", "")
+        locations.append(f"{n1}|{n2}")
+        hover_names.append(f"{n2} ({n1})")
+        v = props.get(value_col)
+        if v is None or (isinstance(v, float) and np.isnan(v)):
+            z_vals.append(0.0)
+        else:
+            z_vals.append(float(v))
+
+    for i, f in enumerate(features):
+        f["properties"]["_id"] = locations[i]
+
+    vmin = float(np.percentile(z_vals, 2))
+    vmax = float(np.percentile(z_vals, 98))
+    if vmax <= vmin or (vmax - vmin) < 1e-6:
+        vmin, vmax = min(z_vals) - 0.5, max(z_vals) + 0.5
+
+    fig = go.Figure(go.Choroplethmapbox(
+        geojson=data,
+        locations=locations,
+        featureidkey="properties._id",
+        z=z_vals,
+        customdata=np.array(hover_names)[:, np.newaxis],
+        colorscale=[
+            [0, "#fff5eb"], [0.2, "#ffddb8"], [0.4, "#ffc078"],
+            [0.6, "#ff9f40"], [0.8, "#e87500"], [1, "#8b3a00"],
+        ],
+        zmin=vmin,
+        zmax=vmax,
+        marker_line_width=0.5,
+        marker_opacity=0.75,
+        colorbar=dict(title="Priority index", thickness=15, len=0.6),
+        hovertemplate="<b>%{customdata[0]}</b><br>Priority: %{z:.2f}<extra></extra>",
+    ))
+
+    fig.update_layout(
+        mapbox=dict(
+            style="carto-positron",
+            center=dict(lat=4.5, lon=-74.5),
+            zoom=5,
+            bounds={"west": -80, "east": -66, "south": -5, "north": 13},
+        ),
+        margin=dict(l=0, r=0, t=0, b=0),
+        height=620,
+    )
+
+    return fig
+
+
 # ── Pages ─────────────────────────────────────────────────────────────
 
 
@@ -252,15 +312,12 @@ def page_maps(data):
     st.markdown(
         "### Armed Conflict & Mine Events — Colombia 1994–2024"
     )
-    st.caption(
-        "Mine events (demining, MAP): *Database of Events by MAP/MUSE* (MAP = Anti-Personnel Mines). Victims: *Centro Nacional de Memoria Histórica, CasosMI*."
-    )
 
     map_choice = st.selectbox(
         "Right-side map",
         [
             "Cumulative Mine Accidents by Municipality (1994–2024)",
-            "Mine victims by municipality",
+            "Cumulative Mine Victims by Municipality (1994–2024)",
         ],
         label_visibility="collapsed",
     )
@@ -283,9 +340,10 @@ def page_maps(data):
             **MAP_OPTS,
         )
         st_folium(m_conflict, height=620, use_container_width=True)
+        st.caption("*Source: UCDP GED v25.1*")
 
     with col_right:
-        if map_choice.startswith("Cumulative Mine"):
+        if map_choice.startswith("Cumulative Mine Accidents"):
             st.markdown("**Cumulative Mine Accidents by Municipality (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
@@ -312,13 +370,14 @@ def page_maps(data):
                 **MAP_OPTS,
             )
         st_folium(m_right, height=620, use_container_width=True)
+        st.caption(
+            "*Sources: AICMA Open Database of Anti-Personnel Mines (MAP); "
+            "Victims: Centro Nacional de Memoria Histórica, CasosMI*"
+        )
 
 
 def page_timeline(data):
     st.markdown("### Demining and MAP Accidents by Year — Colombia 1994–2024")
-    st.caption(
-        "Annual event count by type. Source: *Database of Events by MAP/MUSE* (demining + MAP accidents; MAP = Anti-Personnel Mines). Victims: *Centro Nacional de Memoria Histórica, CasosMI*."
-    )
 
     years = list(range(1994, 2025))
     dem = data["desminado_anual"]
@@ -430,6 +489,8 @@ def page_timeline(data):
 
     st.plotly_chart(fig2, use_container_width=True)
 
+    st.caption("*Source: AICMA Open Database of Anti-Personnel Mines (MAP)*")
+
 
 def page_priority(data):
     st.markdown(
@@ -475,50 +536,11 @@ def page_priority(data):
     with col_right:
         st.markdown("**Priority Index: Z(conflict) + Z(mine incidents) − Z(demining)**")
 
-        m_gap = _build_choropleth(
+        fig_priority = _build_priority_map_plotly(
             data["geojson"],
             value_col="priority_idx",
-            caption="Priority index",
-            colors=[
-                "#fff5eb", "#ffddb8", "#ffc078",
-                "#ff9f40", "#e87500", "#c45a00", "#8b3a00",
-            ],
-            tooltip_alias="Priority",
-            show_legend=False,
-            show_value_in_tooltip=True,
-            log_scale=False,
         )
-
-        show_demining_pts = st.checkbox(
-            "Show demining operation points",
-            value=False,
-            help="Display demining locations (may be crowded with many points)",
-        )
-        if show_demining_pts and not data["demining_pts"].empty:
-            dem_group = folium.FeatureGroup(name="Demining operations")
-            for _, pt in data["demining_pts"].iterrows():
-                lat, lon = pt.get("Latitud"), pt.get("Longitud")
-                if pd.notna(lat) and pd.notna(lon):
-                    folium.CircleMarker(
-                        location=[float(lat), float(lon)],
-                        radius=2,
-                        color="#115511",
-                        fill=True,
-                        fill_color="#22aa22",
-                        fill_opacity=0.5,
-                        weight=0.4,
-                        tooltip=f"Demining — {pt.get('Municipio', '')}",
-                    ).add_to(dem_group)
-            dem_group.add_to(m_gap)
-        folium.LayerControl(collapsed=False).add_to(m_gap)
-
-        try:
-            st_folium(m_gap, height=620, use_container_width=True)
-        except Exception:
-            st.warning(
-                "The priority map could not be rendered. Try re-running "
-                "`python code/preprocess_for_streamlit.py` to regenerate the data."
-            )
+        st.plotly_chart(fig_priority, use_container_width=True)
 
 
 # ── Sidebar & routing ─────────────────────────────────────────────────

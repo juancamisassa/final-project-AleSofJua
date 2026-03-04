@@ -1002,6 +1002,6 @@ plt.show()
 ## Data Sources
 
 - **Armed Conflict Events**: Uppsala Conflict Data Program (UCDP) Georeferenced Event Dataset (GED) v25.1
-- **Mine Events (demining, MAP incidents)**: Descontamina Colombia — Database of Events by MAP/MUSE (Eventos por MAP/MUSE)
+- **Mine Events (demining, MAP incidents)**: AICMA Open Database of Anti-Personnel Mines (MAP)
 - **Mine Victims**: Centro Nacional de Memoria Histórica — CasosMI Database
 - **Administrative Boundaries**: GADM v4.1 — Colombia Level 2 (Municipalities)
