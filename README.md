@@ -17,7 +17,7 @@ Interactive dashboard and academic report on armed conflict and antipersonnel mi
 - **Page 2 — Demining Timeline**: line charts and proportions with interactive filters (department selector, year range slider)
 - **Page 3 — Priority Analysis**: priority index map and ranked bar chart with adjustable number of municipalities (5–20)
 
-## Setup local (desarrollo)
+## Setup local (development)
 
 ```bash
 conda env create -f environment.yml
@@ -25,34 +25,34 @@ conda activate fire_analysis
 pip install -r requirements.txt
 ```
 
-## Preprocesar datos (requerido antes de desplegar)
+## Preprocessing of the Data (required before deploying the app)
 
-El dashboard en Streamlit Cloud usa datos preprocesados para evitar geopandas en runtime:
+The dashboard on Streamlit Cloud uses preprocesed data to avoid the use of geopandas during runtime:
 
 ```bash
 python code/preprocess_for_streamlit.py
 ```
 
-Esto genera `data/derived-data/` con geojson.json, country_outline.json y app_data.json. **Commitear estos archivos** antes de desplegar.
+This generates `data/derived-data/` with geojson.json, country_outline.json and app_data.json. **Commit these files** before deploying the app.
 
-## Ejecutar localmente
+## Run the app locally
 
 ```bash
 streamlit run code/app.py
 ```
 
-## Renderizar el reporte Quarto
+## Render the final report in Quarto
 
-El reporte usa Altair (además de Matplotlib) para visualizaciones. Requisitos adicionales:
+The final report uses Altair for visualizations. It also uses Matplotlib for the maps. Additional requirements:
 
 ```bash
 pip install altair vl-convert-python
 quarto render code/Final_project.qmd
 ```
 
-## Desplegar en Streamlit Community Cloud
+## Deploy on Streamlit Community Cloud
 
-1. Ejecutar `python code/preprocess_for_streamlit.py`
-2. Hacer commit de `data/derived-data/*.json`
-3. Conectar el repo a [share.streamlit.io](https://share.streamlit.io)
+1. Run `python code/preprocess_for_streamlit.py`
+2. Commit the `data/derived-data/*.json`
+3. Connect the repo to [share.streamlit.io](https://share.streamlit.io)
 4. App path: `code/app.py`
