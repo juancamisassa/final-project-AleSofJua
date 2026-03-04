@@ -268,10 +268,10 @@ def _build_priority_map_plotly(geojson_str, value_col="priority_idx"):
     for i, f in enumerate(features):
         f["properties"]["_id"] = locations[i]
 
-    vmin = float(np.percentile(z_vals, 2))
-    vmax = float(np.percentile(z_vals, 98))
+    vmin = float(np.min(z_vals))
+    vmax = float(np.max(z_vals))
     if vmax <= vmin or (vmax - vmin) < 1e-6:
-        vmin, vmax = min(z_vals) - 0.5, max(z_vals) + 0.5
+        vmin, vmax = vmin - 0.5, vmax + 0.5
 
     fig = go.Figure(go.Choroplethmapbox(
         geojson=data,
