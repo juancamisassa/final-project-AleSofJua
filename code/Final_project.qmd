@@ -46,7 +46,7 @@ All data processing—loading, merging, reshaping, and matching—is handled by 
 ```{python}
 #| label: load-all-data
 
-from wrangling import load_and_process_all, write_derived_data, normalize, MANUAL_MAP
+from preprocessing import load_and_process_all, write_derived_data, normalize, MANUAL_MAP
 
 data = load_and_process_all()
 df_col = data["df_col"]

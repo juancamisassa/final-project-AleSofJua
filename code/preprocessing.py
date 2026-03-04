@@ -1,7 +1,7 @@
 """
 Data wrangling for Colombia conflict and mines analysis.
 All processing logic lives here. The .qmd imports this module; run directly to
-generate derived data for the Streamlit app:  python code/wrangling.py
+generate derived data for the Streamlit app:  python code/preprocessing.py
 """
 from pathlib import Path
 import json
