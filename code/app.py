@@ -133,34 +133,49 @@ def _build_choropleth(
     data = json.loads(geojson_str)
     features = data["features"]
 
-    raw_vals = [
-        f["properties"][value_col]
-        for f in features
-        if (f["properties"].get(value_col) or 0) > 0
-    ]
-    if not raw_vals:
-        vmax = 1.0
-    elif log_scale:
-        vmax = float(np.percentile([np.log1p(v) for v in raw_vals], 98))
+    if log_scale:
+        raw_vals = [
+            f["properties"][value_col]
+            for f in features
+            if (f["properties"].get(value_col) or 0) > 0
+        ]
     else:
+        raw_vals = [
+            f["properties"][value_col]
+            for f in features
+            if f["properties"].get(value_col) is not None
+            and not (isinstance(f["properties"][value_col], float) and np.isnan(f["properties"][value_col]))
+        ]
+    if not raw_vals:
+        vmin, vmax = 0, 1.0
+    elif log_scale:
+        vmin = 0
+        vmax = float(np.percentile([np.log1p(v) for v in raw_vals], 98))
+        if vmax == 0:
+            vmax = 1.0
+    else:
+        vmin = float(np.percentile(raw_vals, 2))
         vmax = float(np.percentile(raw_vals, 98))
-    if vmax == 0:
-        vmax = 1.0
+        if vmax - vmin < 1e-6:
+            vmin, vmax = vmin - 0.5, vmax + 0.5
 
-    cmap = bcm.LinearColormap(colors=colors, vmin=0, vmax=vmax, caption=caption)
+    cmap = bcm.LinearColormap(colors=colors, vmin=vmin, vmax=vmax, caption=caption)
 
     def style_fn(feature):
-        val = feature["properties"].get(value_col) or 0
-        if val == 0:
+        val = feature["properties"].get(value_col)
+        if val is None or (isinstance(val, float) and np.isnan(val)):
+            val = 0
+        if log_scale and val == 0:
             return {
                 "fillColor": "#f5f5f5",
                 "color": "#cccccc",
                 "weight": 0.4,
                 "fillOpacity": 0.7,
             }
-        v = np.log1p(val) if log_scale else val
+        v = np.log1p(val) if log_scale else float(val)
+        v_clipped = min(max(v, vmin), vmax) if not log_scale else min(float(v), vmax)
         return {
-            "fillColor": cmap(min(float(v), vmax)),
+            "fillColor": cmap(v_clipped),
             "color": "#cccccc",
             "weight": 0.4,
             "fillOpacity": 0.75,
@@ -227,7 +242,7 @@ def page_maps(data):
         "### Armed Conflict & Mine Events — Colombia 1994–2024"
     )
     st.caption(
-        "Eventos de minas (desminado, MAP): EVENTOS 31. Víctimas: CasosMI."
+        "Mine events (demining, MAP): *Base de datos de​ Eventos por MAP/MUSE*. Victims: *Centro Nacional de Memoria Historica, CasosMI*."
     )
 
     map_choice = st.selectbox(
@@ -235,7 +250,6 @@ def page_maps(data):
         [
             "Mine incidents (MAP) by municipality",
             "Mine victims by municipality",
-            "Desminado by municipality",
         ],
         label_visibility="collapsed",
     )
@@ -260,21 +274,8 @@ def page_maps(data):
         st_folium(m_conflict, height=620, use_container_width=True)
 
     with col_right:
-        if "Desminado" in map_choice:
-            st.markdown("**Eventos de desminado por municipio (1994–2024)**")
-            m_right = _build_choropleth(
-                data["geojson"],
-                value_col="demining_count",
-                caption="Eventos desminado",
-                colors=[
-                    "#ffffff", "#e6f4ea", "#b3e0c2",
-                    "#66c088", "#2d9d5a", "#1a7a3e", "#0d4d26",
-                ],
-                tooltip_alias="Eventos desminado",
-                **MAP_OPTS,
-            )
-        elif map_choice.startswith("Mine incidents"):
-            st.markdown("**Accidentes MAP por municipio (1994–2024)**")
+        if map_choice.startswith("Mine incidents"):
+            st.markdown("**MAP Accidents by Municipality (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
                 value_col="mine_incidents",
@@ -283,7 +284,7 @@ def page_maps(data):
                     "#ffffff", "#f0f4ff", "#ccdcff",
                     "#88aaee", "#4477cc", "#1a4e99", "#0a2d6b",
                 ],
-                tooltip_alias="Accidentes MAP",
+                tooltip_alias="MAP accidents",
                 **MAP_OPTS,
             )
         else:
@@ -303,8 +304,8 @@ def page_maps(data):
 
 
 def page_timeline(data):
-    st.markdown("### Desminado y accidentes MAP por año — Colombia 1994–2024")
-    st.caption("Conteo anual por tipo de evento. Fuente: EVENTOS 31 (desminado + accidentes MAP); víctimas: CasosMI.")
+    st.markdown("### Demining and MAP Accidents by Year — Colombia 1994–2024")
+    st.caption("Annual event count by type. Source: *Base de datos de​ Eventos por MAP/MUSE* (demining + MAP accidents); victims: *Centro Nacional de Memoria Historica, CasosMI*.")
 
     years = list(range(1994, 2025))
     dem = data["desminado_anual"]
@@ -322,8 +323,8 @@ def page_timeline(data):
             marker=dict(size=6, color="#22aa22"),
             fill="tozeroy",
             fillcolor="rgba(34,170,34,0.15)",
-            name="Desminado",
-            hovertemplate="Año: %{x}<br>Desminado: %{y:,}<extra></extra>",
+            name="Demining",
+            hovertemplate="Year: %{x}<br>Demining: %{y:,}<extra></extra>",
         )
     )
     fig.add_trace(
@@ -333,8 +334,8 @@ def page_timeline(data):
             mode="lines+markers",
             line=dict(color="#cc5500", width=2.5),
             marker=dict(size=6, color="#cc5500"),
-            name="Accidentes MAP",
-            hovertemplate="Año: %{x}<br>Accidentes MAP: %{y:,}<extra></extra>",
+            name="MAP accidents",
+            hovertemplate="Year: %{x}<br>MAP accidents: %{y:,}<extra></extra>",
         )
     )
 
@@ -367,7 +368,7 @@ def page_timeline(data):
             range=[1993.5, 2024.5],
             tickangle=-45,
         ),
-        yaxis=dict(title="Conteo de eventos"),
+        yaxis=dict(title="Event count"),
         legend=dict(
             x=0.02, y=0.98, bgcolor="rgba(255,255,255,0.9)",
             bordercolor="#cccccc", borderwidth=1,
@@ -377,9 +378,9 @@ def page_timeline(data):
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # ── Bottom panel: proporción desminado vs accidentes MAP ──────────
+    # ── Bottom panel: proportion demining vs MAP accidents ───────────
     inc = data["incidentes_anual"]
-    st.markdown("**Proporción de eventos: incidentes vs desminado**")
+    st.markdown("**Proportion of events: incidents vs demining**")
 
     total = dem.values + inc.values
     safe_total = np.where(total > 0, total, 1)
@@ -389,16 +390,16 @@ def page_timeline(data):
     fig2 = go.Figure()
     fig2.add_trace(
         go.Bar(
-            x=years, y=pct_inc, name="Incidentes minas",
+            x=years, y=pct_inc,             name="Mine incidents",
             marker_color="#cc5500",
-            hovertemplate="Año %{x}<br>Incidentes: %{y:.1f}%<extra></extra>",
+            hovertemplate="Year %{x}<br>Incidents: %{y:.1f}%<extra></extra>",
         )
     )
     fig2.add_trace(
         go.Bar(
-            x=years, y=pct_dem, name="Desminado",
+            x=years, y=pct_dem,             name="Demining",
             marker_color="#22aa22",
-            hovertemplate="Año %{x}<br>Desminado: %{y:.1f}%<extra></extra>",
+            hovertemplate="Year %{x}<br>Demining: %{y:.1f}%<extra></extra>",
         )
     )
     fig2.update_layout(
@@ -419,30 +420,32 @@ def page_timeline(data):
 
 def page_priority(data):
     st.markdown(
-        "### Demining Priority: Mine Incidents minus Demining — Colombia 1994–2024"
+        "### Demining Priority Index — Colombia 1994–2024"
     )
     st.caption(
-        "Municipalities with the largest gap between mine incidents and demining operations. "
-        "The map shows the raw difference (incidents − demining) per municipality."
+        "Priority = Z(conflict) + Z(mine incidents) − Z(demining). "
+        "Higher values indicate municipalities with more conflict and mine incidents relative to demining activity."
     )
 
     col_left, col_right = st.columns([2, 3])
 
     with col_left:
-        st.markdown("**Top 10 municipalities (incidents − demining)**")
         top10 = data["top10_gap"]
+        # Handle both old (incidents_minus_demining) and new (priority_idx) formats
+        priority_col = "priority_idx" if "priority_idx" in top10.columns else "incidents_minus_demining"
+        st.markdown(f"**Top 10 municipalities by priority index**")
 
         fig_bar = go.Figure(
             go.Bar(
                 y=top10["NAME_2"],
-                x=top10["incidents_minus_demining"],
+                x=top10[priority_col],
                 orientation="h",
                 marker_color="#c45a00",
                 marker_line_color="#8b3a00",
                 marker_line_width=1,
                 hovertemplate=(
                     "<b>%{y}</b><br>"
-                    "Gap: %{x}<br>"
+                    "Priority index: %{x:.2f}<br>"
                     "<extra></extra>"
                 ),
             )
@@ -451,40 +454,49 @@ def page_priority(data):
             template="plotly_white",
             height=520,
             margin=dict(l=10, r=20, t=10, b=40),
-            xaxis=dict(title="Mine incidents − demining", showticklabels=False),
+            xaxis=dict(title="Priority index", showticklabels=False),
             yaxis=dict(automargin=True, tickfont=dict(size=12)),
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 
     with col_right:
-        st.markdown("**Demining Gap Index: Mine Incidents minus Demining Operations**")
+        st.markdown("**Priority Index: Z(conflict) + Z(mine incidents) − Z(demining)**")
 
         m_gap = _build_choropleth(
             data["geojson"],
-            value_col="gap_raw",
-            caption="Incidents − demining",
+            value_col="priority_idx",
+            caption="Priority index",
             colors=[
                 "#fff5eb", "#ffddb8", "#ffc078",
                 "#ff9f40", "#e87500", "#c45a00", "#8b3a00",
             ],
-            tooltip_alias="Gap (incidents − demining)",
+            tooltip_alias="Priority",
             show_legend=False,
-            show_value_in_tooltip=False,
+            show_value_in_tooltip=True,
+            log_scale=False,
         )
 
-        dem_group = folium.FeatureGroup(name="Demining operations")
-        for _, pt in data["demining_pts"].iterrows():
-            folium.CircleMarker(
-                location=[pt["Latitud"], pt["Longitud"]],
-                radius=4,
-                color="#115511",
-                fill=True,
-                fill_color="#22aa22",
-                fill_opacity=0.8,
-                weight=0.6,
-                tooltip=f"Demining — {pt['Municipio']}",
-            ).add_to(dem_group)
-        dem_group.add_to(m_gap)
+        show_demining_pts = st.checkbox(
+            "Show demining operation points",
+            value=False,
+            help="Display demining locations (may be crowded with many points)",
+        )
+        if show_demining_pts and not data["demining_pts"].empty:
+            dem_group = folium.FeatureGroup(name="Demining operations")
+            for _, pt in data["demining_pts"].iterrows():
+                lat, lon = pt.get("Latitud"), pt.get("Longitud")
+                if pd.notna(lat) and pd.notna(lon):
+                    folium.CircleMarker(
+                        location=[lat, lon],
+                        radius=2,
+                        color="#115511",
+                        fill=True,
+                        fill_color="#22aa22",
+                        fill_opacity=0.5,
+                        weight=0.4,
+                        tooltip=f"Demining — {pt.get('Municipio', '')}",
+                    ).add_to(dem_group)
+            dem_group.add_to(m_gap)
         folium.LayerControl(collapsed=False).add_to(m_gap)
 
         st_folium(m_gap, height=620, use_container_width=True)
@@ -505,8 +517,9 @@ selection = st.sidebar.radio("Navigate", list(PAGES.keys()), label_visibility="c
 
 st.sidebar.markdown("---")
 st.sidebar.caption(
-    "Sources: [UCDP GED v25.1](https://ucdp.uu.se/downloads/) · "
-    "[Descontamina Colombia](http://www.accioncontraminas.gov.co/)"
+    "**Sources:** [UCDP GED](https://ucdp.uu.se/downloads/) · "
+    "[Descontamina Colombia](http://www.accioncontraminas.gov.co/) · "
+    "[Victims dataset — Centro Nacional de Memoria Histórica](https://www.centrodememoriahistorica.gov.co/)"
 )
 
 data = load_data()

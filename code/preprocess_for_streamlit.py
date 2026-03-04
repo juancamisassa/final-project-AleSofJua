@@ -313,6 +313,17 @@ def main():
         f"víctimas (CasosMI): {int(gdf['total_victims'].sum())}",
     )
 
+    # Priority index: Z(conflict) + Z(mine_incidents) - Z(demining)
+    for col in ["crime_count", "mine_incidents", "demining_count"]:
+        mean_val = gdf[col].mean()
+        std_val = gdf[col].std()
+        if std_val == 0 or pd.isna(std_val):
+            gdf[f"z_{col}"] = 0
+        else:
+            gdf[f"z_{col}"] = (gdf[col] - mean_val) / std_val
+    gdf["priority_idx"] = (
+        gdf["z_crime_count"] + gdf["z_mine_incidents"] - gdf["z_demining_count"]
+    )
     gdf["gap_raw"] = (
         (gdf["mine_incidents"] - gdf["demining_count"]).clip(lower=0).astype(int)
     )
@@ -323,7 +334,7 @@ def main():
     cols_out = [
         "NAME_1", "NAME_2", "crime_count", "mine_count",
         "total_victims", "mine_incidents", "demining_count",
-        "gap_raw", "geometry",
+        "priority_idx", "gap_raw", "geometry",
     ]
     geojson_str = gdf[cols_out].to_json()
 
@@ -332,18 +343,15 @@ def main():
     country_gdf = gpd.GeoDataFrame(geometry=[country_geom], crs=gdf.crs)
     country_outline_str = country_gdf.to_json()
 
-    gdf["incidents_minus_demining"] = (
-        gdf["mine_incidents"] - gdf["demining_count"]
-    )
-    top_candidates = gdf.nlargest(20, "incidents_minus_demining")[
+    top_candidates = gdf.nlargest(20, "priority_idx")[
         [
-            "NAME_2", "NAME_1", "incidents_minus_demining",
-            "mine_incidents", "demining_count",
+            "NAME_2", "NAME_1", "priority_idx",
+            "crime_count", "mine_incidents", "demining_count",
         ]
     ].copy()
     top_candidates = top_candidates.drop_duplicates(subset="NAME_2", keep="first")
     top10 = top_candidates.head(10).sort_values(
-        "incidents_minus_demining", ascending=True
+        "priority_idx", ascending=True
     )
 
     stats = {
