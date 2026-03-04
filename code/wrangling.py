@@ -1,6 +1,7 @@
 """
 Data wrangling for Colombia conflict and mines analysis.
-All processing logic lives here. The .qmd and preprocessing.py both use this module.
+All processing logic lives here. The .qmd imports this module; run directly to
+generate derived data for the Streamlit app:  python code/wrangling.py
 """
 from pathlib import Path
 import json
@@ -350,3 +351,14 @@ def write_derived_data(data=None, data_dir=None):
         "stats": stats,
     }
     (out_dir / "app_data.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    print("Loading and processing all data…")
+    data = load_and_process_all()
+    print("Writing derived data for Streamlit app…")
+    write_derived_data(data)
+    print(f"Done. Output in {data['out_dir']}")
+    print("  - geojson.json")
+    print("  - country_outline.json")
+    print("  - app_data.json")

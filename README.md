@@ -8,8 +8,7 @@ Interactive dashboard and academic report on armed conflict and antipersonnel mi
 |------|-------------|
 | `code/app.py` | Streamlit dashboard (3 pages) |
 | `code/Final_project.qmd` | Quarto academic report with static visualizations |
-| `code/wrangling.py` | Central data processing module (single source of truth) |
-| `code/preprocess_for_streamlit.py` | Generates derived JSON files for the dashboard |
+| `code/wrangling.py` | Central data processing module (single source of truth). Run directly to generate derived data for the dashboard |
 
 ## Dashboard features
 
@@ -30,7 +29,7 @@ pip install -r requirements.txt
 The dashboard on Streamlit Cloud uses preprocesed data to avoid the use of geopandas during runtime:
 
 ```bash
-python code/preprocess_for_streamlit.py
+python code/wrangling.py
 ```
 
 This generates `data/derived-data/` with geojson.json, country_outline.json and app_data.json. **Commit these files** before deploying the app.
@@ -52,7 +51,7 @@ quarto render code/Final_project.qmd
 
 ## Deploy on Streamlit Community Cloud
 
-1. Run `python code/preprocess_for_streamlit.py`
+1. Run `python code/wrangling.py`
 2. Commit the `data/derived-data/*.json`
 3. Connect the repo to [share.streamlit.io](https://share.streamlit.io)
 4. App path: `code/app.py`

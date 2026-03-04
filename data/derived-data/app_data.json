@@ -2226,7 +2226,7 @@
     {
       "NAME_2": "ElCarmendeBol\u00edvar",
       "NAME_1": "Bol\u00edvar",
-      "priority_idx": 4.698642463715425,
+      "priority_idx": 4.698642463715434,
       "crime_count": 126,
       "mine_incidents": 60,
       "demining_count": 281
@@ -2234,7 +2234,7 @@
     {
       "NAME_2": "Dabeiba",
       "NAME_1": "Antioquia",
-      "priority_idx": 4.758584374994105,
+      "priority_idx": 4.758584374994108,
       "crime_count": 64,
       "mine_incidents": 75,
       "demining_count": 101
@@ -2242,7 +2242,7 @@
     {
       "NAME_2": "Saman\u00e1",
       "NAME_1": "Caldas",
-      "priority_idx": 4.906690982631269,
+      "priority_idx": 4.906690982631275,
       "crime_count": 74,
       "mine_incidents": 68,
       "demining_count": 93
@@ -2250,7 +2250,7 @@
     {
       "NAME_2": "Cocorn\u00e1",
       "NAME_1": "Antioquia",
-      "priority_idx": 5.001033916291495,
+      "priority_idx": 5.001033916291504,
       "crime_count": 87,
       "mine_incidents": 48,
       "demining_count": 40
@@ -2258,7 +2258,7 @@
     {
       "NAME_2": "VistaHermosa",
       "NAME_1": "Meta",
-      "priority_idx": 5.020884420959316,
+      "priority_idx": 5.020884420959309,
       "crime_count": 94,
       "mine_incidents": 158,
       "demining_count": 591
@@ -2266,7 +2266,7 @@
     {
       "NAME_2": "Barranquilla",
       "NAME_1": "Atl\u00e1ntico",
-      "priority_idx": 5.021717871615899,
+      "priority_idx": 5.021717871615917,
       "crime_count": 134,
       "mine_incidents": 1,
       "demining_count": 0
@@ -2274,7 +2274,7 @@
     {
       "NAME_2": "Pereira",
       "NAME_1": "Risaralda",
-      "priority_idx": 5.114277746749713,
+      "priority_idx": 5.114277746749732,
       "crime_count": 137,
       "mine_incidents": 1,
       "demining_count": 3
@@ -2282,7 +2282,7 @@
     {
       "NAME_2": "Buenaventura",
       "NAME_1": "ValledelCauca",
-      "priority_idx": 5.153922701472926,
+      "priority_idx": 5.153922701472943,
       "crime_count": 135,
       "mine_incidents": 11,
       "demining_count": 39
@@ -2290,7 +2290,7 @@
     {
       "NAME_2": "Bogot\u00e1D.C.",
       "NAME_1": "Bogot\u00e1D.C.",
-      "priority_idx": 5.755442803424893,
+      "priority_idx": 5.755442803424913,
       "crime_count": 159,
       "mine_incidents": 17,
       "demining_count": 105
@@ -2298,7 +2298,7 @@
     {
       "NAME_2": "Ci\u00e9naga",
       "NAME_1": "Magdalena",
-      "priority_idx": 5.884251156038548,
+      "priority_idx": 5.884251156038568,
       "crime_count": 149,
       "mine_incidents": 8,
       "demining_count": 10
@@ -2306,7 +2306,7 @@
     {
       "NAME_2": "SanVicentedelCagu\u00e1n",
       "NAME_1": "Caquet\u00e1",
-      "priority_idx": 6.213502121267394,
+      "priority_idx": 6.213502121267386,
       "crime_count": 102,
       "mine_incidents": 185,
       "demining_count": 637
@@ -2314,7 +2314,7 @@
     {
       "NAME_2": "Tib\u00fa",
       "NAME_1": "NortedeSantander",
-      "priority_idx": 6.832139254492095,
+      "priority_idx": 6.832139254492105,
       "crime_count": 157,
       "mine_incidents": 86,
       "demining_count": 323
@@ -2322,7 +2322,7 @@
     {
       "NAME_2": "SanCarlos",
       "NAME_1": "Antioquia",
-      "priority_idx": 6.846026925874279,
+      "priority_idx": 6.846026925874283,
       "crime_count": 98,
       "mine_incidents": 98,
       "demining_count": 145
@@ -2330,7 +2330,7 @@
     {
       "NAME_2": "Taraz\u00e1",
       "NAME_1": "Antioquia",
-      "priority_idx": 6.879159218664093,
+      "priority_idx": 6.879159218664082,
       "crime_count": 31,
       "mine_incidents": 196,
       "demining_count": 344
@@ -2338,7 +2338,7 @@
     {
       "NAME_2": "Medell\u00edn",
       "NAME_1": "Antioquia",
-      "priority_idx": 8.081879683773286,
+      "priority_idx": 8.08187968377331,
       "crime_count": 193,
       "mine_incidents": 18,
       "demining_count": 21
@@ -2346,7 +2346,7 @@
     {
       "NAME_2": "Ituango",
       "NAME_1": "Antioquia",
-      "priority_idx": 9.07529689782338,
+      "priority_idx": 9.075296897823376,
       "crime_count": 82,
       "mine_incidents": 179,
       "demining_count": 254
@@ -2354,7 +2354,7 @@
     {
       "NAME_2": "SanJos\u00e9deC\u00facuta",
       "NAME_1": "NortedeSantander",
-      "priority_idx": 9.633569407713967,
+      "priority_idx": 9.633569407714,
       "crime_count": 245,
       "mine_incidents": 5,
       "demining_count": 16
@@ -2362,7 +2362,7 @@
     {
       "NAME_2": "Tame",
       "NAME_1": "Arauca",
-      "priority_idx": 11.045374263038415,
+      "priority_idx": 11.04537426303842,
       "crime_count": 206,
       "mine_incidents": 185,
       "demining_count": 585
@@ -2370,7 +2370,7 @@
     {
       "NAME_2": "Barrancabermeja",
       "NAME_1": "Santander",
-      "priority_idx": 12.04599339866196,
+      "priority_idx": 12.045993398662,
       "crime_count": 303,
       "mine_incidents": 10,
       "demining_count": 38

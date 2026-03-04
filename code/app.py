@@ -131,7 +131,7 @@ def load_data():
         return _load_preprocessed()
     st.error(
         "Preprocessed data not found. Run locally: "
-        "`python code/preprocess_for_streamlit.py`"
+        "`python code/wrangling.py`"
     )
     st.stop()
 
