@@ -378,7 +378,7 @@ def page_maps(data):
 
 
 def page_timeline(data):
-    st.markdown("### Demining and MAP Accidents by Year — Colombia 1994–2024")
+    st.markdown("### Demining and Mine Incidents by Year — Colombia 1994–2024")
 
     years = list(range(1994, 2025))
     dem = data["desminado_anual"]
@@ -407,8 +407,8 @@ def page_timeline(data):
             mode="lines+markers",
             line=dict(color="#cc5500", width=2.5),
             marker=dict(size=6, color="#cc5500"),
-            name="MAP accidents",
-            hovertemplate="Year: %{x}<br>MAP accidents: %{y:,}<extra></extra>",
+            name="Mine incidents",
+            hovertemplate="Year: %{x}<br>Mine incidents: %{y:,}<extra></extra>",
         )
     )
 

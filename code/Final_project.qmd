@@ -38,187 +38,42 @@ import unicodedata
 import re
 ```
 
-## 1. Loading and Filtering the GED Event Database
+## 1. Data Loading and Wrangling
 
-The UCDP Georeferenced Event Dataset (GED) records individual events of organized violence worldwide. We filter it to Colombia for the period 1994–2024.
+All data processing—loading, merging, reshaping, and matching—is handled by the `wrangling` module. This ensures a single source of truth for both the writeup and the Streamlit app.
 
 ```{python}
-#| label: load-ged
+#| label: load-all-data
 
-OUTPUT_PATH = "colombia_crimenes_por_ciudad_año.csv"
+from wrangling import load_and_process_all, write_derived_data, normalize, MANUAL_MAP
 
-df_col = pd.read_csv("../data/GEDEvent_Colombia.csv")
+data = load_and_process_all()
+df_col = data["df_col"]
+df_ev31 = data["df_ev31"]
+df_mi = data["df_mi"]
+gdf = data["gdf"]
+pivot = data["pivot"]
+geo_lookup = data["geo_lookup"]
+gdf_analysis = data["gdf_analysis"]
+years = data["years"]
+
+# Save pivot table for reference
+pivot.to_csv("colombia_crimenes_por_ciudad_año.csv", encoding="utf-8-sig")
+
+# Write derived data for the Streamlit app (geojson.json, app_data.json, etc.)
+write_derived_data(data)
+
+has_coords = "Latitud" in df_ev31.columns and "Longitud" in df_ev31.columns
+total_events = pivot["Total"].sum()
+
 print(f"Events in Colombia (1994-2024): {len(df_col):,}")
-```
-
-### Extracting Municipality Names
-
-We extract the municipality (city) name from the `adm_2` field, falling back to `where_coordinates` and `adm_1` when unavailable.
-
-```{python}
-#| label: extract-cities
-
-def clean_city_name(name):
-    """Remove suffixes like 'municipality', 'town', 'district', etc."""
-    if pd.isna(name):
-        return None
-    name = re.sub(r"\s+(municipality|district|town|city)$", "", name, flags=re.IGNORECASE)
-    return name.strip()
-
-df_col["ciudad"] = df_col["adm_2"].apply(clean_city_name)
-
-mask_no_city = df_col["ciudad"].isna()
-df_col.loc[mask_no_city, "ciudad"] = df_col.loc[mask_no_city, "where_coordinates"].apply(clean_city_name)
-
-mask_still_na = df_col["ciudad"].isna()
-df_col.loc[mask_still_na, "ciudad"] = df_col.loc[mask_still_na, "adm_1"].apply(clean_city_name)
-
-df_col["departamento"] = df_col["adm_1"].apply(
-    lambda x: re.sub(r"\s+(department|district)$", "", x, flags=re.IGNORECASE).strip() if pd.notna(x) else None
-)
-
-print(f"Unique cities/municipalities: {df_col['ciudad'].nunique()}")
-print(f"Events without city: {df_col['ciudad'].isna().sum()}")
-```
-
-### Conflict Count Table by City and Year
-
-```{python}
-#| label: pivot-table
-
-pivot = df_col.pivot_table(
-    index=["departamento", "ciudad"],
-    columns="year",
-    values="id",
-    aggfunc="count",
-    fill_value=0
-)
-
-pivot.columns = [str(int(y)) for y in pivot.columns]
-pivot["Total"] = pivot.sum(axis=1)
-pivot = pivot.sort_values("Total", ascending=False)
-
-pivot.to_csv(OUTPUT_PATH, encoding="utf-8-sig")
-
-print(f"Table dimensions: {pivot.shape[0]} cities x {pivot.shape[1]} columns (years + total)")
-print(f"\nTop 20 cities by conflict events:")
-print(pivot.head(20)[["Total"]].to_string())
-print(f"\nPeriod: 1994-2024")
-print(f"Total events: {len(df_col):,}")
-print(f"Departments: {df_col['departamento'].nunique()}")
-print(f"Cities/Municipalities: {df_col['ciudad'].nunique()}")
+print(f"Eventos 31: {len(df_ev31):,} | CasosMI victims: {len(df_mi):,}")
+print(f"Municipalities: {len(gdf)} | Conflict mapped: {gdf['crime_count'].sum():,.0f}")
 ```
 
 ## 2. Conflict Density Map by Municipality
 
-We match the GED event data to GADM municipality geometries using a fuzzy name-matching approach with manual corrections for known discrepancies.
-
-```{python}
-#| label: geo-matching
-
-def normalize(name):
-    """Lowercase, strip accents, remove spaces/punctuation for fuzzy matching."""
-    if pd.isna(name):
-        return ""
-    s = str(name).lower().strip()
-    s = unicodedata.normalize("NFD", s)
-    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
-    s = re.sub(r"[^a-z0-9]", "", s)
-    return s
-
-gdf = gpd.read_file("../data/gadm41_COL_2.json")
-
-crimes = pivot.reset_index()
-
-gdf["key"] = gdf["NAME_2"].apply(normalize)
-gdf["key_dept"] = gdf["NAME_1"].apply(normalize)
-
-crimes["key"] = crimes["ciudad"].apply(normalize)
-crimes["key_dept"] = crimes["departamento"].apply(normalize)
-
-MANUAL_MAP = {
-    ("bogota", "bogota"): "bogotadc",
-    ("bogotadc", "bogota"): "bogotadc",
-    ("bolivar", "cartagena"): "cartagenadeindias",
-    ("nortedesantander", "cucuta"): "sanjosedecucuta",
-    ("valledelcauca", "cali"): "santiagodecali",
-    ("antioquia", "elsantuario"): "santuario",
-    ("antioquia", "carmendeviboral"): "elcarmendeviboral",
-    ("caqueta", "cartagenadelchaira"): "cartagenadelchaira",
-    ("bolivar", "elcarmendebolivar"): "elcarmendebolivar",
-    ("magdalena", "santamarta"): "santamarta",
-    ("meta", "uribe"): "lauribe",
-    ("nortedesantander", "zulia"): "elzulia",
-    ("choco", "carmendeldarien"): "elcarmendeldarien",
-    ("caqueta", "montanita"): "lamontanita",
-    ("narino", "sanandrésdetumaco"): "tumaco",
-    ("narino", "sandresdetumaco"): "tumaco",
-    ("narino", "sanandresdetumaco"): "tumaco",
-    ("atlantico", "sabanalargamunicipalityatlantico"): "sabanalarga",
-    ("cauca", "lopezdemicay"): "lopezdemicay",
-    ("caqueta", "sanjosedefragua"): "sanjosedelfragua",
-    ("sucre", "sanluisdesince"): "since",
-    ("antioquia", "sabanalargamunicipalityantioquia"): "sabanalarga",
-}
-
-SKIP_KEYS = set()
-for _, row in crimes.iterrows():
-    k = normalize(row["ciudad"])
-    if "department" in str(row["ciudad"]).lower() or k == "colombia":
-        SKIP_KEYS.add((normalize(row["departamento"]), k))
-
-geo_lookup = {}
-for idx, row in gdf.iterrows():
-    geo_lookup[(row["key_dept"], row["key"])] = idx
-    geo_lookup[("", row["key"])] = idx
-    if pd.notna(row.get("VARNAME_2")):
-        for v in str(row["VARNAME_2"]).split("|"):
-            vk = normalize(v)
-            if vk:
-                geo_lookup[(row["key_dept"], vk)] = idx
-                geo_lookup[("", vk)] = idx
-
-match_count = 0
-no_match = []
-crime_totals = {}
-
-for _, crow in crimes.iterrows():
-    ck = crow["key"]
-    dk = crow["key_dept"]
-    total = crow["Total"]
-
-    if (dk, ck) in SKIP_KEYS:
-        continue
-
-    manual_key = (dk, ck)
-    if manual_key in MANUAL_MAP:
-        ck = MANUAL_MAP[manual_key]
-
-    geo_idx = geo_lookup.get((dk, ck)) or geo_lookup.get(("", ck))
-
-    if geo_idx is not None:
-        crime_totals[geo_idx] = crime_totals.get(geo_idx, 0) + total
-        match_count += 1
-    else:
-        no_match.append((crow["departamento"], crow["ciudad"], total))
-
-gdf["crime_count"] = 0
-for idx, total in crime_totals.items():
-    gdf.at[idx, "crime_count"] = total
-
-total_events_mapped = gdf["crime_count"].sum()
-total_events = crimes["Total"].sum()
-
-print(f"Municipalities matched: {match_count} of {len(crimes)}")
-print(f"Events mapped: {total_events_mapped:,.0f} of {total_events:,}")
-print(f"Unmatched: {len(no_match)}")
-
-if no_match:
-    no_match_sorted = sorted(no_match, key=lambda x: -x[2])[:10]
-    print("Top 10 unmatched:")
-    for dept, city, t in no_match_sorted:
-        print(f"  {dept} / {city}: {t}")
-```
+We match the GED event data to GADM municipality geometries using a fuzzy name-matching approach with manual corrections for known discrepancies. (Matching is performed in the wrangling module.)
 
 ### Map: Armed Conflict Density
 
@@ -301,58 +156,9 @@ fig.savefig("mapa_conflicto_colombia.png", dpi=200, bbox_inches="tight", facecol
 plt.show()
 ```
 
-## 3. Loading Mine Events and Victim Data
+## 3. Mine Events and Victim Data
 
-We use two sources: the **Eventos por MAP/MUSE** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts.
-
-```{python}
-#| label: load-eventos31
-
-def _first_existing_col(df, candidates):
-    for c in candidates:
-        if c in df.columns:
-            return c
-    raise KeyError(f"None of these columns were found: {candidates}")
-
-EVENTOS_31_PATH = "../data/EVENTOS 31_ENE_2026.xlsx"
-df_ev31 = pd.read_excel(EVENTOS_31_PATH, sheet_name=0)
-
-col_year = _first_existing_col(df_ev31, ["Año", "Ao", "Year", "year"])
-col_tipo = _first_existing_col(df_ev31, ["Tipo de Evento", "Tipo de evento", "Tipo Evento", "tipo_evento"])
-col_muni = _first_existing_col(df_ev31, ["Municipio", "municipio"])
-col_dept = _first_existing_col(df_ev31, ["Departamento", "departamento"])
-
-df_ev31 = df_ev31.rename(columns={
-    col_year: "Año", col_tipo: "Tipo_Evento",
-    col_muni: "Municipio", col_dept: "Departamento",
-})
-df_ev31 = df_ev31[(df_ev31["Año"] >= 1994) & (df_ev31["Año"] <= 2024)].copy()
-df_ev31["es_desminado"] = df_ev31["Tipo_Evento"].astype(str).str.contains(
-    "DESMINADO", case=False, na=False
-)
-df_ev31["es_map"] = df_ev31["Tipo_Evento"].astype(str).str.contains(
-    r"MAP|ACCIDENTE", case=False, na=False, regex=True
-)
-df_ev31["municipio"] = df_ev31["Municipio"].astype(str).str.strip()
-df_ev31["departamento"] = df_ev31["Departamento"].astype(str).str.strip()
-
-n_desminado = df_ev31["es_desminado"].sum()
-n_map = df_ev31["es_map"].sum()
-print(f"Eventos 31 (1994-2024): {len(df_ev31):,} records")
-print(f"  Demining operations: {n_desminado:,}")
-print(f"  MAP/accident events:  {n_map:,}")
-```
-
-```{python}
-#| label: load-casosmi-victims
-
-df_mi = pd.read_excel("../data/CasosMI_202509.xlsx", sheet_name=0)
-df_mi = df_mi[(df_mi["Año"] >= 1994) & (df_mi["Año"] <= 2024)]
-df_mi = df_mi[df_mi["Tipo de Armas"].str.contains(r"MINAS", case=False, na=False, regex=True)].copy()
-col_victims = _first_existing_col(df_mi, ["Total de Víctimas del Caso", "Total de Vctimas del Caso"])
-df_mi["victimas"] = df_mi[col_victims].fillna(0).astype(int)
-print(f"CasosMI (victims only): {len(df_mi):,} records, {df_mi['victimas'].sum():,} total victims")
-```
+We use two sources: the **Eventos por MAP/MUSE** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts. (Both are loaded and processed in the wrangling module above.)
 
 ### Map: Antipersonnel Mine Events
 
@@ -492,42 +298,10 @@ plt.show()
 
 ## 4. Bivariate Analysis: Conflict vs Mines by Municipality
 
-We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from Eventos por MAP/MUSE.
+We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from Eventos por MAP/MUSE. (Matching is performed in the wrangling module.)
 
 ```{python}
 #| label: bivariate-data
-
-ev31_agg = (
-    df_ev31.groupby(["departamento", "municipio"])
-    .size()
-    .reset_index(name="minas")
-)
-
-gdf_analysis = gdf[["NAME_1", "NAME_2", "CC_2", "geometry", "crime_count"]].copy()
-gdf_analysis = gdf_analysis.rename(columns={"crime_count": "conflicto"})
-gdf_analysis["minas"] = 0
-
-for _, r in ev31_agg.iterrows():
-    dept_k = normalize(r["departamento"])
-    muni_k = normalize(r["municipio"])
-    if (dept_k, muni_k) in MANUAL_MAP:
-        muni_k = MANUAL_MAP[(dept_k, muni_k)]
-    geo_idx = geo_lookup.get((dept_k, muni_k)) or geo_lookup.get(("", muni_k))
-    if geo_idx is not None:
-        gdf_analysis.at[geo_idx, "minas"] += int(r["minas"])
-
-varname_lookup = {}
-for idx_g, row_g in gdf.iterrows():
-    if pd.notna(row_g.get("VARNAME_2")):
-        for v in str(row_g["VARNAME_2"]).split("|"):
-            varname_lookup[normalize(v)] = idx_g
-
-for _, row_mi in ev31_agg.iterrows():
-    mk = normalize(row_mi["municipio"])
-    if mk in varname_lookup:
-        g_idx = varname_lookup[mk]
-        if gdf_analysis.at[g_idx, "minas"] == 0:
-            gdf_analysis.at[g_idx, "minas"] = int(row_mi["minas"])
 
 total_minas_mapped = gdf_analysis["minas"].sum()
 print(f"Mines mapped to municipalities: {total_minas_mapped:,} of {len(df_ev31):,}")
@@ -909,12 +683,8 @@ While mine incidents peaked during the early 2000s, systematic demining efforts 
 #| fig-width: 16
 #| fig-height: 10
 
-df_ev31["es_desminado_all"] = df_ev31["Tipo_Evento"].astype(str).str.contains(
-    "DESMINADO", case=False, na=False
-)
-
-desminado_anual = df_ev31[df_ev31["es_desminado_all"]].groupby("Año").size().reindex(years, fill_value=0)
-incidentes_anual = df_ev31[~df_ev31["es_desminado_all"]].groupby("Año").size().reindex(years, fill_value=0)
+desminado_anual = df_ev31[df_ev31["es_desminado"]].groupby("Año").size().reindex(years, fill_value=0)
+incidentes_anual = df_ev31[~df_ev31["es_desminado"]].groupby("Año").size().reindex(years, fill_value=0)
 
 total_mi_anual = desminado_anual + incidentes_anual
 pct_desminado = (desminado_anual / total_mi_anual.replace(0, np.nan) * 100).fillna(0)
@@ -996,6 +766,62 @@ ax_bot.set_title(
 
 plt.tight_layout()
 fig6.savefig("grafica_temporal_desminado.png", dpi=200, bbox_inches="tight", facecolor="white")
+plt.show()
+```
+
+## Presentation graph
+
+Top 10 countries by conflict events (1994–2024), with Colombia highlighted. The bottom panel shows conflict duration: years each country had more than 100 GED events, illustrating that Colombia's conflict spans many more years than others.
+
+```{python}
+#| label: graph-presentacion
+#| fig-cap: "Top 10 Countries by Conflict Events, 1994–2024"
+#| fig-width: 12
+#| fig-height: 10
+
+df_ged = pd.read_excel("../data/GEDEvent_v25_1.xlsx", sheet_name=0)
+df_ged = df_ged[(df_ged["year"] >= 1994) & (df_ged["year"] <= 2024)]
+
+# Top 10 by total GED events
+totals = df_ged.groupby("country").size().sort_values(ascending=False)
+top10 = totals.head(10)
+
+# Duration: years with >100 GED events per country
+THRESHOLD = 100
+events_by_year = df_ged.groupby(["country", "year"]).size().reset_index(name="n")
+years_above = events_by_year[events_by_year["n"] > THRESHOLD]
+duration = years_above.groupby("country").size()
+duration_top10 = duration.reindex(top10.index, fill_value=0)
+
+fig_pres, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), gridspec_kw={"height_ratios": [1.2, 1], "hspace": 0.35})
+
+countries = top10.index.tolist()
+colors = ["#cc0000" if c == "Colombia" else "#6b9bd1" for c in countries]
+ax1.barh(countries, top10.values, color=colors, edgecolor="#333333", linewidth=0.5)
+ax1.set_xlabel("Number of GED events", fontsize=12)
+ax1.set_title("Total GED events (1994–2024)", fontsize=14, fontweight="bold")
+ax1.invert_yaxis()
+for i, (c, v) in enumerate(zip(countries, top10.values)):
+    ax1.text(v + 500, i, f"{v:,}", va="center", fontsize=10)
+
+# Bottom panel: order by years above threshold (descending)
+order_duration = duration_top10.sort_values(ascending=False)
+countries2 = order_duration.index.tolist()
+colors2 = ["#cc0000" if c == "Colombia" else "#6b9bd1" for c in countries2]
+ax2.barh(countries2, order_duration.values, color=colors2, edgecolor="#333333", linewidth=0.5)
+ax2.set_xlabel("Years with >100 GED events", fontsize=12)
+ax2.set_title("Conflict duration: years above threshold", fontsize=14, fontweight="bold")
+ax2.invert_yaxis()
+ax2.set_xlim(0, 32)
+for i, (c, v) in enumerate(zip(countries2, order_duration.values)):
+    ax2.text(v + 0.3, i, f"{int(v)}", va="center", fontsize=10)
+
+fig_pres.suptitle(
+    "Top 10 Countries by Conflict Events, 1994–2024\n(Colombia highlighted)",
+    fontsize=16, fontweight="bold", y=1.02
+)
+plt.tight_layout()
+fig_pres.savefig("grafica_presentacion_top10_ged.png", dpi=200, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
