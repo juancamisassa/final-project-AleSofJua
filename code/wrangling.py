@@ -186,6 +186,19 @@ def load_and_process_all(data_dir=None):
     accidentes_map_anual = df_ev31.loc[df_ev31["es_map"]].groupby("Año").size().reindex(years, fill_value=0)
     incidentes_anual = accidentes_map_anual
 
+    desminado_por_depto = (
+        df_ev31.loc[df_ev31["es_desminado"]]
+        .groupby(["departamento", "Año"]).size()
+        .unstack(fill_value=0)
+        .reindex(columns=years, fill_value=0)
+    )
+    accidentes_map_por_depto = (
+        df_ev31.loc[df_ev31["es_map"]]
+        .groupby(["departamento", "Año"]).size()
+        .unstack(fill_value=0)
+        .reindex(columns=years, fill_value=0)
+    )
+
     dem_pts = pd.DataFrame(columns=["Latitud", "Longitud", "Municipio"])
     if "Latitud" in df_ev31.columns and "Longitud" in df_ev31.columns:
         df_dem = df_ev31[df_ev31["es_desminado"]].copy()
@@ -263,6 +276,8 @@ def load_and_process_all(data_dir=None):
         "desminado_anual": desminado_anual,
         "accidentes_map_anual": accidentes_map_anual,
         "incidentes_anual": incidentes_anual,
+        "desminado_por_depto": desminado_por_depto,
+        "accidentes_map_por_depto": accidentes_map_por_depto,
         "dem_pts": dem_pts,
         "years": years,
         "ev31_agg_simple": ev31_agg_simple,
@@ -284,6 +299,8 @@ def write_derived_data(data=None, data_dir=None):
     accidentes_map_anual = data["accidentes_map_anual"]
     incidentes_anual = data["incidentes_anual"]
     dem_pts = data["dem_pts"]
+    desminado_por_depto = data.get("desminado_por_depto", pd.DataFrame())
+    accidentes_map_por_depto = data.get("accidentes_map_por_depto", pd.DataFrame())
 
     gdf_simplified = gdf.copy()
     gdf_simplified["geometry"] = gdf_simplified.geometry.simplify(tolerance=0.005)
@@ -302,7 +319,7 @@ def write_derived_data(data=None, data_dir=None):
         ["NAME_2", "NAME_1", "priority_idx", "crime_count", "mine_incidents", "demining_count"]
     ].copy()
     top_candidates = top_candidates.drop_duplicates(subset="NAME_2", keep="first")
-    top10 = top_candidates.head(10).sort_values("priority_idx", ascending=True)
+    top10 = top_candidates.head(20).sort_values("priority_idx", ascending=True)
 
     stats = {
         "conflict_events": int(gdf["crime_count"].sum()),
@@ -320,6 +337,14 @@ def write_derived_data(data=None, data_dir=None):
         "desminado_anual": {int(k): int(v) for k, v in desminado_anual.to_dict().items()},
         "accidentes_map_anual": {int(k): int(v) for k, v in accidentes_map_anual.to_dict().items()},
         "incidentes_anual": {int(k): int(v) for k, v in incidentes_anual.to_dict().items()},
+        "desminado_por_depto": {
+            dept: {int(yr): int(v) for yr, v in row.items()}
+            for dept, row in desminado_por_depto.iterrows()
+        },
+        "accidentes_map_por_depto": {
+            dept: {int(yr): int(v) for yr, v in row.items()}
+            for dept, row in accidentes_map_por_depto.iterrows()
+        },
         "top10_gap": top10.to_dict(orient="records"),
         "demining_pts": dem_pts.to_dict(orient="records"),
         "stats": stats,

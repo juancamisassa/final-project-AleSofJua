@@ -34,6 +34,7 @@ import matplotlib.colors as mcolors
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 import numpy as np
+import altair as alt
 import unicodedata
 import re
 ```
@@ -362,8 +363,6 @@ Each point is a municipality, plotted on log-symmetric axes. Urban and rural are
 ```{python}
 #| label: fig-scatter
 #| fig-cap: "Armed Conflict vs Antipersonnel Mines by Municipality — Colombia 1994–2024"
-#| fig-width: 13
-#| fig-height: 10
 
 CAPITALES_NORM = {
     normalize(c) for c in [
@@ -389,69 +388,83 @@ scatter_data = gdf_analysis[
 
 scatter_data["conflicto_j"] = scatter_data["conflicto"] + np.random.uniform(0.05, 0.3, len(scatter_data))
 scatter_data["minas_j"] = scatter_data["minas"] + np.random.uniform(0.05, 0.3, len(scatter_data))
+scatter_data["area_type"] = np.where(scatter_data["es_urbano"], "Urban area", "Rural area")
 
-fig3, ax3 = plt.subplots(figsize=(13, 10), facecolor="white")
-
-AREA_STYLES = {
-    "Urban area": {"color": "#1a73e8", "marker": "o", "s": 50, "alpha": 0.75, "edgecolors": "#0d47a1"},
-    "Rural area": {"color": "#e8833a", "marker": "s", "s": 25, "alpha": 0.45, "edgecolors": "white"},
-}
-
-for label, style in AREA_STYLES.items():
-    is_urban = label == "Urban area"
-    subset = scatter_data[scatter_data["es_urbano"] == is_urban]
-    ax3.scatter(
-        subset["conflicto_j"], subset["minas_j"],
-        c=style["color"], s=style["s"], alpha=style["alpha"],
-        edgecolors=style["edgecolors"], linewidths=0.4,
-        marker=style["marker"],
-        label=f"{label} ({len(subset)})", zorder=3 if is_urban else 2
-    )
-
-ax3.set_xscale("symlog", linthresh=1)
-ax3.set_yscale("symlog", linthresh=1)
-
-ax3.axvline(conflict_cut, color="#555555", linestyle="--", linewidth=1.2, alpha=0.8, zorder=1)
-ax3.axhline(minas_cut, color="#555555", linestyle="--", linewidth=1.2, alpha=0.8, zorder=1)
-
-notable = scatter_data.nlargest(10, "conflicto").index.tolist()
-notable += scatter_data.nlargest(8, "minas").index.tolist()
-notable += scatter_data[
+notable_idx = scatter_data.nlargest(10, "conflicto").index.tolist()
+notable_idx += scatter_data.nlargest(8, "minas").index.tolist()
+notable_idx += scatter_data[
     (scatter_data["conflicto"] > conflict_cut) & (scatter_data["minas"] <= minas_cut)
 ].nlargest(5, "conflicto").index.tolist()
-notable += scatter_data[
+notable_idx += scatter_data[
     (scatter_data["conflicto"] <= conflict_cut) & (scatter_data["minas"] > minas_cut)
 ].nlargest(5, "minas").index.tolist()
-notable = list(set(notable))
+notable_idx = list(set(notable_idx))
 
-for idx in notable:
-    row = scatter_data.loc[idx]
-    ax3.annotate(
-        row["NAME_2"],
-        xy=(row["conflicto_j"], row["minas_j"]),
-        fontsize=7, color="#222222",
-        xytext=(6, 6), textcoords="offset points",
-        bbox=dict(boxstyle="round,pad=0.2", facecolor="white", alpha=0.85, edgecolor="#aaaaaa"),
-    )
+scatter_df = scatter_data[
+    ["NAME_2", "NAME_1", "conflicto", "minas", "conflicto_j", "minas_j", "area_type"]
+].copy()
+notable_df = scatter_df.loc[notable_idx]
 
-ax3.set_xlabel("← Low conflict          Armed conflict events (GED)          High conflict →",
-               fontsize=12, labelpad=10, color="#333333")
-ax3.set_ylabel("← Few mines          Mine events (AICMA)          Many mines →",
-               fontsize=12, labelpad=10, color="#333333")
-ax3.set_title(
-    "Armed Conflict vs Antipersonnel Mines by Municipality\n"
-    "Colombia 1994–2024",
-    fontsize=16, fontweight="bold", color="#222222", pad=15
+points = alt.Chart(scatter_df).mark_point(filled=True).encode(
+    x=alt.X("conflicto_j:Q",
+            scale=alt.Scale(type="symlog"),
+            title="← Low conflict    Armed conflict events (GED)    High conflict →"),
+    y=alt.Y("minas_j:Q",
+            scale=alt.Scale(type="symlog"),
+            title="← Few mines    Mine events (AICMA)    Many mines →"),
+    color=alt.Color("area_type:N",
+                    scale=alt.Scale(
+                        domain=["Urban area", "Rural area"],
+                        range=["#1a73e8", "#e8833a"]),
+                    title="Area type"),
+    shape=alt.Shape("area_type:N",
+                    scale=alt.Scale(
+                        domain=["Urban area", "Rural area"],
+                        range=["circle", "square"])),
+    size=alt.condition(
+        alt.datum.area_type == "Urban area",
+        alt.value(80), alt.value(40)),
+    opacity=alt.condition(
+        alt.datum.area_type == "Urban area",
+        alt.value(0.75), alt.value(0.45)),
+    tooltip=[
+        alt.Tooltip("NAME_2:N", title="Municipality"),
+        alt.Tooltip("NAME_1:N", title="Department"),
+        alt.Tooltip("conflicto:Q", title="Conflict events"),
+        alt.Tooltip("minas:Q", title="Mine events"),
+        alt.Tooltip("area_type:N", title="Area type"),
+    ],
 )
-ax3.legend(
-    loc="upper left", fontsize=11, frameon=True,
-    facecolor="white", edgecolor="#cccccc", framealpha=0.95, markerscale=1.3
-)
-ax3.grid(True, alpha=0.15, which="both")
 
-plt.tight_layout()
-fig3.savefig("scatter_conflicto_vs_minas.png", dpi=200, bbox_inches="tight", facecolor="white")
-plt.show()
+vline = alt.Chart(pd.DataFrame({"x": [conflict_cut]})).mark_rule(
+    strokeDash=[5, 5], color="#555555", strokeWidth=1.2, opacity=0.8
+).encode(x="x:Q")
+
+hline = alt.Chart(pd.DataFrame({"y": [minas_cut]})).mark_rule(
+    strokeDash=[5, 5], color="#555555", strokeWidth=1.2, opacity=0.8
+).encode(y="y:Q")
+
+labels = alt.Chart(notable_df).mark_text(
+    align="left", dx=7, dy=-7, fontSize=9, color="#222222"
+).encode(
+    x="conflicto_j:Q",
+    y="minas_j:Q",
+    text="NAME_2:N",
+)
+
+chart = (points + vline + hline + labels).properties(
+    width=700,
+    height=500,
+    title=alt.Title(
+        "Armed Conflict vs Antipersonnel Mines by Municipality",
+        subtitle="Colombia 1994–2024",
+    ),
+).configure_axis(
+    grid=True, gridOpacity=0.15
+)
+
+chart.save("scatter_conflicto_vs_minas.png", scale_factor=2)
+chart
 ```
 
 ### Map: Municipality Quadrant Classification
@@ -602,75 +615,71 @@ A dual-axis chart showing the annual trends of armed conflict events (red area) 
 ```{python}
 #| label: fig-temporal
 #| fig-cap: "Temporal Evolution: Armed Conflict vs Antipersonnel Mines — Colombia 1994–2024"
-#| fig-width: 16
-#| fig-height: 7
 
 years = list(range(1994, 2025))
 
 conflicto_anual = df_col.groupby("year")["id"].count().reindex(years, fill_value=0)
 minas_anual = df_ev31.groupby("Año").size().reindex(years, fill_value=0)
 
-fig5, ax_c = plt.subplots(figsize=(16, 7), facecolor="white")
-
-ax_c.fill_between(
-    years, conflicto_anual.values, alpha=0.3, color="#cc0000", zorder=2
-)
-ax_c.plot(
-    years, conflicto_anual.values,
-    color="#cc0000", linewidth=2, zorder=3, label="Armed conflict events (GED)"
-)
-ax_c.set_ylabel("Armed conflict events", fontsize=13, color="#cc0000", labelpad=10)
-ax_c.tick_params(axis="y", colors="#cc0000", labelsize=11)
-
-ax_m = ax_c.twinx()
-ax_m.plot(
-    years, minas_anual.values,
-    color="#1a73e8", linewidth=2.5, marker="o", markersize=4,
-    zorder=4, label="Antipersonnel mine events (AICMA)"
-)
-ax_m.set_ylabel("Antipersonnel mine events", fontsize=13, color="#1a73e8", labelpad=10)
-ax_m.tick_params(axis="y", colors="#1a73e8", labelsize=11)
+temporal_df = pd.DataFrame({
+    "Year": years,
+    "Armed conflict events": conflicto_anual.values,
+    "Mine events": minas_anual.values,
+})
 
 HITOS = {
-    1998: "Demilitarized\nZone",
-    2002: "Plan Colombia /\nUribe Gov.",
-    2006: "AUC\nDemobilization",
-    2012: "Start of\nPeace\nNegotiations",
-    2016: "Peace\nAgreement",
+    1998: "Demilitarized Zone",
+    2002: "Plan Colombia / Uribe Gov.",
+    2006: "AUC Demobilization",
+    2012: "Start of Peace Negotiations",
+    2016: "Peace Agreement",
 }
+hitos_df = pd.DataFrame([{"Year": yr, "label": txt} for yr, txt in HITOS.items()])
 
-for yr, txt in HITOS.items():
-    ax_c.axvline(yr, color="#555555", linestyle=":", linewidth=1, alpha=0.7, zorder=1)
-    ax_c.annotate(
-        txt, xy=(yr, ax_c.get_ylim()[1] * 0.97),
-        fontsize=8, color="#444444", ha="center", va="top",
-        fontweight="bold",
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.85, edgecolor="#bbbbbb"),
-    )
+base = alt.Chart(temporal_df).encode(
+    x=alt.X("Year:Q", scale=alt.Scale(domain=[1993.5, 2024.5]),
+            axis=alt.Axis(format="d", tickCount=15, title="Year", labelAngle=-45)))
 
-ax_c.set_xlabel("Year", fontsize=13, labelpad=10)
-ax_c.set_xlim(1994, 2024)
-ax_c.set_xticks(range(1994, 2025, 2))
-ax_c.tick_params(axis="x", labelsize=10, rotation=45)
-ax_c.grid(axis="x", alpha=0.15)
+conflict_area = base.mark_area(opacity=0.3, color="#cc0000").encode(
+    y=alt.Y("Armed conflict events:Q",
+            axis=alt.Axis(title="Armed conflict events",
+                          titleColor="#cc0000", labelColor="#cc0000")))
+conflict_line = base.mark_line(color="#cc0000", strokeWidth=2).encode(
+    y="Armed conflict events:Q",
+    tooltip=[alt.Tooltip("Year:Q", format="d"),
+             alt.Tooltip("Armed conflict events:Q", format=",")])
 
-lines_c, labels_c = ax_c.get_legend_handles_labels()
-lines_m, labels_m = ax_m.get_legend_handles_labels()
-ax_c.legend(
-    lines_c + lines_m, labels_c + labels_m,
-    loc="upper left", fontsize=11, frameon=True,
-    facecolor="white", edgecolor="#cccccc", framealpha=0.95
+mine_line = base.mark_line(color="#1a73e8", strokeWidth=2.5).encode(
+    y=alt.Y("Mine events:Q",
+            axis=alt.Axis(title="Antipersonnel mine events",
+                          titleColor="#1a73e8", labelColor="#1a73e8")))
+mine_points = base.mark_point(color="#1a73e8", size=30, filled=True).encode(
+    y="Mine events:Q",
+    tooltip=[alt.Tooltip("Year:Q", format="d"),
+             alt.Tooltip("Mine events:Q", format=",")])
+
+ms_rules = alt.Chart(hitos_df).mark_rule(
+    color="#555555", strokeDash=[3, 3], strokeWidth=1, opacity=0.7
+).encode(x="Year:Q")
+ms_labels = alt.Chart(hitos_df).mark_text(
+    align="center", baseline="bottom", fontSize=8,
+    fontWeight="bold", color="#444444"
+).encode(x="Year:Q", y=alt.value(5), text="label:N")
+
+left = conflict_area + conflict_line + ms_rules + ms_labels
+right = mine_line + mine_points
+
+chart7 = alt.layer(left, right).resolve_scale(
+    y="independent"
+).properties(
+    width=850, height=400,
+    title=alt.Title(
+        "Temporal Evolution: Armed Conflict vs Antipersonnel Mines",
+        subtitle="Colombia 1994–2024"),
 )
 
-ax_c.set_title(
-    "Temporal Evolution: Armed Conflict vs Antipersonnel Mines\n"
-    "Colombia 1994–2024",
-    fontsize=16, fontweight="bold", color="#222222", pad=15
-)
-
-plt.tight_layout()
-fig5.savefig("grafica_temporal_conflicto_minas.png", dpi=200, bbox_inches="tight", facecolor="white")
-plt.show()
+chart7.save("grafica_temporal_conflicto_minas.png", scale_factor=2)
+chart7
 ```
 
 ## 6. Mine Incidents vs Demining Operations Over Time
@@ -680,8 +689,6 @@ While mine incidents peaked during the early 2000s, systematic demining efforts 
 ```{python}
 #| label: fig-demining-temporal
 #| fig-cap: "Mine Incidents vs Demining Operations — Colombia 1994–2024"
-#| fig-width: 16
-#| fig-height: 10
 
 desminado_anual = df_ev31[df_ev31["es_desminado"]].groupby("Año").size().reindex(years, fill_value=0)
 incidentes_anual = df_ev31[~df_ev31["es_desminado"]].groupby("Año").size().reindex(years, fill_value=0)
@@ -689,84 +696,93 @@ incidentes_anual = df_ev31[~df_ev31["es_desminado"]].groupby("Año").size().rein
 total_mi_anual = desminado_anual + incidentes_anual
 pct_desminado = (desminado_anual / total_mi_anual.replace(0, np.nan) * 100).fillna(0)
 
-fig6, (ax_top, ax_bot) = plt.subplots(
-    2, 1, figsize=(16, 10), facecolor="white",
-    gridspec_kw={"height_ratios": [3, 1], "hspace": 0.12},
-    sharex=True
-)
-
-ax_inc = ax_top
-ax_inc.fill_between(years, incidentes_anual.values, alpha=0.25, color="#cc5500", zorder=2)
-ax_inc.plot(
-    years, incidentes_anual.values,
-    color="#cc5500", linewidth=2, zorder=3,
-    label=f"Mine incidents ({incidentes_anual.sum():,})"
-)
-ax_inc.set_ylabel("Mine incidents", fontsize=13, color="#cc5500", labelpad=10)
-ax_inc.tick_params(axis="y", colors="#cc5500", labelsize=11)
-
-ax_dem = ax_inc.twinx()
-ax_dem.plot(
-    years, desminado_anual.values,
-    color="#22aa22", linewidth=2.5, marker="o", markersize=5,
-    zorder=4, label=f"Demining operations ({desminado_anual.sum():,})"
-)
-ax_dem.set_ylabel("Demining operations", fontsize=13, color="#22aa22", labelpad=10)
-ax_dem.tick_params(axis="y", colors="#22aa22", labelsize=11)
+demining_df = pd.DataFrame({
+    "Year": years,
+    "Mine incidents": incidentes_anual.values,
+    "Demining operations": desminado_anual.values,
+    "Demining %": pct_desminado.values,
+})
 
 HITOS_2 = {
-    1998: "Demilitarized\nZone",
-    2002: "Plan Colombia /\nUribe Gov.",
-    2006: "AUC\nDemobilization",
-    2012: "Start of\nPeace\nNegotiations",
-    2016: "Peace\nAgreement",
+    1998: "Demilitarized Zone",
+    2002: "Plan Colombia / Uribe Gov.",
+    2006: "AUC Demobilization",
+    2012: "Start of Peace Negotiations",
+    2016: "Peace Agreement",
 }
+hitos2_df = pd.DataFrame([{"Year": yr, "label": txt} for yr, txt in HITOS_2.items()])
 
-for yr, txt in HITOS_2.items():
-    ax_inc.axvline(yr, color="#555555", linestyle=":", linewidth=1, alpha=0.7, zorder=1)
-    ax_inc.annotate(
-        txt, xy=(yr, ax_inc.get_ylim()[1] * 0.97),
-        fontsize=8, color="#444444", ha="center", va="top",
-        fontweight="bold",
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.85, edgecolor="#bbbbbb"),
-    )
+x_shared = alt.X("Year:Q", scale=alt.Scale(domain=[1993.5, 2024.5]),
+                  axis=alt.Axis(format="d", tickCount=15, labelAngle=-45))
 
-lines_inc, labels_inc = ax_inc.get_legend_handles_labels()
-lines_dem, labels_dem = ax_dem.get_legend_handles_labels()
-ax_inc.legend(
-    lines_inc + lines_dem, labels_inc + labels_dem,
-    loc="upper left", fontsize=11, frameon=True,
-    facecolor="white", edgecolor="#cccccc", framealpha=0.95
+# ── Top panel: dual axis ──────────────────────────────────────────────
+base_top = alt.Chart(demining_df).encode(x=x_shared)
+
+inc_area = base_top.mark_area(opacity=0.25, color="#cc5500").encode(
+    y=alt.Y("Mine incidents:Q",
+            axis=alt.Axis(title="Mine incidents",
+                          titleColor="#cc5500", labelColor="#cc5500")))
+inc_line = base_top.mark_line(color="#cc5500", strokeWidth=2).encode(
+    y="Mine incidents:Q",
+    tooltip=[alt.Tooltip("Year:Q", format="d"),
+             alt.Tooltip("Mine incidents:Q", format=",")])
+
+dem_line = base_top.mark_line(color="#22aa22", strokeWidth=2.5).encode(
+    y=alt.Y("Demining operations:Q",
+            axis=alt.Axis(title="Demining operations",
+                          titleColor="#22aa22", labelColor="#22aa22")))
+dem_points = base_top.mark_point(color="#22aa22", size=40, filled=True).encode(
+    y="Demining operations:Q",
+    tooltip=[alt.Tooltip("Year:Q", format="d"),
+             alt.Tooltip("Demining operations:Q", format=",")])
+
+ms_rules2 = alt.Chart(hitos2_df).mark_rule(
+    color="#555555", strokeDash=[3, 3], strokeWidth=1, opacity=0.7
+).encode(x="Year:Q")
+ms_labels2 = alt.Chart(hitos2_df).mark_text(
+    align="center", baseline="bottom", fontSize=8,
+    fontWeight="bold", color="#444444"
+).encode(x="Year:Q", y=alt.value(5), text="label:N")
+
+top_left = inc_area + inc_line + ms_rules2 + ms_labels2
+top_right = dem_line + dem_points
+
+top_panel = alt.layer(top_left, top_right).resolve_scale(
+    y="independent"
+).properties(
+    width=850, height=320,
+    title=alt.Title(
+        "Mine Incidents vs Demining Operations Over Time",
+        subtitle="Colombia 1994–2024"),
 )
 
-ax_inc.set_title(
-    "Mine Incidents vs Demining Operations Over Time\n"
-    "Colombia 1994–2024",
-    fontsize=16, fontweight="bold", color="#222222", pad=15
-)
-ax_inc.grid(axis="x", alpha=0.15)
-
-ax_bot.bar(years, pct_desminado.values, color="#22aa22", alpha=0.6, edgecolor="#118811", linewidth=0.5)
-ax_bot.set_ylabel("Demining %", fontsize=12, color="#22aa22", labelpad=10)
-ax_bot.set_xlabel("Year", fontsize=13, labelpad=10)
-ax_bot.set_xlim(1994, 2024)
-ax_bot.set_xticks(range(1994, 2025, 2))
-ax_bot.tick_params(axis="x", labelsize=10, rotation=45)
-ax_bot.tick_params(axis="y", colors="#22aa22", labelsize=10)
-ax_bot.set_ylim(0, max(pct_desminado.max() * 1.3, 5))
-ax_bot.grid(axis="x", alpha=0.15)
-
-for yr in HITOS_2:
-    ax_bot.axvline(yr, color="#555555", linestyle=":", linewidth=1, alpha=0.4)
-
-ax_bot.set_title(
-    "Demining as % of total mine events",
-    fontsize=12, fontweight="bold", color="#333333", pad=8
+# ── Bottom panel: demining % ──────────────────────────────────────────
+bottom_bars = alt.Chart(demining_df).mark_bar(
+    color="#22aa22", opacity=0.6, stroke="#118811", strokeWidth=0.5
+).encode(
+    x=alt.X("Year:Q", scale=alt.Scale(domain=[1993.5, 2024.5]),
+            axis=alt.Axis(format="d", tickCount=15, title="Year", labelAngle=-45)),
+    y=alt.Y("Demining %:Q", title="Demining %",
+            axis=alt.Axis(titleColor="#22aa22")),
+    tooltip=[alt.Tooltip("Year:Q", format="d"),
+             alt.Tooltip("Demining %:Q", format=".1f")],
 )
 
-plt.tight_layout()
-fig6.savefig("grafica_temporal_desminado.png", dpi=200, bbox_inches="tight", facecolor="white")
-plt.show()
+ms_rules2_bot = alt.Chart(hitos2_df).mark_rule(
+    color="#555555", strokeDash=[3, 3], strokeWidth=1, opacity=0.4
+).encode(x="Year:Q")
+
+bottom_panel = (bottom_bars + ms_rules2_bot).properties(
+    width=850, height=150,
+    title="Demining as % of total mine events",
+)
+
+chart8 = alt.vconcat(top_panel, bottom_panel).configure_axis(
+    grid=True, gridOpacity=0.15
+)
+
+chart8.save("grafica_temporal_desminado.png", scale_factor=2)
+chart8
 ```
 
 ## Presentation graph
@@ -776,53 +792,80 @@ Top 10 countries by conflict events (1994–2024), with Colombia highlighted. Th
 ```{python}
 #| label: graph-presentacion
 #| fig-cap: "Top 10 Countries by Conflict Events, 1994–2024"
-#| fig-width: 12
-#| fig-height: 10
 
 df_ged = pd.read_excel("../data/GEDEvent_v25_1.xlsx", sheet_name=0)
 df_ged = df_ged[(df_ged["year"] >= 1994) & (df_ged["year"] <= 2024)]
 
-# Top 10 by total GED events
 totals = df_ged.groupby("country").size().sort_values(ascending=False)
-top10 = totals.head(10)
+top10_ged = totals.head(10)
 
-# Duration: years with >100 GED events per country
 THRESHOLD = 100
 events_by_year = df_ged.groupby(["country", "year"]).size().reset_index(name="n")
 years_above = events_by_year[events_by_year["n"] > THRESHOLD]
 duration = years_above.groupby("country").size()
-duration_top10 = duration.reindex(top10.index, fill_value=0)
+duration_top10 = duration.reindex(top10_ged.index, fill_value=0)
 
-fig_pres, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), gridspec_kw={"height_ratios": [1.2, 1], "hspace": 0.35})
+top10_df = pd.DataFrame({
+    "Country": top10_ged.index,
+    "Events": top10_ged.values,
+    "is_colombia": [c == "Colombia" for c in top10_ged.index],
+})
 
-countries = top10.index.tolist()
-colors = ["#cc0000" if c == "Colombia" else "#6b9bd1" for c in countries]
-ax1.barh(countries, top10.values, color=colors, edgecolor="#333333", linewidth=0.5)
-ax1.set_xlabel("Number of GED events", fontsize=12)
-ax1.set_title("Total GED events (1994–2024)", fontsize=14, fontweight="bold")
-ax1.invert_yaxis()
-for i, (c, v) in enumerate(zip(countries, top10.values)):
-    ax1.text(v + 500, i, f"{v:,}", va="center", fontsize=10)
+duration_df = pd.DataFrame({
+    "Country": duration_top10.index,
+    "Years": duration_top10.values.astype(int),
+    "is_colombia": [c == "Colombia" for c in duration_top10.index],
+})
 
-# Bottom panel: order by years above threshold (descending)
-order_duration = duration_top10.sort_values(ascending=False)
-countries2 = order_duration.index.tolist()
-colors2 = ["#cc0000" if c == "Colombia" else "#6b9bd1" for c in countries2]
-ax2.barh(countries2, order_duration.values, color=colors2, edgecolor="#333333", linewidth=0.5)
-ax2.set_xlabel("Years with >100 GED events", fontsize=12)
-ax2.set_title("Conflict duration: years above threshold", fontsize=14, fontweight="bold")
-ax2.invert_yaxis()
-ax2.set_xlim(0, 32)
-for i, (c, v) in enumerate(zip(countries2, order_duration.values)):
-    ax2.text(v + 0.3, i, f"{int(v)}", va="center", fontsize=10)
-
-fig_pres.suptitle(
-    "Top 10 Countries by Conflict Events, 1994–2024\n(Colombia highlighted)",
-    fontsize=16, fontweight="bold", y=1.02
+# ── Top panel: total events ───────────────────────────────────────────
+top_bars = alt.Chart(top10_df).mark_bar(stroke="#333333", strokeWidth=0.5).encode(
+    y=alt.Y("Country:N",
+            sort=alt.EncodingSortField(field="Events", order="descending"),
+            title=""),
+    x=alt.X("Events:Q", title="Number of GED events"),
+    color=alt.condition(alt.datum.is_colombia,
+                        alt.value("#cc0000"), alt.value("#6b9bd1")),
+    tooltip=[alt.Tooltip("Country:N"), alt.Tooltip("Events:Q", format=",")],
 )
-plt.tight_layout()
-fig_pres.savefig("grafica_presentacion_top10_ged.png", dpi=200, bbox_inches="tight", facecolor="white")
-plt.show()
+top_text = alt.Chart(top10_df).mark_text(align="left", dx=4, fontSize=10).encode(
+    y=alt.Y("Country:N", sort=alt.EncodingSortField(field="Events", order="descending")),
+    x="Events:Q",
+    text=alt.Text("Events:Q", format=","),
+)
+top_panel9 = (top_bars + top_text).properties(
+    width=600, height=280,
+    title="Total GED events (1994–2024)",
+)
+
+# ── Bottom panel: conflict duration ───────────────────────────────────
+bot_bars = alt.Chart(duration_df).mark_bar(stroke="#333333", strokeWidth=0.5).encode(
+    y=alt.Y("Country:N",
+            sort=alt.EncodingSortField(field="Years", order="descending"),
+            title=""),
+    x=alt.X("Years:Q", title="Years with >100 GED events",
+            scale=alt.Scale(domain=[0, 32])),
+    color=alt.condition(alt.datum.is_colombia,
+                        alt.value("#cc0000"), alt.value("#6b9bd1")),
+    tooltip=[alt.Tooltip("Country:N"), alt.Tooltip("Years:Q")],
+)
+bot_text = alt.Chart(duration_df).mark_text(align="left", dx=4, fontSize=10).encode(
+    y=alt.Y("Country:N", sort=alt.EncodingSortField(field="Years", order="descending")),
+    x="Years:Q",
+    text=alt.Text("Years:Q", format="d"),
+)
+bot_panel9 = (bot_bars + bot_text).properties(
+    width=600, height=280,
+    title="Conflict duration: years above threshold",
+)
+
+chart9 = alt.vconcat(top_panel9, bot_panel9).properties(
+    title=alt.Title(
+        "Top 10 Countries by Conflict Events, 1994–2024",
+        subtitle="Colombia highlighted"),
+)
+
+chart9.save("grafica_presentacion_top10_ged.png", scale_factor=2)
+chart9
 ```
 
 ## Data Sources

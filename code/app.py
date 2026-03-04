@@ -99,12 +99,26 @@ def _load_preprocessed():
         {int(k): v for k, v in app_data.get("accidentes_map_anual", app_data["incidentes_anual"]).items()}
     ).reindex(years, fill_value=0)
 
+    desminado_por_depto = {}
+    for dept, yearly in app_data.get("desminado_por_depto", {}).items():
+        desminado_por_depto[dept] = pd.Series(
+            {int(k): v for k, v in yearly.items()}
+        ).reindex(years, fill_value=0)
+
+    accidentes_map_por_depto = {}
+    for dept, yearly in app_data.get("accidentes_map_por_depto", {}).items():
+        accidentes_map_por_depto[dept] = pd.Series(
+            {int(k): v for k, v in yearly.items()}
+        ).reindex(years, fill_value=0)
+
     return {
         "geojson": geojson_str,
         "country_outline": country_outline_str,
         "desminado_anual": desminado_anual,
         "accidentes_map_anual": accidentes_map_anual,
         "incidentes_anual": incidentes_anual,
+        "desminado_por_depto": desminado_por_depto,
+        "accidentes_map_por_depto": accidentes_map_por_depto,
         "top10_gap": pd.DataFrame(app_data["top10_gap"]),
         "demining_pts": pd.DataFrame(app_data["demining_pts"]),
         "stats": app_data["stats"],
@@ -288,7 +302,13 @@ def _build_priority_map_plotly(geojson_str, value_col="priority_idx"):
         zmax=vmax,
         marker_line_width=0.5,
         marker_opacity=0.75,
-        colorbar=dict(title="Priority index", thickness=15, len=0.6),
+        colorbar=dict(
+            title="",
+            thickness=15,
+            len=0.6,
+            tickvals=[vmin, vmax],
+            ticktext=["Low priority", "High priority"],
+        ),
         hovertemplate="<b>%{customdata[0]}</b><br>Priority: %{z:.2f}<extra></extra>",
     ))
 
@@ -378,11 +398,43 @@ def page_maps(data):
 
 
 def page_timeline(data):
-    st.markdown("### Demining and Mine Incidents by Year — Colombia 1994–2024")
+    # ── Filters ───────────────────────────────────────────────────────
+    dept_map = data.get("desminado_por_depto", {})
+    dept_options = sorted(dept_map.keys())
 
-    years = list(range(1994, 2025))
-    dem = data["desminado_anual"]
-    map_ev = data["accidentes_map_anual"]
+    col_f1, col_f2 = st.columns([1, 2])
+    with col_f1:
+        dept_choice = st.selectbox(
+            "Department",
+            ["All Colombia"] + dept_options,
+        )
+    with col_f2:
+        yr_min, yr_max = st.slider(
+            "Year range",
+            min_value=1994,
+            max_value=2024,
+            value=(1994, 2024),
+        )
+
+    label = dept_choice if dept_choice != "All Colombia" else "Colombia"
+    st.markdown(f"### Demining and Mine Incidents — {label} ({yr_min}–{yr_max})")
+
+    all_years = list(range(1994, 2025))
+    if dept_choice == "All Colombia":
+        dem_full = data["desminado_anual"]
+        map_ev_full = data["accidentes_map_anual"]
+    else:
+        dem_full = dept_map.get(
+            dept_choice, pd.Series(dtype=int)
+        ).reindex(all_years, fill_value=0)
+        map_ev_full = data.get("accidentes_map_por_depto", {}).get(
+            dept_choice, pd.Series(dtype=int)
+        ).reindex(all_years, fill_value=0)
+
+    years = list(range(yr_min, yr_max + 1))
+    dem = dem_full.loc[yr_min:yr_max]
+    map_ev = map_ev_full.loc[yr_min:yr_max]
+    inc = map_ev
 
     # ── Line chart: desminado + accidentes MAP por año ─────────────────
     fig = go.Figure()
@@ -415,21 +467,22 @@ def page_timeline(data):
     MILESTONES_SHOWN = {2012: "Peace Negotiations", 2016: "Peace Agreement"}
     y_max = int(max(dem.max(), map_ev.max()) * 1.1) or 10
     for yr, txt in MILESTONES_SHOWN.items():
-        fig.add_vline(
-            x=yr, line_dash="dot", line_color="#888888", line_width=1,
-        )
-        fig.add_annotation(
-            x=yr,
-            y=y_max,
-            text=txt,
-            showarrow=False,
-            font=dict(size=10, color="#444444"),
-            bgcolor="rgba(255,255,255,0.85)",
-            bordercolor="#bbbbbb",
-            borderwidth=1,
-            borderpad=4,
-            yanchor="top",
-        )
+        if yr_min <= yr <= yr_max:
+            fig.add_vline(
+                x=yr, line_dash="dot", line_color="#888888", line_width=1,
+            )
+            fig.add_annotation(
+                x=yr,
+                y=y_max,
+                text=txt,
+                showarrow=False,
+                font=dict(size=10, color="#444444"),
+                bgcolor="rgba(255,255,255,0.85)",
+                bordercolor="#bbbbbb",
+                borderwidth=1,
+                borderpad=4,
+                yanchor="top",
+            )
 
     fig.update_layout(
         template="plotly_white",
@@ -438,7 +491,7 @@ def page_timeline(data):
         xaxis=dict(
             title="Year",
             dtick=2,
-            range=[1993.5, 2024.5],
+            range=[yr_min - 0.5, yr_max + 0.5],
             tickangle=-45,
         ),
         yaxis=dict(title="Event count"),
@@ -452,7 +505,6 @@ def page_timeline(data):
     st.plotly_chart(fig, use_container_width=True)
 
     # ── Bottom panel: proportion demining vs MAP accidents ───────────
-    inc = data["incidentes_anual"]
     st.markdown("**Proportion of events: incidents vs demining**")
 
     total = dem.values + inc.values
@@ -463,14 +515,16 @@ def page_timeline(data):
     fig2 = go.Figure()
     fig2.add_trace(
         go.Bar(
-            x=years, y=pct_inc,             name="Mine incidents",
+            x=years, y=pct_inc,
+            name="Mine incidents",
             marker_color="#cc5500",
             hovertemplate="Year %{x}<br>Incidents: %{y:.1f}%<extra></extra>",
         )
     )
     fig2.add_trace(
         go.Bar(
-            x=years, y=pct_dem,             name="Demining",
+            x=years, y=pct_dem,
+            name="Demining",
             marker_color="#22aa22",
             hovertemplate="Year %{x}<br>Demining: %{y:.1f}%<extra></extra>",
         )
@@ -480,7 +534,7 @@ def page_timeline(data):
         template="plotly_white",
         height=260,
         margin=dict(l=60, r=30, t=10, b=50),
-        xaxis=dict(dtick=2, range=[1993.5, 2024.5], tickangle=-45, title="Year"),
+        xaxis=dict(dtick=2, range=[yr_min - 0.5, yr_max + 0.5], tickangle=-45, title="Year"),
         yaxis=dict(title="% of mine events", range=[0, 105]),
         legend=dict(
             x=0.02, y=0.98, bgcolor="rgba(255,255,255,0.9)",
@@ -497,23 +551,20 @@ def page_priority(data):
     st.markdown(
         "### Demining Priority Index — Colombia 1994–2024"
     )
-    st.caption(
-        "Priority = Z(conflict) + Z(mine incidents) − Z(demining). "
-        "Higher values indicate municipalities with more conflict and mine incidents relative to demining activity."
-    )
 
     col_left, col_right = st.columns([2, 3])
 
     with col_left:
-        top10 = data["top10_gap"]
-        # Handle both old (incidents_minus_demining) and new (priority_idx) formats
-        priority_col = "priority_idx" if "priority_idx" in top10.columns else "incidents_minus_demining"
-        st.markdown(f"**Top 10 municipalities by priority index**")
+        top_all = data["top10_gap"]
+        priority_col = "priority_idx" if "priority_idx" in top_all.columns else "incidents_minus_demining"
+        n_munis = st.slider("Number of municipalities", min_value=5, max_value=len(top_all), value=10)
+        top_n = top_all.sort_values(priority_col, ascending=True).tail(n_munis)
+        st.markdown(f"**Top {n_munis} municipalities by priority index**")
 
         fig_bar = go.Figure(
             go.Bar(
-                y=top10["NAME_2"],
-                x=top10[priority_col],
+                y=top_n["NAME_2"],
+                x=top_n[priority_col],
                 orientation="h",
                 marker_color="#c45a00",
                 marker_line_color="#8b3a00",
@@ -527,7 +578,7 @@ def page_priority(data):
         )
         fig_bar.update_layout(
             template="plotly_white",
-            height=520,
+            height=600,
             margin=dict(l=10, r=20, t=10, b=40),
             xaxis=dict(title="Priority index", showticklabels=False),
             yaxis=dict(automargin=True, tickfont=dict(size=12)),
@@ -535,7 +586,12 @@ def page_priority(data):
         st.plotly_chart(fig_bar, use_container_width=True)
 
     with col_right:
-        st.markdown("**Priority Index: Z(conflict) + Z(mine incidents) − Z(demining)**")
+        st.markdown("**Priority Index**")
+        st.markdown(
+            "Z(conflict) + Z(mine incidents) − Z(demining). "
+            "Higher values indicate municipalities with more conflict "
+            "and mine incidents relative to demining activity.",
+        )
 
         fig_priority = _build_priority_map_plotly(
             data["geojson"],
@@ -561,6 +617,7 @@ st.sidebar.markdown("---")
 st.sidebar.caption(
     "**Sources:** [UCDP GED](https://ucdp.uu.se/downloads/) · "
     "[Descontamina Colombia](http://www.accioncontraminas.gov.co/) · "
+    "[AICMA Datos Abiertos](https://www.accioncontraminas.gov.co/Estadisticas/datos-abiertos) · "
     "[Victims dataset — Centro Nacional de Memoria Histórica](https://www.centrodememoriahistorica.gov.co/)"
 )
 
