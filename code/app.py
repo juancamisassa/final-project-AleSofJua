@@ -268,10 +268,9 @@ def _build_priority_map_plotly(geojson_str, value_col="priority_idx"):
     for i, f in enumerate(features):
         f["properties"]["_id"] = locations[i]
 
-    # Use 5th–95th percentile so the scale emphasizes variation for most municipalities;
-    # extreme values are clipped to edge colors but the legend reflects the main range
-    vmin = float(np.percentile(z_vals, 5))
-    vmax = float(np.percentile(z_vals, 95))
+    # Use 2nd–98th percentile: intermediate between full range (flat) and 5–95 (compressed)
+    vmin = float(np.percentile(z_vals, 2))
+    vmax = float(np.percentile(z_vals, 98))
     if vmax <= vmin or (vmax - vmin) < 1e-6:
         vmin, vmax = float(np.min(z_vals)) - 0.5, float(np.max(z_vals)) + 0.5
 
