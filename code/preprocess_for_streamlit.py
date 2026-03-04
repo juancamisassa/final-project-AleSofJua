@@ -323,7 +323,7 @@ def main():
             gdf[f"z_{col}"] = (gdf[col] - mean_val) / std_val
     gdf["priority_idx"] = (
         gdf["z_crime_count"] + gdf["z_mine_incidents"] - gdf["z_demining_count"]
-    )
+    ).fillna(0).astype(float)
     gdf["gap_raw"] = (
         (gdf["mine_incidents"] - gdf["demining_count"]).clip(lower=0).astype(int)
     )

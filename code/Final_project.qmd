@@ -301,48 +301,66 @@ fig.savefig("mapa_conflicto_colombia.png", dpi=200, bbox_inches="tight", facecol
 plt.show()
 ```
 
-## 3. Loading and Filtering the CasosMI Database
+## 3. Loading Mine Events and Victim Data
 
-The CasosMI database from Descontamina Colombia records antipersonnel mine incidents. We filter by year (1994–2024) and weapon type (mines only).
+We use two sources: the **Eventos por MAP/MUSE** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts.
 
 ```{python}
-#| label: load-casosmi
+#| label: load-eventos31
+
+def _first_existing_col(df, candidates):
+    for c in candidates:
+        if c in df.columns:
+            return c
+    raise KeyError(f"None of these columns were found: {candidates}")
+
+EVENTOS_31_PATH = "../data/EVENTOS 31_ENE_2026.xlsx"
+df_ev31 = pd.read_excel(EVENTOS_31_PATH, sheet_name=0)
+
+col_year = _first_existing_col(df_ev31, ["Año", "Ao", "Year", "year"])
+col_tipo = _first_existing_col(df_ev31, ["Tipo de Evento", "Tipo de evento", "Tipo Evento", "tipo_evento"])
+col_muni = _first_existing_col(df_ev31, ["Municipio", "municipio"])
+col_dept = _first_existing_col(df_ev31, ["Departamento", "departamento"])
+
+df_ev31 = df_ev31.rename(columns={
+    col_year: "Año", col_tipo: "Tipo_Evento",
+    col_muni: "Municipio", col_dept: "Departamento",
+})
+df_ev31 = df_ev31[(df_ev31["Año"] >= 1994) & (df_ev31["Año"] <= 2024)].copy()
+df_ev31["es_desminado"] = df_ev31["Tipo_Evento"].astype(str).str.contains(
+    "DESMINADO", case=False, na=False
+)
+df_ev31["es_map"] = df_ev31["Tipo_Evento"].astype(str).str.contains(
+    r"MAP|ACCIDENTE", case=False, na=False, regex=True
+)
+df_ev31["municipio"] = df_ev31["Municipio"].astype(str).str.strip()
+df_ev31["departamento"] = df_ev31["Departamento"].astype(str).str.strip()
+
+n_desminado = df_ev31["es_desminado"].sum()
+n_map = df_ev31["es_map"].sum()
+print(f"Eventos 31 (1994-2024): {len(df_ev31):,} records")
+print(f"  Demining operations: {n_desminado:,}")
+print(f"  MAP/accident events:  {n_map:,}")
+```
+
+```{python}
+#| label: load-casosmi-victims
 
 df_mi = pd.read_excel("../data/CasosMI_202509.xlsx", sheet_name=0)
-print(f"Total records: {len(df_mi):,}")
-
 df_mi = df_mi[(df_mi["Año"] >= 1994) & (df_mi["Año"] <= 2024)]
-print(f"Records 1994-2024: {len(df_mi):,}")
-
-mask_arma = df_mi["Tipo de Armas"].str.contains(
-    r"MINAS",
-    case=False, na=False, regex=True
-)
-df_mi = df_mi[mask_arma].copy()
-print(f"Records with mines: {len(df_mi):,}")
-
-print("\nBreakdown by weapon type:")
-for arma, cnt in df_mi["Tipo de Armas"].value_counts().items():
-    print(f"  {arma}: {cnt}")
-
-df_mi["es_desminado"] = df_mi["Tipo de Evento"].str.contains(
-    "DESMINADO MILITAR", case=False, na=False
-)
-
-n_desminado = df_mi["es_desminado"].sum()
-n_otros = len(df_mi) - n_desminado
-print(f"\nEvent classification:")
-print(f"  Military demining: {n_desminado}")
-print(f"  Other events:     {n_otros}")
+df_mi = df_mi[df_mi["Tipo de Armas"].str.contains(r"MINAS", case=False, na=False, regex=True)].copy()
+col_victims = _first_existing_col(df_mi, ["Total de Víctimas del Caso", "Total de Vctimas del Caso"])
+df_mi["victimas"] = df_mi[col_victims].fillna(0).astype(int)
+print(f"CasosMI (victims only): {len(df_mi):,} records, {df_mi['victimas'].sum():,} total victims")
 ```
 
 ### Map: Antipersonnel Mine Events
 
-Each point represents a mine event. Green points indicate military demining operations; red points indicate all other mine-related events.
+Each point represents a mine event. Green points indicate demining operations; red points indicate MAP (anti-personnel mine) incidents and other explosive device events. Source: Eventos por MAP/MUSE (Descontamina Colombia).
 
 ```{python}
 #| label: fig-mines-map
-#| fig-cap: "Antipersonnel Mines by Municipality — Colombia 1994–2024 (CasosMI)"
+#| fig-cap: "Antipersonnel Mines by Municipality — Colombia 1994–2024 (Eventos por MAP/MUSE)"
 #| fig-width: 12
 #| fig-height: 16
 
@@ -351,37 +369,44 @@ ax2.set_facecolor("white")
 
 gdf.plot(ax=ax2, color="#f0f0f0", edgecolor="#cccccc", linewidth=0.2)
 
-df_otros = df_mi[~df_mi["es_desminado"]]
-df_desmin = df_mi[df_mi["es_desminado"]]
+df_otros = df_ev31[~df_ev31["es_desminado"]]
+df_desmin = df_ev31[df_ev31["es_desminado"]]
 
-ax2.scatter(
-    df_otros["Longitud"], df_otros["Latitud"],
-    s=5, color="#cc0000", alpha=0.4, zorder=2, label=f"Mines / Explosive devices ({n_otros:,})"
-)
-
-ax2.scatter(
-    df_desmin["Longitud"], df_desmin["Latitud"],
-    s=12, color="#22aa22", alpha=0.7, zorder=3,
-    edgecolors="#115511", linewidths=0.3,
-    label=f"Military demining ({n_desminado:,})"
-)
+has_coords = "Latitud" in df_ev31.columns and "Longitud" in df_ev31.columns
+if has_coords:
+    df_otros_xy = df_otros.dropna(subset=["Latitud", "Longitud"])
+    df_desmin_xy = df_desmin.dropna(subset=["Latitud", "Longitud"])
+    ax2.scatter(
+        df_otros_xy["Longitud"], df_otros_xy["Latitud"],
+        s=5, color="#cc0000", alpha=0.4, zorder=2, label=f"MAP / Explosive devices ({len(df_otros_xy):,})"
+    )
+    ax2.scatter(
+        df_desmin_xy["Longitud"], df_desmin_xy["Latitud"],
+        s=12, color="#22aa22", alpha=0.7, zorder=3,
+        edgecolors="#115511", linewidths=0.3,
+        label=f"Demining operations ({len(df_desmin_xy):,})"
+    )
 
 ax2.set_title(
     "Antipersonnel Mines by Municipality\n"
-    "Colombia 1994–2024 (CasosMI)",
+    "Colombia 1994–2024 (Eventos por MAP/MUSE)",
     fontsize=18, fontweight="bold", color="#222222", pad=20
 )
 ax2.set_axis_off()
 
-ax2.legend(
-    loc="lower left", fontsize=11, frameon=True,
-    facecolor="white", edgecolor="#cccccc",
-    markerscale=2.5, framealpha=0.9
-)
+if has_coords:
+    ax2.legend(
+        loc="lower left", fontsize=11, frameon=True,
+        facecolor="white", edgecolor="#cccccc",
+        markerscale=2.5, framealpha=0.9
+    )
+else:
+    ax2.text(0.5, 0.5, "Eventos 31 has no coordinates for point display.",
+             ha="center", va="center", transform=ax2.transAxes, fontsize=12)
 
 fig2.text(
     0.5, 0.02,
-    f"Total events: {len(df_mi):,} | Source: Descontamina Colombia – CasosMI",
+    f"Total events: {len(df_ev31):,} | Source: Descontamina Colombia – Eventos por MAP/MUSE",
     ha="center", fontsize=9, color="#666666"
 )
 
@@ -405,9 +430,7 @@ ax_v.set_facecolor("white")
 
 gdf.plot(ax=ax_v, color="#f0f0f0", edgecolor="#cccccc", linewidth=0.2)
 
-victimas_col = "Total de Víctimas del Caso"
 df_mi_plot = df_mi.copy()
-df_mi_plot["victimas"] = df_mi_plot[victimas_col].fillna(0).astype(int)
 
 max_vic = df_mi_plot["victimas"].quantile(0.98)
 df_mi_plot["radius"] = 3 + (df_mi_plot["victimas"].clip(upper=max_vic) / max(max_vic, 1)) * 80
@@ -458,7 +481,7 @@ fig_v.text(
     0.5, 0.02,
     f"Total events: {len(df_mi):,} | "
     f"Total victims: {df_mi_plot['victimas'].sum():,} | "
-    f"Source: Descontamina Colombia – CasosMI",
+    f"Source: Centro Nacional de Memoria Histórica – CasosMI",
     ha="center", fontsize=9, color="#666666"
 )
 
@@ -469,49 +492,29 @@ plt.show()
 
 ## 4. Bivariate Analysis: Conflict vs Mines by Municipality
 
-We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events.
+We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from Eventos por MAP/MUSE.
 
 ```{python}
 #| label: bivariate-data
 
-mi_por_muni = (
-    df_mi.groupby("Código DANE de Municipio")
-    .agg(
-        minas=("ID Caso", "count"),
-        municipio_mi=("Municipio", "first"),
-        depto_mi=("Departamento", "first"),
-        lat_mi=("Latitud", "mean"),
-        lon_mi=("Longitud", "mean"),
-    )
-    .reset_index()
-)
-
-conflict_por_muni = (
-    df_col.groupby(["departamento", "ciudad"])
-    .agg(conflicto=("id", "count"))
-    .reset_index()
+ev31_agg = (
+    df_ev31.groupby(["departamento", "municipio"])
+    .size()
+    .reset_index(name="minas")
 )
 
 gdf_analysis = gdf[["NAME_1", "NAME_2", "CC_2", "geometry", "crime_count"]].copy()
 gdf_analysis = gdf_analysis.rename(columns={"crime_count": "conflicto"})
-
-dane_lookup = {}
-for _, row in mi_por_muni.iterrows():
-    dane_lookup[(normalize(row["depto_mi"]), normalize(row["municipio_mi"]))] = row["minas"]
-
-gdf_analysis["key"] = gdf_analysis["NAME_2"].apply(normalize)
-gdf_analysis["key_dept"] = gdf_analysis["NAME_1"].apply(normalize)
-
 gdf_analysis["minas"] = 0
-for idx, row in gdf_analysis.iterrows():
-    k = (row["key_dept"], row["key"])
-    if k in dane_lookup:
-        gdf_analysis.at[idx, "minas"] = dane_lookup[k]
-        continue
-    for (dk, mk), count in dane_lookup.items():
-        if mk == row["key"] or (dk in row["key_dept"] and mk in row["key"]):
-            gdf_analysis.at[idx, "minas"] = count
-            break
+
+for _, r in ev31_agg.iterrows():
+    dept_k = normalize(r["departamento"])
+    muni_k = normalize(r["municipio"])
+    if (dept_k, muni_k) in MANUAL_MAP:
+        muni_k = MANUAL_MAP[(dept_k, muni_k)]
+    geo_idx = geo_lookup.get((dept_k, muni_k)) or geo_lookup.get(("", muni_k))
+    if geo_idx is not None:
+        gdf_analysis.at[geo_idx, "minas"] += int(r["minas"])
 
 varname_lookup = {}
 for idx_g, row_g in gdf.iterrows():
@@ -519,15 +522,15 @@ for idx_g, row_g in gdf.iterrows():
         for v in str(row_g["VARNAME_2"]).split("|"):
             varname_lookup[normalize(v)] = idx_g
 
-for _, row_mi in mi_por_muni.iterrows():
-    mk = normalize(row_mi["municipio_mi"])
+for _, row_mi in ev31_agg.iterrows():
+    mk = normalize(row_mi["municipio"])
     if mk in varname_lookup:
         g_idx = varname_lookup[mk]
         if gdf_analysis.at[g_idx, "minas"] == 0:
-            gdf_analysis.at[g_idx, "minas"] = row_mi["minas"]
+            gdf_analysis.at[g_idx, "minas"] = int(row_mi["minas"])
 
 total_minas_mapped = gdf_analysis["minas"].sum()
-print(f"Mines mapped to municipalities: {total_minas_mapped:,} of {len(df_mi):,}")
+print(f"Mines mapped to municipalities: {total_minas_mapped:,} of {len(df_ev31):,}")
 print(f"Municipalities with conflict > 0: {(gdf_analysis['conflicto'] > 0).sum()}")
 print(f"Municipalities with mines > 0: {(gdf_analysis['minas'] > 0).sum()}")
 ```
@@ -659,7 +662,7 @@ for idx in notable:
 
 ax3.set_xlabel("← Low conflict          Armed conflict events (GED)          High conflict →",
                fontsize=12, labelpad=10, color="#333333")
-ax3.set_ylabel("← Few mines          Mine events (CasosMI)          Many mines →",
+ax3.set_ylabel("← Few mines          Mine events (Eventos MAP/MUSE)          Many mines →",
                fontsize=12, labelpad=10, color="#333333")
 ax3.set_title(
     "Armed Conflict vs Antipersonnel Mines by Municipality\n"
@@ -722,7 +725,7 @@ ax4.set_axis_off()
 
 fig4.text(
     0.5, 0.02,
-    "Sources: UCDP GED v25.1 + Descontamina Colombia (CasosMI) | "
+    "Sources: UCDP GED v25.1 + Descontamina Colombia (Eventos MAP/MUSE) | "
     f"Cutoff: conflict > {conflict_cut:.0f}, mines > {minas_cut:.0f}",
     ha="center", fontsize=9, color="#666666"
 )
@@ -755,21 +758,23 @@ for quad, color in QUADRANT_COLORS.items():
     if len(subset) > 0:
         subset.plot(ax=ax5q, color=color, edgecolor="#cccccc", linewidth=0.2, alpha=0.6)
 
-df_otros_q = df_mi[~df_mi["es_desminado"]]
-df_desmin_q = df_mi[df_mi["es_desminado"]]
+df_otros_q = df_ev31[~df_ev31["es_desminado"]]
+df_desmin_q = df_ev31[df_ev31["es_desminado"]]
 
-ax5q.scatter(
-    df_otros_q["Longitud"], df_otros_q["Latitud"],
-    s=4, color="black", alpha=0.35, zorder=2,
-    label=f"Mine events ({len(df_otros_q):,})"
-)
-
-ax5q.scatter(
-    df_desmin_q["Longitud"], df_desmin_q["Latitud"],
-    s=10, color="#22dd22", alpha=0.8, zorder=3,
-    edgecolors="#115511", linewidths=0.3,
-    label=f"Military demining ({len(df_desmin_q):,})"
-)
+if has_coords:
+    df_otros_q = df_otros_q.dropna(subset=["Latitud", "Longitud"])
+    df_desmin_q = df_desmin_q.dropna(subset=["Latitud", "Longitud"])
+    ax5q.scatter(
+        df_otros_q["Longitud"], df_otros_q["Latitud"],
+        s=4, color="black", alpha=0.35, zorder=2,
+        label=f"Mine events ({len(df_otros_q):,})"
+    )
+    ax5q.scatter(
+        df_desmin_q["Longitud"], df_desmin_q["Latitud"],
+        s=10, color="#22dd22", alpha=0.8, zorder=3,
+        edgecolors="#115511", linewidths=0.3,
+        label=f"Demining operations ({len(df_desmin_q):,})"
+    )
 
 legend_elements_q = [
     Patch(facecolor=c, edgecolor="#cccccc", alpha=0.6,
@@ -781,15 +786,16 @@ legend_elements_q.append(
 )
 
 from matplotlib.lines import Line2D
-legend_elements_q.append(
-    Line2D([0], [0], marker="o", color="w", markerfacecolor="black",
-           markersize=5, alpha=0.6, label=f"Mine events ({len(df_otros_q):,})")
-)
-legend_elements_q.append(
-    Line2D([0], [0], marker="o", color="w", markerfacecolor="#22dd22",
-           markeredgecolor="#115511", markersize=7,
-           label=f"Military demining ({len(df_desmin_q):,})")
-)
+if has_coords:
+    legend_elements_q.append(
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="black",
+               markersize=5, alpha=0.6, label=f"Mine events ({len(df_otros_q):,})")
+    )
+    legend_elements_q.append(
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="#22dd22",
+               markeredgecolor="#115511", markersize=7,
+               label=f"Demining operations ({len(df_desmin_q):,})")
+    )
 
 ax5q.legend(
     handles=legend_elements_q, loc="lower left", fontsize=9,
@@ -805,7 +811,7 @@ ax5q.set_axis_off()
 
 fig5q.text(
     0.5, 0.02,
-    "Sources: UCDP GED v25.1 + Descontamina Colombia (CasosMI) | "
+    "Sources: UCDP GED v25.1 + Descontamina Colombia (Eventos MAP/MUSE) | "
     f"Cutoff: conflict > {conflict_cut:.0f}, mines > {minas_cut:.0f}",
     ha="center", fontsize=9, color="#666666"
 )
@@ -828,7 +834,7 @@ A dual-axis chart showing the annual trends of armed conflict events (red area) 
 years = list(range(1994, 2025))
 
 conflicto_anual = df_col.groupby("year")["id"].count().reindex(years, fill_value=0)
-minas_anual = df_mi.groupby("Año")["ID Caso"].count().reindex(years, fill_value=0)
+minas_anual = df_ev31.groupby("Año").size().reindex(years, fill_value=0)
 
 fig5, ax_c = plt.subplots(figsize=(16, 7), facecolor="white")
 
@@ -846,7 +852,7 @@ ax_m = ax_c.twinx()
 ax_m.plot(
     years, minas_anual.values,
     color="#1a73e8", linewidth=2.5, marker="o", markersize=4,
-    zorder=4, label="Antipersonnel mine events (CasosMI)"
+    zorder=4, label="Antipersonnel mine events (Eventos MAP/MUSE)"
 )
 ax_m.set_ylabel("Antipersonnel mine events", fontsize=13, color="#1a73e8", labelpad=10)
 ax_m.tick_params(axis="y", colors="#1a73e8", labelsize=11)
@@ -903,12 +909,12 @@ While mine incidents peaked during the early 2000s, systematic demining efforts 
 #| fig-width: 16
 #| fig-height: 10
 
-df_mi["es_desminado_all"] = df_mi["Tipo de Evento"].str.contains(
+df_ev31["es_desminado_all"] = df_ev31["Tipo_Evento"].astype(str).str.contains(
     "DESMINADO", case=False, na=False
 )
 
-desminado_anual = df_mi[df_mi["es_desminado_all"]].groupby("Año")["ID Caso"].count().reindex(years, fill_value=0)
-incidentes_anual = df_mi[~df_mi["es_desminado_all"]].groupby("Año")["ID Caso"].count().reindex(years, fill_value=0)
+desminado_anual = df_ev31[df_ev31["es_desminado_all"]].groupby("Año").size().reindex(years, fill_value=0)
+incidentes_anual = df_ev31[~df_ev31["es_desminado_all"]].groupby("Año").size().reindex(years, fill_value=0)
 
 total_mi_anual = desminado_anual + incidentes_anual
 pct_desminado = (desminado_anual / total_mi_anual.replace(0, np.nan) * 100).fillna(0)
@@ -996,5 +1002,6 @@ plt.show()
 ## Data Sources
 
 - **Armed Conflict Events**: Uppsala Conflict Data Program (UCDP) Georeferenced Event Dataset (GED) v25.1
-- **Mine Events**: Descontamina Colombia — CasosMI Database
+- **Mine Events (demining, MAP incidents)**: Descontamina Colombia — Database of Events by MAP/MUSE (Eventos por MAP/MUSE)
+- **Mine Victims**: Centro Nacional de Memoria Histórica — CasosMI Database
 - **Administrative Boundaries**: GADM v4.1 — Colombia Level 2 (Municipalities)

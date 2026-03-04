@@ -133,6 +133,16 @@ def _build_choropleth(
     data = json.loads(geojson_str)
     features = data["features"]
 
+    # Sanitize numeric properties to avoid numpy/NaN issues with folium/branca
+    for f in features:
+        props = f["properties"]
+        if value_col in props:
+            v = props[value_col]
+            if v is None or (isinstance(v, float) and np.isnan(v)):
+                props[value_col] = 0.0
+            else:
+                props[value_col] = float(v)
+
     if log_scale:
         raw_vals = [
             f["properties"][value_col]
@@ -147,16 +157,16 @@ def _build_choropleth(
             and not (isinstance(f["properties"][value_col], float) and np.isnan(f["properties"][value_col]))
         ]
     if not raw_vals:
-        vmin, vmax = 0, 1.0
+        vmin, vmax = 0.0, 1.0
     elif log_scale:
-        vmin = 0
+        vmin = 0.0
         vmax = float(np.percentile([np.log1p(v) for v in raw_vals], 98))
         if vmax == 0:
             vmax = 1.0
     else:
         vmin = float(np.percentile(raw_vals, 2))
         vmax = float(np.percentile(raw_vals, 98))
-        if vmax - vmin < 1e-6:
+        if vmax <= vmin or (vmax - vmin) < 1e-6:
             vmin, vmax = vmin - 0.5, vmax + 0.5
 
     cmap = bcm.LinearColormap(colors=colors, vmin=vmin, vmax=vmax, caption=caption)
@@ -174,6 +184,7 @@ def _build_choropleth(
             }
         v = np.log1p(val) if log_scale else float(val)
         v_clipped = min(max(v, vmin), vmax) if not log_scale else min(float(v), vmax)
+        v_clipped = float(v_clipped)  # Ensure Python float for branca
         return {
             "fillColor": cmap(v_clipped),
             "color": "#cccccc",
@@ -242,13 +253,13 @@ def page_maps(data):
         "### Armed Conflict & Mine Events — Colombia 1994–2024"
     )
     st.caption(
-        "Mine events (demining, MAP): *Base de datos de​ Eventos por MAP/MUSE*. Victims: *Centro Nacional de Memoria Historica, CasosMI*."
+        "Mine events (demining, MAP): *Database of Events by MAP/MUSE* (MAP = Anti-Personnel Mines). Victims: *Centro Nacional de Memoria Histórica, CasosMI*."
     )
 
     map_choice = st.selectbox(
         "Right-side map",
         [
-            "Mine incidents (MAP) by municipality",
+            "Cumulative Mine Accidents by Municipality (1994–2024)",
             "Mine victims by municipality",
         ],
         label_visibility="collapsed",
@@ -274,8 +285,8 @@ def page_maps(data):
         st_folium(m_conflict, height=620, use_container_width=True)
 
     with col_right:
-        if map_choice.startswith("Mine incidents"):
-            st.markdown("**MAP Accidents by Municipality (1994–2024)**")
+        if map_choice.startswith("Cumulative Mine"):
+            st.markdown("**Cumulative Mine Accidents by Municipality (1994–2024)**")
             m_right = _build_choropleth(
                 data["geojson"],
                 value_col="mine_incidents",
@@ -305,7 +316,9 @@ def page_maps(data):
 
 def page_timeline(data):
     st.markdown("### Demining and MAP Accidents by Year — Colombia 1994–2024")
-    st.caption("Annual event count by type. Source: *Base de datos de​ Eventos por MAP/MUSE* (demining + MAP accidents); victims: *Centro Nacional de Memoria Historica, CasosMI*.")
+    st.caption(
+        "Annual event count by type. Source: *Database of Events by MAP/MUSE* (demining + MAP accidents; MAP = Anti-Personnel Mines). Victims: *Centro Nacional de Memoria Histórica, CasosMI*."
+    )
 
     years = list(range(1994, 2025))
     dem = data["desminado_anual"]
@@ -487,7 +500,7 @@ def page_priority(data):
                 lat, lon = pt.get("Latitud"), pt.get("Longitud")
                 if pd.notna(lat) and pd.notna(lon):
                     folium.CircleMarker(
-                        location=[lat, lon],
+                        location=[float(lat), float(lon)],
                         radius=2,
                         color="#115511",
                         fill=True,
@@ -499,7 +512,13 @@ def page_priority(data):
             dem_group.add_to(m_gap)
         folium.LayerControl(collapsed=False).add_to(m_gap)
 
-        st_folium(m_gap, height=620, use_container_width=True)
+        try:
+            st_folium(m_gap, height=620, use_container_width=True)
+        except Exception:
+            st.warning(
+                "The priority map could not be rendered. Try re-running "
+                "`python code/preprocess_for_streamlit.py` to regenerate the data."
+            )
 
 
 # ── Sidebar & routing ─────────────────────────────────────────────────
