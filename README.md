@@ -20,19 +20,19 @@ Interactive dashboard and academic report on armed conflict and antipersonnel mi
 
 ## Large file: GEDEvent_v25_1.xlsx
 
-The file **GEDEvent_v25_1.xlsx** (UCDP GED Global v25.1) exceeds GitHub's 100 MB limit and is not in the repo.
+The file **GEDEvent_v25_1.xlsx** (UCDP GED Global v25.1) exceeds GitHub's 100 MB limit and is not in the repo. **You must download and place this file before running `quarto render final_project.qmd`—otherwise the render will fail.**
 
-**To download:** [UCDP Dataset Download Center](https://ucdp.uu.se/downloads/) → **Disaggregated Event Datasets** → **UCDP Georeferenced Event Dataset (GED) Global version 25.1** → download **Excel**.
+**To download:** [Dropbox link](https://www.dropbox.com/scl/fi/1ezpmi56yz33iq1s7vdrg/GEDEvent_v25_1.xlsx?rlkey=qiitf5hvqqq7bu2yh526en4oh&st=yhm5cwq2&dl=1) (alternatively: [UCDP Dataset Download Center](https://ucdp.uu.se/downloads/) → Disaggregated Event Datasets → UCDP Georeferenced Event Dataset (GED) Global version 25.1 → Excel).
 
 **Where to save:** `data/raw-data/GEDEvent_v25_1.xlsx` (create the folder if needed). Do not rename the file.
 
-This file is required only for the presentation graph in the writeup. The rest of the analysis uses `GEDEvent_Colombia.csv`, which is included in the repo. The file is listed in `.gitignore`.
+This file is required for the presentation graph in the writeup. The rest of the analysis uses `GEDEvent_Colombia.csv`, which is included in the repo. The file is listed in `.gitignore`.
 
 ## Reproducibility
 
 A TA or AI agent should be able to knit the `.qmd` and regenerate the writeup (HTML or PDF).
 
-1. **Download GED (if needed):** If you want to render the presentation graph, download `GEDEvent_v25_1.xlsx` from UCDP (see above) and place it in `data/raw-data/GEDEvent_v25_1.xlsx`.
+1. **Download GED (required):** Download `GEDEvent_v25_1.xlsx` from the [Dropbox link](https://www.dropbox.com/scl/fi/1ezpmi56yz33iq1s7vdrg/GEDEvent_v25_1.xlsx?rlkey=qiitf5hvqqq7bu2yh526en4oh&st=yhm5cwq2&dl=1) (or UCDP) and place it in `data/raw-data/GEDEvent_v25_1.xlsx`. Without this step, `quarto render` will fail.
 2. **Install dependencies:** `conda env create -f environment.yml`, `conda activate fire_analysis`, `pip install -r requirements.txt`, `pip install altair vl-convert-python`
 3. **Render:** `quarto render final_project.qmd` (HTML and PDF) or `quarto render final_project.qmd --to pdf` for PDF only.
 
