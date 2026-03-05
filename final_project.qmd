@@ -42,6 +42,7 @@ execute:
 import os
 os.environ["MPLCONFIGDIR"] = "/tmp/mpl_config"
 os.makedirs("/tmp/mpl_config", exist_ok=True)
+os.makedirs("code", exist_ok=True)
 
 import matplotlib
 matplotlib.use("Agg")
@@ -137,10 +138,10 @@ chart9 = alt.vconcat(top_panel9, bot_panel9).properties(
         subtitle="Colombia highlighted"),
 )
 
-chart9.save("presentation_top10_ged.png", scale_factor=2)
+chart9.save("code/presentation_top10_ged.png", scale_factor=2)
 ```
 
-![Top 10 Countries by Conflict Events, 1994–2024 (Colombia highlighted)](presentation_top10_ged.png){width=85%}
+![Top 10 Countries by Conflict Events, 1994–2024 (Colombia highlighted)](code/presentation_top10_ged.png){width=85%}
 
 ## 2. Research Questions & Data
 
@@ -660,7 +661,7 @@ fig.text(
 )
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.97])
-fig.savefig("conflict_map_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
+fig.savefig("code/conflict_map_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
@@ -723,7 +724,7 @@ fig2.text(
 )
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.97])
-fig2.savefig("mines_map_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
+fig2.savefig("code/mines_map_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
@@ -798,7 +799,7 @@ fig_v.text(
 )
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.97])
-fig_v.savefig("mines_victims_map_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
+fig_v.savefig("code/mines_victims_map_colombia.png", dpi=200, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
@@ -966,7 +967,7 @@ chart = (points + vline + hline + labels).properties(
     grid=True, gridOpacity=0.15
 )
 
-chart.save("scatter_conflict_vs_mines.png", scale_factor=2)
+chart.save("code/scatter_conflict_vs_mines.png", scale_factor=2)
 chart
 ```
 
@@ -1021,7 +1022,7 @@ fig4.text(
 )
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.97])
-fig4.savefig("quadrants_conflict_mines_map.png", dpi=200, bbox_inches="tight", facecolor="white")
+fig4.savefig("code/quadrants_conflict_mines_map.png", dpi=200, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
@@ -1107,7 +1108,7 @@ fig5q.text(
 )
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.97])
-fig5q.savefig("quadrants_with_mines_map.png", dpi=200, bbox_inches="tight", facecolor="white")
+fig5q.savefig("code/quadrants_with_mines_map.png", dpi=200, bbox_inches="tight", facecolor="white")
 plt.show()
 ```
 
@@ -1181,7 +1182,7 @@ chart7 = alt.layer(left, right).resolve_scale(
         subtitle="Colombia 1994–2024"),
 )
 
-chart7.save("temporal_conflict_mines.png", scale_factor=2)
+chart7.save("code/temporal_conflict_mines.png", scale_factor=2)
 chart7
 ```
 
@@ -1284,7 +1285,7 @@ chart8 = alt.vconcat(top_panel, bottom_panel).configure_axis(
     grid=True, gridOpacity=0.15
 )
 
-chart8.save("temporal_demining.png", scale_factor=2)
+chart8.save("code/temporal_demining.png", scale_factor=2)
 chart8
 ```
 
