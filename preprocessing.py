@@ -1,7 +1,7 @@
 """
 Data wrangling for Colombia conflict and mines analysis.
 All processing logic lives here. The .qmd imports this module; run directly to
-generate derived data for the Streamlit app:  python code/preprocessing.py
+generate derived data for the Streamlit app:  python preprocessing.py
 """
 from pathlib import Path
 import json
@@ -11,9 +11,10 @@ import re
 import pandas as pd
 import geopandas as gpd
 
-# Paths relative to code/ directory
+# Paths relative to project root (where preprocessing.py lives)
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR.parent / "data"
+DATA_DIR = BASE_DIR / "data"
+RAW_DATA_DIR = DATA_DIR / "raw-data"
 OUT_DIR = DATA_DIR / "derived-data"
 
 MANUAL_MAP = {
@@ -72,13 +73,14 @@ def load_and_process_all(data_dir=None):
     """
     Load all data and perform all merging, reshaping, and processing.
     Returns a dict with all processed objects for the qmd and app.
+    Reads from data/raw-data/; writes to data/derived-data/.
     """
-    data_dir = data_dir or DATA_DIR
-    out_dir = data_dir / "derived-data"
+    raw_dir = data_dir or RAW_DATA_DIR
+    out_dir = DATA_DIR / "derived-data"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. GED conflict data
-    df_col = pd.read_csv(data_dir / "GEDEvent_Colombia.csv")
+    df_col = pd.read_csv(raw_dir / "GEDEvent_Colombia.csv")
     df_col["ciudad"] = df_col["adm_2"].apply(clean_city_name)
     mask = df_col["ciudad"].isna()
     df_col.loc[mask, "ciudad"] = df_col.loc[mask, "where_coordinates"].apply(clean_city_name)
@@ -102,7 +104,7 @@ def load_and_process_all(data_dir=None):
     crimes = pivot.reset_index()
 
     # 2. GADM geometries
-    gdf = gpd.read_file(data_dir / "gadm41_COL_2.json")
+    gdf = gpd.read_file(raw_dir / "gadm41_COL_2.json")
     gdf["key"] = gdf["NAME_2"].apply(normalize)
     gdf["key_dept"] = gdf["NAME_1"].apply(normalize)
     crimes["key"] = crimes["ciudad"].apply(normalize)
@@ -142,9 +144,9 @@ def load_and_process_all(data_dir=None):
         gdf.at[idx, "crime_count"] = int(total)
 
     # 4. EVENTOS 31
-    ev31_path = data_dir / "EVENTOS 31_ENE_2026.xlsx"
+    ev31_path = raw_dir / "EVENTOS 31_ENE_2026.xlsx"
     if not ev31_path.exists():
-        raise FileNotFoundError(f"EVENTOS 31 not found. Place EVENTOS 31_ENE_2026.xlsx in {data_dir}/")
+        raise FileNotFoundError(f"EVENTOS 31 not found. Place EVENTOS 31_ENE_2026.xlsx in {raw_dir}/")
     df_ev31 = pd.read_excel(ev31_path, sheet_name=0)
     col_year = _first_existing_col(df_ev31, ["Año", "Ao", "Year", "year"])
     col_tipo = _first_existing_col(df_ev31, ["Tipo de Evento", "Tipo de evento", "Tipo Evento", "tipo_evento"])
@@ -206,7 +208,7 @@ def load_and_process_all(data_dir=None):
         dem_pts = df_dem[["Latitud", "Longitud", "Municipio"]].dropna(subset=["Latitud", "Longitud"]).copy()
 
     # 6. CasosMI victims
-    df_mi = pd.read_excel(data_dir / "CasosMI_202509.xlsx", sheet_name=0)
+    df_mi = pd.read_excel(raw_dir / "CasosMI_202509.xlsx", sheet_name=0)
     col_year_mi = _first_existing_col(df_mi, ["Año", "Ao"])
     col_victims = _first_existing_col(df_mi, ["Total de Víctimas del Caso", "Total de Vctimas del Caso"])
     df_mi = df_mi[(df_mi[col_year_mi] >= 1994) & (df_mi[col_year_mi] <= 2024)]
@@ -282,7 +284,7 @@ def load_and_process_all(data_dir=None):
         "dem_pts": dem_pts,
         "years": years,
         "ev31_agg_simple": ev31_agg_simple,
-        "data_dir": data_dir,
+        "raw_dir": raw_dir,
         "out_dir": out_dir,
     }
 

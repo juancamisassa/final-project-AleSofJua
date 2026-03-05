@@ -41,7 +41,7 @@ import re
 
 ## 1. Data Loading and Wrangling
 
-All data processing—loading, merging, reshaping, and matching—is handled by the `wrangling` module. This ensures a single source of truth for both the writeup and the Streamlit app.
+All data processing—loading, merging, reshaping, and matching—is handled by the `preprocessing` module. This ensures a single source of truth for both the writeup and the Streamlit app.
 
 ```{python}
 #| label: load-all-data
@@ -74,7 +74,7 @@ print(f"Municipalities: {len(gdf)} | Conflict mapped: {gdf['crime_count'].sum():
 
 ## 2. Conflict Density Map by Municipality
 
-We match the GED event data to GADM municipality geometries using a fuzzy name-matching approach with manual corrections for known discrepancies. (Matching is performed in the wrangling module.)
+We match the GED event data to GADM municipality geometries using a fuzzy name-matching approach with manual corrections for known discrepancies. (Matching is performed in the preprocessing module.)
 
 ### Map: Armed Conflict Density
 
@@ -157,9 +157,7 @@ fig.savefig("mapa_conflicto_colombia.png", dpi=200, bbox_inches="tight", facecol
 plt.show()
 ```
 
-## 3. Mine Events and Victim Data
-
-We use two sources: the **AICMA** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts. (Both are loaded and processed in the wrangling module above.)
+We use two sources: the **AICMA** database (Descontamina Colombia) for demining operations and MAP (anti-personnel mine) incidents; and **CasosMI** (Centro Nacional de Memoria Histórica) for victim counts. (Both are loaded and processed in the preprocessing module above.)
 
 ### Map: Antipersonnel Mine Events
 
@@ -299,7 +297,7 @@ plt.show()
 
 ## 4. Bivariate Analysis: Conflict vs Mines by Municipality
 
-We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from AICMA. (Matching is performed in the wrangling module.)
+We combine both datasets at the municipality level and classify each municipality into one of four quadrants based on the median values of conflict events and mine events. Mine counts come from AICMA. (Matching is performed in the preprocessing module.)
 
 ```{python}
 #| label: bivariate-data
@@ -793,7 +791,7 @@ Top 10 countries by conflict events (1994–2024), with Colombia highlighted. Th
 #| label: graph-presentacion
 #| fig-cap: "Top 10 Countries by Conflict Events, 1994–2024"
 
-df_ged = pd.read_excel("../data/GEDEvent_v25_1.xlsx", sheet_name=0)
+df_ged = pd.read_excel("data/raw-data/GEDEvent_v25_1.xlsx", sheet_name=0)
 df_ged = df_ged[(df_ged["year"] >= 1994) & (df_ged["year"] <= 2024)]
 
 totals = df_ged.groupby("country").size().sort_values(ascending=False)
