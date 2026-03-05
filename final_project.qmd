@@ -566,9 +566,6 @@ geo_lookup = data["geo_lookup"]
 gdf_analysis = data["gdf_analysis"]
 years = data["years"]
 
-# Save pivot table for reference
-pivot.to_csv("colombia_crimenes_por_ciudad_año.csv", encoding="utf-8-sig")
-
 # Write derived data for the Streamlit app (geojson.json, app_data.json, etc.)
 write_derived_data(data)
 
